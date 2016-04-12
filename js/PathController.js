@@ -15,12 +15,10 @@ function PathController(camera, scene, objectsArray) {
 			.to({x: locX, y: locY}, Config.ANIM_MID)
 			.easing(TWEEN.Easing.Cubic.InOut)
 			.onUpdate(function () {
-				//console.log(this.x);
-				//material.opacity = this.alpha;
+				//
 			}).start();
 
-		// camera.position.set(locX, 0, 10);
-		objectsArray.push(new Triangle(direction, locX, locY).addTo(scene).run(function () {
+		objectsArray.push(new PathCell(direction, locX, locY).addTo(scene).run(function () {
 			// addRandom();
 			addDirect();
 		}));

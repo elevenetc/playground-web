@@ -22,19 +22,13 @@ function PathAnimation() {
 
 		camera.rotateZ(Utils.toRad(135));
 		camera.rotateX(Utils.toRad(40));
-		// camera.rotateY(Utils.toRad(30));
 
 		camera.position.set(0, 0, 8);
 
-		// camera.translateX(-9);
-		// camera.translateY(-9);
-
-		// camera.lookAt(scene.position);
 		scene.add(camera);
 
 		if (singleTest) {
-			objects.push(new Triangle(Direction.BOTTOM, 0, 0).addTo(scene).run());
-			// objects.push(new Triangle(Direction.LEFT, 0, 0).addTo(scene).run());
+			objects.push(new PathCell(Direction.BOTTOM, 0, 0).addTo(scene).run());
 		} else {
 			new PathController(camera, scene, objects).run();
 		}

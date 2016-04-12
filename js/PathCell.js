@@ -1,12 +1,12 @@
-function Triangle(direction, x, y) {
+function PathCell(direction, x, y) {
 
 	init();
-	var mesh, geom, matrix, material;
+	var mesh, geom, material;
 	const animate = true;
 	const MAX_ALPHA = 1.0;
 
 	this.update = function () {
-		//geom.applyMatrix(matrix);
+
 	};
 
 	this.addTo = function (scene) {
@@ -39,12 +39,6 @@ function Triangle(direction, x, y) {
 	};
 
 	this.run = function (onCompleteHandler) {
-
-		// material.opacity = 1.0;
-		// mesh.rotation.y = Utils.toRad(toYRot);
-
-		//console.log("from:" + mesh.rotation.y + " to " + toYRot);
-		//console.log("toRad:" + Utils.toRad(toYRot));
 
 		if (animate) {
 
@@ -106,15 +100,6 @@ function Triangle(direction, x, y) {
 			yRotationPivotShift = -1;
 			locShiftY = 1;
 		}
-
-		// geom.vertices.push(new THREE.Vector3(-1.0 + xRotationPivotShift, 1.0 + yRotationPivotShift, 0.0));
-		// geom.vertices.push(new THREE.Vector3(-1.0 + xRotationPivotShift, -1.0 + yRotationPivotShift, 0.0));
-		// geom.vertices.push(new THREE.Vector3(1.0 + xRotationPivotShift, -1.0 + yRotationPivotShift, 0.0));
-		// geom.faces.push(new THREE.Face3(0, 1, 2));
-		// geom.vertices.push(new THREE.Vector3(1.0 + xRotationPivotShift, -1.0 + yRotationPivotShift, 0.0));
-		// geom.vertices.push(new THREE.Vector3(1.0 + xRotationPivotShift, 1.0 + yRotationPivotShift, 0.0));
-		// geom.vertices.push(new THREE.Vector3(-1.0 + xRotationPivotShift, 1.0 + yRotationPivotShift, 0.0));
-		// geom.faces.push(new THREE.Face3(3, 4, 5));
 
 		geom.vertices.push(new THREE.Vector3(-1.0, 1.0, 0.0));
 		geom.vertices.push(new THREE.Vector3(-1.0, -1.0, 0.0));
