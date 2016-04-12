@@ -1,4 +1,4 @@
-function init() {
+function PathAnimation() {
 
 	var w;
 	var h;
@@ -7,28 +7,37 @@ function init() {
 	var renderer;
 	var tri;
 	var objects = [];
+	const singleTest = false;
 	initializeScene();
 	renderScene();
 
 	function initializeScene() {
 		renderer = new THREE.WebGLRenderer({antialias: true});
-		w = 200;//window.innerWidth;
-		h = 200;//window.innerHeight;
+		w = 400;//window.innerWidth;
+		h = 400;//window.innerHeight;
 		renderer.setSize(w, h);
 		document.getElementById("WebGLCanvas").appendChild(renderer.domElement);
 		scene = new THREE.Scene();
+		camera = new THREE.PerspectiveCamera(110, w / h, 1, 100);
 
-		camera = new THREE.PerspectiveCamera(45, w / h, 1, 100);
-		camera.position.set(0, 0, 10);
-		camera.lookAt(scene.position);
+		camera.rotateZ(Utils.toRad(135));
+		camera.rotateX(Utils.toRad(40));
+		// camera.rotateY(Utils.toRad(30));
+
+		camera.position.set(0, 0, 8);
+
+		// camera.translateX(-9);
+		// camera.translateY(-9);
+
+		// camera.lookAt(scene.position);
 		scene.add(camera);
 
-		objects.push(new Triangle(Direction.RIGHT, 0, 0).addTo(scene).run());
-		// objects.push(new Triangle(Direction.LEFT, 0, 0).addTo(scene).run());
-		// tri = new Triangle(Direction.RIGHT, 0, 0);
-		// objects.push(new Triangle(2, 0).addTo(scene));
-		// objects.push(new Triangle(4, 0).addTo(scene));
-		//new PathController(camera, scene, objects).run();
+		if (singleTest) {
+			objects.push(new Triangle(Direction.BOTTOM, 0, 0).addTo(scene).run());
+			// objects.push(new Triangle(Direction.LEFT, 0, 0).addTo(scene).run());
+		} else {
+			new PathController(camera, scene, objects).run();
+		}
 	}
 
 	function runTri() {

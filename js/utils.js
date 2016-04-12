@@ -13,3 +13,7 @@ Utils.toDeg = function (radians) {
 Utils.emptyFun = function () {
 
 };
+
+Utils.random = function () {
+	return Math.random() > 0.5;
+}
