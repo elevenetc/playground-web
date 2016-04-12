@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+    <script src="js/init.js"></script>
+    <script src="js/Triangle.js"></script>
+    <script src="js/tween.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/PathController.js"></script>
+    <script src="js/Direction.js"></script>
+    <script src="js/three.min.js"></script>
+</head>
+<body>
+<div id="WebGLCanvas"></div>
+
+<script type="x-shader/x-vertex" id="vertexShader">
+    varying vec2 vUv;
+
+    void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        gl_Position.z = 4.1;
+    }
+</script>
+
+<script type="x-shader/x-vertex" id="fragmentShader">
+
+
+    varying vec2 vUv;
+
+void main() {
+    // colour is RGBA: u, v, 0, 1
+//    gl_FragColor = vec4( vec3( vUv, 0. ), 1. );
+    gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0);
+}
+</script>
+
+<script>
+    'use strict';
+    init();
+
+//    new TWEEN.Tween({rot:1}).to({rot:-1}, 1000)
+//            .onUpdate(function(){
+//                console.log(this.rot);
+//            }).start();
+</script>
+</body>
+</html>
