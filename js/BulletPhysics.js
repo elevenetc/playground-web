@@ -11,8 +11,8 @@ function BulletPhysics() {
 
 	function initScene() {
 		renderer = new THREE.WebGLRenderer({antialias: true});
-		w = 400;
-		h = 400;
+		w = 600;
+		h = 600;
 		renderer.setSize(w, h);
 		document.getElementById(Config.DIV_NAME).appendChild(renderer.domElement);
 		scene = new THREE.Scene();

@@ -2,9 +2,9 @@ function Algorithms() {
 
 }
 
-Algorithms.getIntersectionPointOfPaths = function (pointsA, pointsB) {
+Algorithms.getIntersectionPointsOfPaths = function (pointsA, pointsB) {
 
-	var result = null;
+	var result = [];
 
 	if (pointsB.length > pointsA.length) {
 		var tmp = pointsA;
@@ -24,14 +24,14 @@ Algorithms.getIntersectionPointOfPaths = function (pointsA, pointsB) {
 			if (!pointB0.hasNext()) continue;
 			var pointB1 = pointB0.getNext();
 
-			result = Algorithms.getLinesIntersection(pointA0, pointA1, pointB0, pointB1);
-			if (result != null) {
+			var point = Algorithms.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
+			if (point != null) {
 				console.log("found intersection:");
 				console.log("A start:" + JSON.stringify(pointA0));
 				console.log("A end  :" + JSON.stringify(pointA1));
 				console.log("B start:" + JSON.stringify(pointB0));
 				console.log("B end  :" + JSON.stringify(pointB1));
-				return result;
+				result.push(point);
 			}
 		}
 	}
@@ -64,39 +64,28 @@ Algorithms.areLinesIntersect = function (pointA0, pointA1, pointB0, pointB1) {
 	}
 };
 
-Algorithms.getLinesIntersection = function (a1, a2, b1, b2) {
+Algorithms.getLinesIntersectionPoint = function (a1, a2, b1, b2) {
 
 	var result = null;
 
 	var ua_t = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x);
 	var ub_t = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x);
-	var u_b  = (b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y);
+	var u_b = (b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y);
 
-	if ( u_b != 0 ) {
+	if (u_b != 0) {
 		var ua = ua_t / u_b;
 		var ub = ub_t / u_b;
 
-		if ( 0 <= ua && ua <= 1 && 0 <= ub && ub <= 1 ) {
-			result = new Point(
-				a1.x + ua * (a2.x - a1.x),
-				a1.y + ua * (a2.y - a1.y)
-			);
-			//result = new Intersection("Intersection");
-			// result.points.push(
-			// 	new Point2D(
-			// 		a1.x + ua * (a2.x - a1.x),
-			// 		a1.y + ua * (a2.y - a1.y)
-			// 	)
-			// );
+		if (0 <= ua && ua <= 1 && 0 <= ub && ub <= 1) {
+			result = new Point(a1.x + ua * (a2.x - a1.x), a1.y + ua * (a2.y - a1.y));
 		} else {
-			//result = new Intersection("No Intersection");
+			//no Intersection
 		}
 	} else {
-		if ( ua_t == 0 || ub_t == 0 ) {
-			//result = new Intersection("Coincident");
+		if (ua_t == 0 || ub_t == 0) {
+			//coincident
 		} else {
 			//parallel
-			//result = new Intersection("Parallel");
 		}
 	}
 
@@ -133,10 +122,9 @@ Algorithms.genRandomLine = function (fromPoint, toPoint, xStep, yStep) {
 	var y = fromPoint.y;
 	var nextX, nextY;
 	var dirX = 1, dirY = 1;
-	var i = 0;
 	var prevPoint = fromPoint;
 
-	result[i++] = fromPoint;
+	result.push(fromPoint);
 
 	if (fromPoint.x > toPoint.x) dirX = -1;
 	if (fromPoint.y > toPoint.y) dirY = -1;
@@ -148,14 +136,20 @@ Algorithms.genRandomLine = function (fromPoint, toPoint, xStep, yStep) {
 		x += nextX;
 		y += nextY;
 
-		if ((dirX == 1 && x > toPoint.x) || dirX == -1 && x < toPoint.x)x = toPoint.x;
-		if ((dirY == 1 && y > toPoint.y) || dirY == -1 && y < toPoint.y)y = toPoint.y;
+		if ((dirX == 1 && x > toPoint.x) || dirX == -1 && x < toPoint.x) {
+			x = toPoint.x;
+			y = toPoint.y;
+		}
+		if ((dirY == 1 && y > toPoint.y) || dirY == -1 && y < toPoint.y) {
+			x = toPoint.x;
+			y = toPoint.y;
+		}
 
 		var point = new Point(x, y);
 		prevPoint.setNext(point);
 		point.setPrevious(prevPoint);
 		prevPoint = point;
-		result[i++] = point;
+		result.push(point);
 	}
 
 	return result;

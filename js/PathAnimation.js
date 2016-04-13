@@ -13,8 +13,8 @@ function PathAnimation() {
 
 	function initializeScene() {
 		renderer = new THREE.WebGLRenderer({antialias: true});
-		w = 400;//window.innerWidth;
-		h = 400;//window.innerHeight;
+		w = 600;//window.innerWidth;
+		h = 600;//window.innerHeight;
 		renderer.setSize(w, h);
 		document.getElementById("WebGLCanvas").appendChild(renderer.domElement);
 		scene = new THREE.Scene();

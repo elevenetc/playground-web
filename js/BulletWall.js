@@ -6,8 +6,7 @@ function BulletWall() {
 	const wallHeight = 3;
 	var wall;
 	var circleA, circleB;
-	var intersecion;
-	var fragments = [];
+	var views = [];
 
 	this.init = function () {
 
@@ -17,22 +16,24 @@ function BulletWall() {
 
 		// fragment = genFragment(1.0, 0.7, 0.5, 0.25, 0.25);
 		var step = 1;
-		var fragmentLineA = genLineFragment(new Point(-1.5, -1.5), new Point(1.5, 1.5), step, step);
-		var fragmentLineB = genLineFragment(new Point(-1.5, 1.5), new Point(1.5, -1.5), step, step);
-		// var fragmentLineA = createLine(-1.5, -1.5, 1.5, 1.5);
-		// var fragmentLineB = createLine(-1.5, 1.5, 1.5, -1.5);
-		// var fragmentLineA = createLine(-1.5, -1.5, 1.5, 1.5);
-		// var fragmentLineB = createLine(-1.5, 1.5, 1.5, 1.0);
-		// var fragmentLineB = createLine(-1.5, 1.5, 0.5, 1.0);
-		fragments[0] = fragmentLineA;
-		fragments[1] = fragmentLineB;
-		fragments[2] = createFrame();
+		var viewLineA = genLineFragment(new Point(-1.5, -1.5), new Point(1.5, 1.5), step, step);
+		var viewLineB = genLineFragment(new Point(-1.5, 1.5), new Point(1.5, -1.5), step, step);
+		// var viewLineA = createLine(-1.5, -1.5, 1.5, 1.5);
+		// var viewLineB = createLine(-1.5, 1.5, 1.5, -1.5);
+		// var viewLineA = createLine(-1.5, -1.5, 1.5, 1.5);
+		// var viewLineB = createLine(-1.5, 1.5, 1.5, 1.0);
+		// var viewLineB = createLine(-1.5, 1.5, 0.5, 1.0);
+		views[0] = viewLineA;
+		views[1] = viewLineB;
+		views[2] = createFrame();
 
-		var loc = Algorithms.getIntersectionPointOfPaths(fragmentLineA.getPoints(), fragmentLineB.getPoints());
-		if (loc != null)
-			intersecion = Utils.createSquareAt(0.1, 0.1, loc.x, loc.y, 0x0000FF);
-		else
-			console.log("no intersection");
+		var loc = Algorithms.getIntersectionPointsOfPaths(views[2].getPoints(), viewLineB.getPoints());
+		// var loc = Algorithms.getIntersectionPointsOfPaths(viewLineA.getPoints(), viewLineB.getPoints());
+		if (loc.length > 0) {
+			for (var i = 0; i < loc.length; i++) {
+				views.push(Utils.createSquareAt(0.1, 0.1, loc[i].x, loc[i].y, 0x0000FF));
+			}
+		} else console.log("no intersection");
 
 		return this;
 	};
@@ -42,12 +43,13 @@ function BulletWall() {
 		//scene.add(circleA);
 		//scene.add(circleB);
 
-		for (var i = 0; i < fragments.length; i++) {
-			var f = fragments[i];
-			scene.add(f.getView());
+		for (var i = 0; i < views.length; i++) {
+			if (typeof(views[i].getView) == "function")
+				scene.add(views[i].getView());
+			else
+				scene.add(views[i]);
 		}
 
-		if (intersecion != null)scene.add(intersecion);
 	};
 
 	function createFrame() {
