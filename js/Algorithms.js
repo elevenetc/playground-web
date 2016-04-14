@@ -2,8 +2,15 @@ function Algorithms() {
 
 }
 
-Algorithms.getIntersectionPointsOfPaths = function (pointsA, pointsB) {
+/**
+ * @param pathA {PointsPath}
+ * @param pathB {PointsPath}
+ * @returns {Array}
+ */
+Algorithms.getIntersectionPointsOfPaths = function (pathA, pathB) {
 
+	var pointsA = pathA.getPoints();
+	var pointsB = pathB.getPoints();
 	var result = [];
 
 	if (pointsB.length > pointsA.length) {
@@ -26,11 +33,8 @@ Algorithms.getIntersectionPointsOfPaths = function (pointsA, pointsB) {
 
 			var point = Algorithms.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
 			if (point != null) {
-				console.log("found intersection:");
-				console.log("A start:" + JSON.stringify(pointA0));
-				console.log("A end  :" + JSON.stringify(pointA1));
-				console.log("B start:" + JSON.stringify(pointB0));
-				console.log("B end  :" + JSON.stringify(pointB1));
+				point.addPath(pathA);
+				point.addPath(pathB);
 				result.push(point);
 			}
 		}
@@ -39,6 +43,13 @@ Algorithms.getIntersectionPointsOfPaths = function (pointsA, pointsB) {
 	return result;
 };
 
+/**
+ * @param pointA0 {Point}
+ * @param pointA1 {Point}
+ * @param pointB0 {Point}
+ * @param pointB1 {Point}
+ * @returns {boolean}
+ */
 Algorithms.areLinesIntersect = function (pointA0, pointA1, pointB0, pointB1) {
 
 	var m1, m2;
@@ -64,6 +75,13 @@ Algorithms.areLinesIntersect = function (pointA0, pointA1, pointB0, pointB1) {
 	}
 };
 
+/**
+ * @param a1 {Point}
+ * @param a2 {Point}
+ * @param b1 {Point}
+ * @param b2 {Point}
+ * @returns {Point|null}
+ */
 Algorithms.getLinesIntersectionPoint = function (a1, a2, b1, b2) {
 
 	var result = null;
@@ -92,6 +110,13 @@ Algorithms.getLinesIntersectionPoint = function (a1, a2, b1, b2) {
 	return result;
 };
 
+/**
+ * @param pointA0 {Point}
+ * @param pointA1 {Point}
+ * @param pointB0 {Point}
+ * @param pointB1 {Point}
+ * @returns {Point|null}
+ */
 Algorithms.getVectorsIntersection = function (pointA0, pointA1, pointB0, pointB1) {
 
 
@@ -116,6 +141,14 @@ Algorithms.getVectorsIntersection = function (pointA0, pointA1, pointB0, pointB1
 	}
 };
 
+/**
+ *
+ * @param fromPoint {Point}
+ * @param toPoint {Point}
+ * @param xStep {number}
+ * @param yStep {number}
+ * @returns {Array<Point>}
+ */
 Algorithms.genRandomLine = function (fromPoint, toPoint, xStep, yStep) {
 	var result = [];
 	var x = fromPoint.x;
@@ -146,8 +179,8 @@ Algorithms.genRandomLine = function (fromPoint, toPoint, xStep, yStep) {
 		}
 
 		var point = new Point(x, y);
-		prevPoint.setNext(point);
-		point.setPrevious(prevPoint);
+		prevPoint.addNextPoint(point);
+		point.addPrevPoint(prevPoint);
 		prevPoint = point;
 		result.push(point);
 	}
@@ -158,7 +191,13 @@ Algorithms.genRandomLine = function (fromPoint, toPoint, xStep, yStep) {
 /**
  * Generates 2D(flat) polygon coordinates
  * sample params: Algorithms.genRandomPolygon(1.0, 0.7, 0.5, 0.25, 0.25)
- * @returns {Array} array of coordinate points
+ *
+ * @param maxHeight {number}
+ * @param maxWidth {number}
+ * @param midHeight {number}
+ * @param xStep {number}
+ * @param yStep {number}
+ * @returns {Array}
  */
 Algorithms.genRandomPolygon = function (maxHeight, maxWidth, midHeight, xStep, yStep) {
 	var x = -1;

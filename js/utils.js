@@ -81,15 +81,3 @@ Utils.createLineView = function (points, color) {
 
 	return new THREE.Line(geom, Utils.lineMat(color));
 };
-
-Utils.createFragment = function (points) {
-
-	var geom = new THREE.Geometry();
-
-	for (var i = 0, len = points.length; i < len; i++) {
-		var point = points[i];
-		geom.vertices.push(new THREE.Vector3(point.x, point.y, point.z));
-	}
-
-	return new Fragment(new THREE.Line(geom, Utils.lineMat()), points);
-};

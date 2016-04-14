@@ -13,7 +13,6 @@
     <script src="js/BulletPhysics.js"></script>
     <script src="js/BulletWall.js"></script>
     <script src="js/Point.js"></script>
-    <script src="js/Fragment.js"></script>
     <script src="js/Algorithms.js"></script>
     <script src="js/PointsPath.js"></script>
     <script src="js/three.min.js"></script>
@@ -23,7 +22,9 @@
 
 <script>
     'use strict';
-    new BulletPhysics().init();
+    setTimeout(function(){
+        new BulletPhysics().init();
+    }, 500);
 </script>
 </body>
 </html>

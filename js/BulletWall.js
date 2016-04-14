@@ -6,7 +6,7 @@ function BulletWall() {
 	const wallHeight = 3;
 	var wall;
 	var circleA, circleB;
-	var views = [];
+	var views;
 
 	this.init = function () {
 
@@ -16,24 +16,36 @@ function BulletWall() {
 
 		// fragment = genFragment(1.0, 0.7, 0.5, 0.25, 0.25);
 		var step = 1;
-		var viewLineA = genLineFragment(new Point(-1.5, -1.5), new Point(1.5, 1.5), step, step);
-		var viewLineB = genLineFragment(new Point(-1.5, 1.5), new Point(1.5, -1.5), step, step);
-		// var viewLineA = createLine(-1.5, -1.5, 1.5, 1.5);
-		// var viewLineB = createLine(-1.5, 1.5, 1.5, -1.5);
-		// var viewLineA = createLine(-1.5, -1.5, 1.5, 1.5);
-		// var viewLineB = createLine(-1.5, 1.5, 1.5, 1.0);
-		// var viewLineB = createLine(-1.5, 1.5, 0.5, 1.0);
-		views[0] = viewLineA;
-		views[1] = viewLineB;
-		views[2] = createFrame();
+		var pathA = genLinePath(new Point(-1.5, -1.5), new Point(1.5, 1.5), step, step);
+		var pathB = genLinePath(new Point(-1.5, 1.5), new Point(1.5, -1.5), step, step);
+		var pathFrame = createFrame();
 
-		var loc = Algorithms.getIntersectionPointsOfPaths(views[2].getPoints(), viewLineB.getPoints());
-		// var loc = Algorithms.getIntersectionPointsOfPaths(viewLineA.getPoints(), viewLineB.getPoints());
-		if (loc.length > 0) {
-			for (var i = 0; i < loc.length; i++) {
-				views.push(Utils.createSquareAt(0.1, 0.1, loc[i].x, loc[i].y, 0x0000FF));
+		pathA.setId("top-to-down");
+		pathB.setId("down-to-top");
+		pathFrame.setId("frame");
+
+		// var pathA = createLine(-1.5, -1.5, 1.5, 1.5);
+		// var pathB = createLine(-1.5, 1.5, 1.5, -1.5);
+		// var pathA = createLine(-1.5, -1.5, 1.5, 1.5);
+		// var pathB = createLine(-1.5, 1.5, 1.5, 1.0);
+		// var pathB = createLine(-1.5, 1.5, 0.5, 1.0);
+		// views = [pathA, pathB, pathFrame];
+		views = [pathB, pathFrame];
+
+		var intersectionPoints = Algorithms.getIntersectionPointsOfPaths(pathB, pathFrame);
+		// var intersectionPoints = Algorithms.getIntersectionPointsOfPaths(pathA, pathB);
+		if (intersectionPoints.length > 0) {
+
+			console.log("Found " + intersectionPoints.length + " intersections");
+
+			for (var i = 0; i < intersectionPoints.length; i++) {
+				var point = intersectionPoints[i];
+				console.log(i + ">");
+				//point.printJoints();
+				views.push(Utils.createSquareAt(0.1, 0.1, point.x, point.y, 0x0000FF));
 			}
 		} else console.log("no intersection");
+
 
 		return this;
 	};
@@ -71,16 +83,12 @@ function BulletWall() {
 		return path;
 	}
 
-	function genLineFragment(fromPoint, toPoint, xStep, yStep) {
+	function genLinePath(fromPoint, toPoint, xStep, yStep) {
 		var points = Algorithms.genRandomLine(fromPoint, toPoint, xStep, yStep);
 		var path = PointsPath.create();
 		path.setPoints(points);
 		path.setView(Utils.createLineView(points, 0xFF0000));
 		return path;
-	}
-
-	function genFragment(maxHeight, maxWidth, midHeight, maxXStep, maxYStep) {
-		return Utils.createFragment(Algorithms.genRandomPolygon(maxHeight, maxWidth, midHeight, maxXStep, maxYStep));
 	}
 }
 
