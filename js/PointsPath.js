@@ -2,7 +2,9 @@
 function PointsPath() {
 
 	/** @type {Array<Point>} */
-	this.points = [];
+	this.pointsMap = {};
+	// /** @type {Array<Point>} */
+	// this.points = [];
 	/** @type {Point} */
 	this.first = null;
 	/** @type {Point} */
@@ -11,22 +13,30 @@ function PointsPath() {
 	this.view = null;
 	/** @type {string} */
 	this.id = "";
+	/** @type {number} */
+	this.length = 0;
 }
 
+/** @returns {PointsPath} */
 PointsPath.create = function () {
 	return new PointsPath();
 };
 
 /** @param point {Point} */
 PointsPath.prototype.addPoint = function (point) {
-	this.points.push(point);
 
-	if (this.points.length == 1) {
+	//this.points.push(point);
+	this.pointsMap[point.getId()] = point;
+	this.length++;
+
+	if (this.first == null) {
 		this.first = point;
 		this.last = point;
 	} else {
-		this.last.addNextPoint(point);
-		point.addPrevPoint(this.last);
+		this.last.addPoint(point);
+		this.last.setNext(point);
+		point.setPrev(this.last);
+		point.addPoint(this.last);
 		this.last = point;
 	}
 };
@@ -39,14 +49,12 @@ PointsPath.prototype.getView = function () {
 	return this.view;
 };
 
-/** @param points {Array<Point>} */
-PointsPath.prototype.setPoints = function (points) {
-	this.points = points;
-	this.first = points[0];
-	this.last = points[points.length - 1];
+/** @returns {Point} */
+PointsPath.prototype.getFirst = function () {
+	return this.first;
 };
 
-/** @returns {Array.<Point>|*} */
+/** @returns {Object} */
 PointsPath.prototype.getPoints = function () {
 	return this.points;
 };
@@ -59,4 +67,20 @@ PointsPath.prototype.setId = function (id) {
 /** @returns {string} */
 PointsPath.prototype.getId = function () {
 	return this.id;
+};
+
+/** @param fun {function} */
+PointsPath.prototype.iterate = function (fun) {
+	if (this.first != null) {
+		var point = this.first;
+		while (point != null) {
+			fun(point);
+			point = point.getNext();
+		}
+	}
+};
+
+/** @param point {point} */
+PointsPath.prototype.replace = function (point) {
+
 };

@@ -1,3 +1,4 @@
+"use strict";
 function Algorithms() {
 
 }
@@ -5,40 +6,38 @@ function Algorithms() {
 /**
  * @param pathA {PointsPath}
  * @param pathB {PointsPath}
- * @returns {Array}
+ * @returns {Object}
  */
 Algorithms.getIntersectionPointsOfPaths = function (pathA, pathB) {
 
-	var pointsA = pathA.getPoints();
-	var pointsB = pathB.getPoints();
-	var result = [];
+	var result = {};
 
-	if (pointsB.length > pointsA.length) {
-		var tmp = pointsA;
-		pointsA = pointsB;
-		pointsB = tmp;
+	if (pathB.length > pathA) {
+		var tmp = pathA;
+		pathA = pathB;
+		pathB = tmp;
 	}
 
-	for (var i = 0; i < pointsA.length; i++) {
+	pathA.iterate(function (pointA0) {
 
-		var pointA0 = pointsA[i];
-		if (!pointA0.hasNext()) return result;
-		var pointA1 = pointA0.getNext();
+		if (pointA0.hasNext()) {
+			var pointA1 = pointA0.getNext();
 
-		for (var k = 0; k < pointsB.length; k++) {
+			pathB.iterate(function (pointB0) {
 
-			var pointB0 = pointsB[k];
-			if (!pointB0.hasNext()) continue;
-			var pointB1 = pointB0.getNext();
-
-			var point = Algorithms.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
-			if (point != null) {
-				point.addPath(pathA);
-				point.addPath(pathB);
-				result.push(point);
-			}
+				if (pointB0.hasNext()) {
+					var pointB1 = pointB0.getNext();
+					var point = Algorithms.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
+					if (point != null) {
+						point.addPath(pathA);
+						point.addPath(pathB);
+						var id = point.getId();
+						result[id] = point;
+					}
+				}
+			});
 		}
-	}
+	});
 
 	return result;
 };
@@ -179,8 +178,8 @@ Algorithms.genRandomLine = function (fromPoint, toPoint, xStep, yStep) {
 		}
 
 		var point = new Point(x, y);
-		prevPoint.addNextPoint(point);
-		point.addPrevPoint(prevPoint);
+		prevPoint.addPoint(point);
+		point.addPoint(prevPoint);
 		prevPoint = point;
 		result.push(point);
 	}

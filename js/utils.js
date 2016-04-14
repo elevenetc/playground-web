@@ -71,13 +71,49 @@ Utils.lineMat = function (color) {
 	return new THREE.LineBasicMaterial({color: color});
 };
 
-Utils.createLineView = function (points, color) {
+/**
+ * @param first {Point}
+ * @param color {number}
+ * @returns {THREE.Line}
+ */
+Utils.createLineView = function (first, color) {
 	var geom = new THREE.Geometry();
+	var point = first;
 
-	for (var i = 0, len = points.length; i < len; i++) {
-		var point = points[i];
+	while (point != null) {
 		geom.vertices.push(new THREE.Vector3(point.x, point.y, point.z));
+		point = point.getNext();
 	}
 
 	return new THREE.Line(geom, Utils.lineMat(color));
+};
+
+/**
+ *
+ * @param o {Object}
+ * @return {string}
+ */
+Utils.toString = function (o) {
+	var cache = [];
+	return JSON.stringify(o, function (key, value) {
+		if (typeof value === 'object' && value !== null) {
+			if (cache.indexOf(value) !== -1) {
+				// Circular reference found, discard key
+				return;
+			}
+			// Store value in our collection
+			cache.push(value);
+		}
+		return value;
+	});
+};
+
+/**
+ * @param array {Array}
+ * @param fun {function}
+ */
+Utils.iterate = function (array, fun) {
+	for (var i = 0; i < array.length; i++) {
+		fun(array[i]);
+	}
 };
