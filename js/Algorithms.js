@@ -296,12 +296,30 @@ Algorithms.genGraphFragments = function (startInter, nextInter, prevPath, fragme
 Algorithms.findNextInterOnPath = function (destinationInter, path) {
 
 	console.log("find of: " + path.getId());
+	var x0, y0, x1, y1;
 
 	var current = path.getFirst();
 	while (current != null) {
+
+		Visualizer.inst().add(current);
+
+		x0 = current.x;
+		y0 = current.y;
+
 		if (current.hasInter()) {
+
 			var inter = current.getInter();
 			var paths = inter.getPaths();
+
+			if (destinationInter === inter) {
+				current = current.getNext();
+
+				x1 = current.x;
+				y1 = current.y;
+				Visualizer.inst().addLine(x0, y0, x1, y1);
+
+				continue;
+			}
 
 			for (var i = 0; i < paths.length; i++) {
 				var p = paths[i];
@@ -332,6 +350,12 @@ Algorithms.findNextInterOnPath = function (destinationInter, path) {
 			break;
 		}
 		current = current.getNext();
+
+		if (current != null) {
+			x1 = current.x;
+			y1 = current.y;
+			Visualizer.inst().addLine(x0, y0, x1, y1);
+		}
 	}
 };
 
@@ -342,7 +366,14 @@ Algorithms.findNextInterOnPath = function (destinationInter, path) {
  * @param nextOrPrev {number} - next = 1, prev = -1
  */
 Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, nextOrPrev) {
+
+	var x0, y0;
+
 	while (point != null) {
+
+		x0 = point.x;
+		y0 = point.y;
+
 		if (nextOrPrev == 1) {
 			point = point.getNext();
 		} else {
@@ -350,6 +381,11 @@ Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, ne
 		}
 
 		console.log("Check:" + point);
+
+		if (point != null) {
+			Visualizer.inst().addLine(x0, y0, point.x, point.y);
+			Visualizer.inst().add(point);
+		}
 
 		if (point != null && point.hasInter() && point.getInter() === destinationInter) {
 			point = null;

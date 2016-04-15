@@ -21,11 +21,15 @@ function BulletPhysics() {
 		camera.position.set(0, 0, 5);
 
 		scene.add(camera);
+
+		Visualizer.createInst(scene);
 	}
 
 	function renderScene() {
 		requestAnimationFrame(renderScene);
 		renderer.render(scene, camera);
+		TWEEN.update();
+		Visualizer.inst().update();
 	}
 
 	function addWall() {

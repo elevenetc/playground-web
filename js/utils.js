@@ -47,6 +47,12 @@ Utils.createSquareAt = function (width, height, x, y, color) {
 	return result;
 };
 
+/**
+ * @param width {number}
+ * @param height {number}
+ * @param color {number}
+ * @returns {THREE.Mesh}
+ */
 Utils.createSquare = function (width, height, color) {
 	width /= 2;
 	height /= 2;
@@ -84,6 +90,13 @@ Utils.createLineViewFromArray = function (points, color) {
 		geom.vertices.push(new THREE.Vector3(point.x, point.y, point.z));
 	}
 
+	return new THREE.Line(geom, Utils.lineMat(color));
+};
+
+Utils.createLine = function (x0, y0, x1, y1, color) {
+	var geom = new THREE.Geometry();
+	geom.vertices.push(new THREE.Vector3(x0, y0, 0));
+	geom.vertices.push(new THREE.Vector3(x1, y1, 0));
 	return new THREE.Line(geom, Utils.lineMat(color));
 };
 

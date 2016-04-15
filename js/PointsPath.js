@@ -24,7 +24,7 @@ PointsPath.create = function () {
 
 /** @param point {Point} */
 PointsPath.prototype.addPoint = function (point) {
-	
+
 	this.pointsMap[point.getId()] = point;
 	this.length++;
 
@@ -61,6 +61,7 @@ PointsPath.prototype.getPoints = function () {
 /** @param id {string} */
 PointsPath.prototype.setId = function (id) {
 	this.id = id;
+	return this;
 };
 
 /** @returns {string} */

@@ -3,35 +3,17 @@ function BulletWall() {
 
 	const wallWidth = 3;
 	const wallHeight = 3;
-	var wall;
-	var circleA, circleB;
 	var views;
 
 	this.init = function () {
 
-		wall = Utils.createSquare(wallWidth, wallHeight, 0x00FF00);
-		circleA = Utils.createCircle(wallWidth / 4, 50, Utils.getMaterial(0.1));
-		circleB = Utils.createCircle(wallWidth / 2, 50, Utils.getMaterial(0.1));
-
-		// fragment = genFragment(1.0, 0.7, 0.5, 0.25, 0.25);
 		var step = 1;
-		var pathA = genLinePath(new Point(-1.5, -1.5), new Point(1.5, 1.5), step, step);
-		var pathB = genLinePath(new Point(-1.5, 1.5), new Point(1.5, -1.5), step, step);
-		var pathFrame = createFrame();
+		var pathLine = genLinePath(new Point(-1.5, 1.5), new Point(1.5, -1.5), step, step).setId("line");
+		var pathFrame = createFrame().setId("frame");
 
-		pathA.setId("top-to-down");
-		pathB.setId("down-to-top");
-		pathFrame.setId("frame");
+		views = [pathLine, pathFrame];
 
-		// var pathA = createLine(-1.5, -1.5, 1.5, 1.5);
-		// var pathB = createLine(-1.5, 1.5, 1.5, -1.5);
-		// var pathA = createLine(-1.5, -1.5, 1.5, 1.5);
-		// var pathB = createLine(-1.5, 1.5, 1.5, 1.0);
-		// var pathB = createLine(-1.5, 1.5, 0.5, 1.0);
-		// views = [pathA, pathB, pathFrame];
-		views = [pathB, pathFrame];
-
-		var intersectionPoints = Algorithms.getIntersectionPointsOfPaths(pathB, pathFrame);
+		var intersectionPoints = Algorithms.getIntersectionPointsOfPaths(pathLine, pathFrame);
 		var inter = null;
 
 		for (var id in intersectionPoints) {
@@ -49,9 +31,6 @@ function BulletWall() {
 	};
 
 	this.addTo = function (scene) {
-		//scene.add(wall);
-		//scene.add(circleA);
-		//scene.add(circleB);
 
 		for (var i = 0; i < views.length; i++) {
 			if (typeof(views[i].getView) == "function")
