@@ -27,12 +27,19 @@ Algorithms.getIntersectionPointsOfPaths = function (pathA, pathB) {
 
 				if (pointB0.hasNext()) {
 					var pointB1 = pointB0.getNext();
-					var point = Algorithms.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
-					if (point != null) {
-						point.addPath(pathA);
-						point.addPath(pathB);
-						var id = point.getId();
-						result[id] = point;
+					var interPoint = Algorithms.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
+					if (interPoint != null) {
+						interPoint.addPath(pathA);
+						interPoint.addPath(pathB);
+						var id = interPoint.getId();
+
+						var pA = pathA.getById(id);
+						var pB = pathB.getById(id);
+
+						pA.setInter(interPoint);
+						pB.setInter(interPoint);
+
+						result[id] = interPoint;
 					}
 				}
 			});
@@ -95,6 +102,7 @@ Algorithms.getLinesIntersectionPoint = function (a1, a2, b1, b2) {
 
 		if (0 <= ua && ua <= 1 && 0 <= ub && ub <= 1) {
 			result = new Point(a1.x + ua * (a2.x - a1.x), a1.y + ua * (a2.y - a1.y));
+			result.isIntersection = true;
 		} else {
 			//no Intersection
 		}
@@ -262,3 +270,94 @@ Algorithms.genRandomPolygon = function (maxHeight, maxWidth, midHeight, xStep, y
 	}
 	return points;
 };
+
+/**
+ * @param startInter {Point}
+ * @param nextInter {Point|undefined}
+ * @param prevPath {PointsPath|undefined}
+ * @param fragmentsMap {Object|undefined}
+ */
+Algorithms.genGraphFragments = function (startInter, nextInter, prevPath, fragmentsMap) {
+
+	if (fragmentsMap == null) fragmentsMap = {};
+	var paths = startInter.getPaths();
+	var path = paths[0];
+
+	Algorithms.findNextInterOnPath(startInter, path);
+
+	return fragmentsMap;
+};
+
+/**
+ *
+ * @param destinationInter {Point}
+ * @param path {PointsPath}
+ */
+Algorithms.findNextInterOnPath = function (destinationInter, path) {
+
+	console.log("find of: " + path.getId());
+
+	var current = path.getFirst();
+	while (current != null) {
+		if (current.hasInter()) {
+			var inter = current.getInter();
+			var paths = inter.getPaths();
+
+			for (var i = 0; i < paths.length; i++) {
+				var p = paths[i];
+				if (p !== path) {
+					console.log("path to discover-" + i + " :" + p.getId());
+
+					var pUnderInter = p.getById(inter.getId());
+
+					if (pUnderInter.hasNextAndPrev()) {
+						console.log("Found path separation");
+						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, 1);
+						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, -1);
+					} else if (pUnderInter.hasNext()) {
+						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, 1);
+					} else if (pUnderInter.hasPrev()) {
+						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, -1);
+					} else {
+						console.log("End of path");
+					}
+
+				} else {
+					console.log("path to avoid-" + i + " :" + p.getId());
+				}
+
+
+			}
+
+			break;
+		}
+		current = current.getNext();
+	}
+};
+
+/**
+ *
+ * @param destinationInter {Point}
+ * @param point {Point} - middle of path
+ * @param nextOrPrev {number} - next = 1, prev = -1
+ */
+Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, nextOrPrev) {
+	while (point != null) {
+		if (nextOrPrev == 1) {
+			point = point.getNext();
+		} else {
+			point = point.getPrev();
+		}
+
+		console.log("Check:" + point);
+
+		if (point != null && point.hasInter() && point.getInter() === destinationInter) {
+			point = null;
+			console.log("Found destination!");
+			return;
+		}
+	}
+
+	console.log("Not found destination from middle of path:" + nextOrPrev);
+};
+

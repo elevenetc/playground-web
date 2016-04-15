@@ -5,17 +5,54 @@ function Point(x, y, z) {
 	this.y = y;
 	this.z = Utils.isNotDefined(z) ? 0 : z;
 
+	/** @type {Array<PointsPath>} */
 	this.paths = [];
+	/** @type {Array<Point>} */
 	this.neighbourPoints = [];
 	/** @type {Point|null} */
 	this.prev = null;
 	/** @type {Point|null} */
 	this.next = null;
+	/** @type {Point|null} */
+	this.intersection = null;
+	/** @type {boolean} */
+	this.isIntersection = false;
 }
+
+/** @return {boolean} */
+Point.prototype.hasNextAndPrev = function () {
+	return this.hasNext() && this.hasPrev();
+};
+
 
 /** @return {boolean} */
 Point.prototype.hasNext = function () {
 	return this.next != null;
+};
+
+/** @return {boolean} */
+Point.prototype.hasPrev = function () {
+	return this.prev != null;
+};
+
+/** @return {boolean} */
+Point.prototype.hasInter = function () {
+	return this.intersection != null;
+};
+
+/** @param point {Point} */
+Point.prototype.setInter = function (point) {
+	this.intersection = point;
+};
+
+/** @return {Point} */
+Point.prototype.getInter = function () {
+	return this.intersection;
+};
+
+/** @param point {Point} */
+Point.prototype.setNext = function (point) {
+	this.next = point;
 };
 
 /** @return {Point} */
@@ -23,14 +60,14 @@ Point.prototype.getNext = function () {
 	return this.next;
 };
 
+/** @returns {Array.<PointsPath>} */
+Point.prototype.getPaths = function () {
+	return this.paths;
+};
+
 /** @return {Point} */
 Point.prototype.getPrev = function () {
 	return this.prev;
-};
-
-/** @param point {Point} */
-Point.prototype.setNext = function (point) {
-	this.next = point;
 };
 
 /** @param point {Point} */
@@ -51,11 +88,6 @@ Point.prototype.addPoint = function (point) {
 /** @returns {boolean} */
 Point.prototype.hasNeighbours = function () {
 	return this.neighbourPoints.length > 0;
-};
-
-/** @returns {Array<Point>} */
-Point.prototype.getPoints = function () {
-	return this.neighbourPoints;
 };
 
 /** @returns {String} */

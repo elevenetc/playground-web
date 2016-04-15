@@ -24,8 +24,7 @@ PointsPath.create = function () {
 
 /** @param point {Point} */
 PointsPath.prototype.addPoint = function (point) {
-
-	//this.points.push(point);
+	
 	this.pointsMap[point.getId()] = point;
 	this.length++;
 
@@ -80,7 +79,12 @@ PointsPath.prototype.iterate = function (fun) {
 	}
 };
 
-/** @param point {point} */
-PointsPath.prototype.replace = function (point) {
-
+/**
+ * @param id {string}
+ * @return {Point}
+ * */
+PointsPath.prototype.getById = function (id) {
+	var point = this.pointsMap[id];
+	if (Utils.isNotDefined(point))return null;
+	else return point;
 };

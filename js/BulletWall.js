@@ -32,27 +32,18 @@ function BulletWall() {
 		views = [pathB, pathFrame];
 
 		var intersectionPoints = Algorithms.getIntersectionPointsOfPaths(pathB, pathFrame);
+		var inter = null;
 
 		for (var id in intersectionPoints) {
 			console.log("Intersection:" + id);
 			var point = intersectionPoints[id];
+
+			if (inter == null) inter = point;
+
 			views.push(Utils.createSquareAt(0.1, 0.1, point.x, point.y, 0x0000FF));
 		}
 
-		// var intersectionPoints = Algorithms.getIntersectionPointsOfPaths(pathA, pathB);
-		// if (intersectionPoints.length > 0) {
-		//
-		// 	console.log("Found " + intersectionPoints.length + " intersections");
-		//
-		// 	for (var i = 0; i < intersectionPoints.length; i++) {
-		// 		var point = intersectionPoints[i];
-		// 		console.log(i + ":" + point.toString());
-		// 		//console.log(i + ">" + Utils.toString(point));
-		// 		//point.printJoints();
-		// 		views.push(Utils.createSquareAt(0.1, 0.1, point.x, point.y, 0x0000FF));
-		// 	}
-		// } else console.log("no intersection");
-
+		Algorithms.genGraphFragments(inter);
 
 		return this;
 	};
@@ -79,7 +70,7 @@ function BulletWall() {
 		path.addPoint(new Point(w, w));
 		path.addPoint(new Point(w, -w));
 		path.addPoint(new Point(-w, -w));
-		path.setView(Utils.createLineView(path.getFirst(), 0x00FF00));
+		path.setView(Utils.createLineViewFromHead(path.getFirst(), 0x00FF00));
 		return path;
 	}
 
@@ -97,7 +88,7 @@ function BulletWall() {
 			path.addPoint(point);
 		});
 		//path.setPoints(points);
-		path.setView(Utils.createLineView(path.getFirst(), 0xFF0000));
+		path.setView(Utils.createLineViewFromHead(path.getFirst(), 0xFF0000));
 		return path;
 	}
 }

@@ -72,11 +72,27 @@ Utils.lineMat = function (color) {
 };
 
 /**
+ * @param points {Array<Point>}
+ * @param color {number}
+ * @returns {THREE.Line}
+ */
+Utils.createLineViewFromArray = function (points, color) {
+	var geom = new THREE.Geometry();
+
+	for (var i = 0; i < points.length; i++) {
+		var point = points[i];
+		geom.vertices.push(new THREE.Vector3(point.x, point.y, point.z));
+	}
+
+	return new THREE.Line(geom, Utils.lineMat(color));
+};
+
+/**
  * @param first {Point}
  * @param color {number}
  * @returns {THREE.Line}
  */
-Utils.createLineView = function (first, color) {
+Utils.createLineViewFromHead = function (first, color) {
 	var geom = new THREE.Geometry();
 	var point = first;
 
