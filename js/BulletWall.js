@@ -1,8 +1,8 @@
 "use strict";
 function BulletWall() {
 
-	const wallWidth = 3;
-	const wallHeight = 3;
+	var wallWidth = 3;
+	var wallHeight = 3;
 	var views;
 
 	this.init = function () {
@@ -49,7 +49,7 @@ function BulletWall() {
 		path.addPoint(new Point(w, w));
 		path.addPoint(new Point(w, -w));
 		path.addPoint(new Point(-w, -w));
-		path.setView(Utils.createLineViewFromHead(path.getFirst(), 0x00FF00));
+		path.setView(Utils.createLineViewFromHead(path.getFirst(), 0xFF0000));
 		return path;
 	}
 

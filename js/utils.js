@@ -74,7 +74,7 @@ Utils.isNotDefined = function (param) {
 
 Utils.lineMat = function (color) {
 	color = Utils.isNotDefined(color) ? 0xFF0000 : color;
-	return new THREE.LineBasicMaterial({color: color});
+	return new THREE.LineBasicMaterial({color: color, transparent:true});
 };
 
 /**

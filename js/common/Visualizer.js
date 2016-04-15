@@ -10,7 +10,7 @@ function Visualizer(scene) {
 	/** @type {boolean} */
 	this.isRunning = false;
 	this.color = 0xFFFFFF;
-	this.time = 50;
+	this.time = 500;
 }
 
 Visualizer.instance = null;
@@ -49,7 +49,7 @@ Visualizer.prototype.addPoint = function (x, y) {
 
 Visualizer.prototype.addLine = function (x0, y0, x1, y1) {
 	var line = Utils.createLine(x0, y0, x1, y1, this.color);
-	line.material.linewidth = 3;
+	line.material.linewidth = 5;
 	this.chain.push(line);
 };
 
@@ -59,11 +59,18 @@ Visualizer.prototype.animateObject = function (point) {
 	var ref = this;
 	this.scene.add(point);
 
-	new TWEEN.Tween(point.material)
+	var tween = new TWEEN.Tween()
+		.to({}, 50)
+		.onComplete(function () {
+			ref.isRunning = false;
+		});
+
+	var matTween = new TWEEN.Tween(point.material)
 		.to({opacity: 0}, ref.time)
 		.easing(TWEEN.Easing.Cubic.InOut)
 		.onComplete(function () {
 			ref.scene.remove(point);
-			ref.isRunning = false;
-		}).start();
+		});
+
+	tween.chain(matTween).start();
 };
