@@ -10,7 +10,8 @@ function Visualizer(scene) {
 	/** @type {boolean} */
 	this.isRunning = false;
 	this.color = 0xFFFFFF;
-	this.time = 500;
+	this.delayTime = 100;
+	this.animTime = 500;
 }
 
 Visualizer.instance = null;
@@ -60,13 +61,13 @@ Visualizer.prototype.animateObject = function (point) {
 	this.scene.add(point);
 
 	var tween = new TWEEN.Tween()
-		.to({}, 50)
+		.to({}, ref.delayTime)
 		.onComplete(function () {
 			ref.isRunning = false;
 		});
 
 	var matTween = new TWEEN.Tween(point.material)
-		.to({opacity: 0}, ref.time)
+		.to({opacity: 0}, ref.animTime)
 		.easing(TWEEN.Easing.Cubic.InOut)
 		.onComplete(function () {
 			ref.scene.remove(point);

@@ -15,6 +15,8 @@ function PointsPath() {
 	this.id = "";
 	/** @type {number} */
 	this.length = 0;
+	/** @type {boolean} */
+	this.isClosed = false;
 }
 
 /** @returns {PointsPath} */
@@ -40,6 +42,19 @@ PointsPath.prototype.addPoint = function (point) {
 	}
 };
 
+PointsPath.prototype.close = function () {
+	this.isClosed = true;
+};
+
+/**
+ * @param point {Point}
+ * @returns {boolean}
+ */
+PointsPath.prototype.isPrelast = function (point) {
+	if (!this.isClosed) return false;
+	return this.last === point;
+};
+
 PointsPath.prototype.setView = function (view) {
 	this.view = view;
 };
@@ -53,9 +68,9 @@ PointsPath.prototype.getFirst = function () {
 	return this.first;
 };
 
-/** @returns {Object} */
-PointsPath.prototype.getPoints = function () {
-	return this.points;
+/** @returns {Point} */
+PointsPath.prototype.getLast = function () {
+	return this.last;
 };
 
 /** @param id {string} */

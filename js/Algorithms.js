@@ -330,12 +330,12 @@ Algorithms.findNextInterOnPath = function (destinationInter, path) {
 
 					if (pUnderInter.hasNextAndPrev()) {
 						console.log("Found path separation");
-						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, 1);
-						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, -1);
+						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, 1);
+						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, -1);
 					} else if (pUnderInter.hasNext()) {
-						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, 1);
+						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, 1);
 					} else if (pUnderInter.hasPrev()) {
-						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, -1);
+						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, -1);
 					} else {
 						console.log("End of path");
 					}
@@ -363,9 +363,10 @@ Algorithms.findNextInterOnPath = function (destinationInter, path) {
  *
  * @param destinationInter {Point}
  * @param point {Point} - middle of path
+ * @param path {PointsPath}
  * @param nextOrPrev {number} - next = 1, prev = -1
  */
-Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, nextOrPrev) {
+Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, path, nextOrPrev) {
 
 	var x0, y0;
 
@@ -375,7 +376,14 @@ Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, ne
 		y0 = point.y;
 
 		if (nextOrPrev == 1) {
+			var prePoint = point;
 			point = point.getNext();
+
+			if (point == null && path.isPrelast(prePoint)) {
+				//last point for cycled paths
+				point = path.getFirst();
+			}
+
 		} else {
 			point = point.getPrev();
 		}
@@ -394,6 +402,6 @@ Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, ne
 		}
 	}
 
-	console.log("Not found destination from middle of path:" + nextOrPrev);
+	console.log("Not found destination from middle of path with direction:" + nextOrPrev);
 };
 

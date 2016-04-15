@@ -49,6 +49,7 @@ function BulletWall() {
 		path.addPoint(new Point(w, w));
 		path.addPoint(new Point(w, -w));
 		path.addPoint(new Point(-w, -w));
+		path.close();
 		path.setView(Utils.createLineViewFromHead(path.getFirst(), 0xFF0000));
 		return path;
 	}
