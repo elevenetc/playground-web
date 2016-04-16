@@ -48,6 +48,29 @@ Utils.createSquareAt = function (width, height, x, y, color) {
 };
 
 /**
+ * @param polygonCoordinates {Array}
+ * @param color {number}
+ * @param wireframe {boolean}
+ * @returns {THREE.Mesh}
+ */
+Utils.createPolygon = function (polygonCoordinates, color, wireframe) {
+	var i;
+	var geom = new THREE.Geometry();
+
+	for (i = 0; i < polygonCoordinates.length; i++) {
+		var p = polygonCoordinates[i];
+		geom.vertices.push(new THREE.Vector3(p.x, p.y, 0.0));
+	}
+
+	var triangles = THREE.ShapeUtils.triangulateShape(geom.vertices, []);
+
+	for (i = 0; i < triangles.length; i++)
+		geom.faces.push(new THREE.Face3(triangles[i][0], triangles[i][1], triangles[i][2]));
+
+	return new THREE.Mesh(geom, Utils.getMaterial(1, color, wireframe));
+};
+
+/**
  * @param width {number}
  * @param height {number}
  * @param color {number}
@@ -74,7 +97,7 @@ Utils.isNotDefined = function (param) {
 
 Utils.lineMat = function (color) {
 	color = Utils.isNotDefined(color) ? 0xFF0000 : color;
-	return new THREE.LineBasicMaterial({color: color, transparent:true});
+	return new THREE.LineBasicMaterial({color: color, transparent: true});
 };
 
 /**

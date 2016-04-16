@@ -283,7 +283,7 @@ Algorithms.genGraphFragments = function (startInter, nextInter, prevPath, fragme
 	var paths = startInter.getPaths();
 	var path = paths[0];
 
-	Algorithms.findNextInterOnPath(startInter, path);
+	Algorithms.findNextInterOnPath(startInter, path, GraphFragment.create());
 
 	return fragmentsMap;
 };
@@ -292,16 +292,20 @@ Algorithms.genGraphFragments = function (startInter, nextInter, prevPath, fragme
  *
  * @param destinationInter {Point}
  * @param path {PointsPath}
+ * @param graphFragment {GraphFragment}
  */
-Algorithms.findNextInterOnPath = function (destinationInter, path) {
+Algorithms.findNextInterOnPath = function (destinationInter, path, graphFragment) {
 
 	console.log("find of: " + path.getId());
 	var x0, y0, x1, y1;
 
 	var current = path.getFirst();
+	graphFragment.addPoint(current);
+
 	while (current != null) {
 
 		Visualizer.inst().add(current);
+
 
 		x0 = current.x;
 		y0 = current.y;
@@ -313,6 +317,7 @@ Algorithms.findNextInterOnPath = function (destinationInter, path) {
 
 			if (destinationInter === inter) {
 				current = current.getNext();
+				graphFragment.addPoint(current);
 
 				x1 = current.x;
 				y1 = current.y;
@@ -330,12 +335,12 @@ Algorithms.findNextInterOnPath = function (destinationInter, path) {
 
 					if (pUnderInter.hasNextAndPrev()) {
 						console.log("Found path separation");
-						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, 1);
-						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, -1);
+						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, graphFragment.clone(), 1);
+						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, graphFragment.clone(), -1);
 					} else if (pUnderInter.hasNext()) {
-						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, 1);
+						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, graphFragment, 1);
 					} else if (pUnderInter.hasPrev()) {
-						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, -1);
+						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, graphFragment, -1);
 					} else {
 						console.log("End of path");
 					}
@@ -350,6 +355,7 @@ Algorithms.findNextInterOnPath = function (destinationInter, path) {
 			break;
 		}
 		current = current.getNext();
+		graphFragment.addPoint(current);
 
 		if (current != null) {
 			x1 = current.x;
@@ -364,9 +370,10 @@ Algorithms.findNextInterOnPath = function (destinationInter, path) {
  * @param destinationInter {Point}
  * @param point {Point} - middle of path
  * @param path {PointsPath}
- * @param nextOrPrev {number} - next = 1, prev = -1
+ * @param graphFragment {GraphFragment}
+ * @param direction {number} - next = 1, prev = -1
  */
-Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, path, nextOrPrev) {
+Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, path, graphFragment, direction) {
 
 	var x0, y0;
 
@@ -375,12 +382,12 @@ Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, pa
 		x0 = point.x;
 		y0 = point.y;
 
-		if (nextOrPrev == 1) {
+		if (direction == 1) {
 			var prePoint = point;
 			point = point.getNext();
 
+			//last point for cycled paths
 			if (point == null && path.isPrelast(prePoint)) {
-				//last point for cycled paths
 				point = path.getFirst();
 			}
 
@@ -393,15 +400,18 @@ Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, pa
 		if (point != null) {
 			Visualizer.inst().addLine(x0, y0, point.x, point.y);
 			Visualizer.inst().add(point);
-		}
 
-		if (point != null && point.hasInter() && point.getInter() === destinationInter) {
-			point = null;
-			console.log("Found destination!");
-			return;
+			if (point.hasInter() && point.getInter() === destinationInter) {
+				console.log("Found destination!");
+				graphFragment.finish();
+				Visualizer.inst().addPolygon(graphFragment.getPoints());
+				return;
+			} else {
+				graphFragment.addPoint(point);
+			}
 		}
 	}
 
-	console.log("Not found destination from middle of path with direction:" + nextOrPrev);
+	console.log("Not found destination from middle of path with direction:" + direction);
 };
 

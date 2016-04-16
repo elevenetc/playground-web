@@ -54,6 +54,11 @@ Visualizer.prototype.addLine = function (x0, y0, x1, y1) {
 	this.chain.push(line);
 };
 
+Visualizer.prototype.addPolygon = function (points) {
+	var polygon = Utils.createPolygon(points, this.color, false);
+	this.chain.push(polygon);
+};
+
 Visualizer.prototype.animateObject = function (point) {
 
 	this.isRunning = true;
