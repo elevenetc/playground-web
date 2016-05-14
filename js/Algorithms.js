@@ -12,12 +12,16 @@ Algorithms.getIntersectionPointsOfPaths = function (paths) {
 	var result = {};
 	var i;
 
+	console.log("Paths sorting...");
+
 	paths.sort(function (a, b) {
 		return b.length - a.length;
 	});
 
 	for (i = 0; i < paths.length; i++)
 		console.log(paths[i].getId() + ":" + paths[i].length);
+
+	console.log("Searching for intersections...");
 
 	while (paths.length > 1) {
 		var longer = paths.splice(0, 1)[0];
