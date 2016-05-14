@@ -24,6 +24,18 @@ PointsPath.create = function () {
 	return new PointsPath();
 };
 
+/**
+ * @param afterPoint {Point}
+ * @param newPoint {Point}
+ */
+PointsPath.prototype.insertPointAfter = function (afterPoint, newPoint) {
+	var next = afterPoint.getNext();
+	newPoint.setNext(next);
+	afterPoint.setNext(newPoint);
+	newPoint.setPrev(afterPoint);
+	return newPoint;
+};
+
 /** @param point {Point} */
 PointsPath.prototype.addPoint = function (point) {
 
@@ -66,6 +78,12 @@ PointsPath.prototype.getView = function () {
 /** @returns {Point} */
 PointsPath.prototype.getFirst = function () {
 	return this.first;
+};
+
+/** @returns {Point} */
+PointsPath.prototype.getSecond = function () {
+	if(this.first == null) return null;
+	return this.first.getNext();
 };
 
 /** @returns {Point} */

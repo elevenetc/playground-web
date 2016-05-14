@@ -4,50 +4,162 @@ function Algorithms() {
 }
 
 /**
- * @param pathA {PointsPath}
- * @param pathB {PointsPath}
+ * @param paths {Array<PointsPath>}
  * @returns {Object}
  */
-Algorithms.getIntersectionPointsOfPaths = function (pathA, pathB) {
+Algorithms.getIntersectionPointsOfPaths = function (paths) {
 
 	var result = {};
+	var i;
 
-	if (pathB.length > pathA) {
-		var tmp = pathA;
-		pathA = pathB;
-		pathB = tmp;
-	}
-
-	pathA.iterate(function (pointA0) {
-
-		if (pointA0.hasNext()) {
-			var pointA1 = pointA0.getNext();
-
-			pathB.iterate(function (pointB0) {
-
-				if (pointB0.hasNext()) {
-					var pointB1 = pointB0.getNext();
-					var interPoint = Algorithms.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
-					if (interPoint != null) {
-						interPoint.addPath(pathA);
-						interPoint.addPath(pathB);
-						var id = interPoint.getId();
-
-						var pA = pathA.getById(id);
-						var pB = pathB.getById(id);
-
-						pA.setInter(interPoint);
-						pB.setInter(interPoint);
-
-						result[id] = interPoint;
-					}
-				}
-			});
-		}
+	paths.sort(function (a, b) {
+		return b.length - a.length;
 	});
+
+	for (i = 0; i < paths.length; i++)
+		console.log(paths[i].getId() + ":" + paths[i].length);
+
+	while (paths.length > 1) {
+		var longer = paths.splice(0, 1)[0];
+		for (i = 0; i < paths.length; i++)
+			Algorithms.comparePaths(longer, paths[i], result);
+	}
 
 	return result;
 };
+
+/** * @param intersections {Object} */
+Algorithms.cutPathsWithIntersections = function (intersections) {
+	for (var id in intersections) {
+		/** @type {Point} */
+		var interPoint = intersections[id];
+		var pointId = interPoint.getId();
+		var pathsData = interPoint.intersectionPathsData;
+
+		for (var pathId in pathsData) {
+			/** @type {IntersectionPathData} */
+			var pathData = pathsData[pathId];
+			//pathData.path.insertPointAfter(pathData.pointA, )
+		}
+
+		// for (var i = 0; i < paths.length; i++) {
+		// 	var path = paths[i];
+		// 	var p = path.getById(id);
+		// 	if (p == null) {
+		// 		p = interPoint.clone();
+		// 		path.insertPointAfter()
+		// 	}
+		// }
+	}
+};
+
+/**
+ * Length of pathA must either longer of pathB or the same
+ * @param pathA {PointsPath}
+ * @param pathB {PointsPath}
+ * @param result {Object}
+ */
+Algorithms.comparePaths = function (pathA, pathB, result) {
+
+	console.log("Compare:`" + pathA.getId() + "` with `" + pathB.getId() + "`");
+	var vis = false;
+	var pointA0, pointA1, pointB0, pointB1;
+
+	pointA0 = pathA.getFirst();
+	pointB0 = pathB.getFirst();
+	var initPointB = pointB0;
+
+	while (pointA0 != null) {
+		pointA1 = pointA0.getNext();
+		if (pointA1 == null) break;
+
+		while (pointB0 != null) {
+			pointB1 = pointB0.getNext();
+
+			if (pointB1 == null) {
+				pointB0 = initPointB;
+				break;
+			}
+
+			if (vis) Visualizer.inst().addTwoLines(pointA0, pointA1, pointB0, pointB1);
+			var interPoint = Algorithms.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
+			if (interPoint != null) {
+
+				var id = interPoint.getId();
+				if (!result.hasOwnProperty(id)) {
+					result[id] = interPoint;
+				} else {
+					interPoint = result[id];
+				}
+
+				interPoint.addPath(pathA);
+				interPoint.addPath(pathB);
+
+				var pA = pathA.getById(interPoint.getId());
+				var pB = pathB.getById(interPoint.getId());
+
+				if (pA == null) {
+					pA = interPoint.clone();
+					pathA.insertPointAfter(pointA0, pA);
+				}
+
+				if (pB == null) {
+					pB = interPoint.clone();
+					pathB.insertPointAfter(pointB0, pB);
+				}
+
+				pA.setInter(interPoint);
+				pB.setInter(interPoint);
+
+				//interPoint.intersectionPathsData[pathA.getId()] = new IntersectionPathData(pathA, pointA0, pointA1);
+				//interPoint.intersectionPathsData[pathB.getId()] = new IntersectionPathData(pathB, pointB0, pointB1);
+
+			}
+
+			pointB0 = pointB1;
+		}
+
+		pointA0 = pointA1;
+	}
+
+	// pathA.iterate(function (pointA0) {
+	//
+	// 	if (pointA0.hasNext()) {
+	// 		var pointA1 = pointA0.getNext();
+	//
+	// 		pathB.iterate(function (pointB0) {
+	//
+	// 			if (pointB0.hasNext()) {
+	// 				var pointB1 = pointB0.getNext();
+	// 				var interPoint = Algorithms.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
+	// 				if (interPoint != null) {
+	// 					interPoint.addPath(pathA);
+	// 					interPoint.addPath(pathB);
+	// 					var id = interPoint.getId();
+	//
+	// 					var pA = pathA.getById(id);
+	// 					var pB = pathB.getById(id);
+	//
+	// 					if (pA == null) {
+	// 						pA = pathA.insertPointAfter(pointA0, interPoint.clone());
+	// 						pointA0 = pA;
+	// 					}
+	//
+	// 					if (pB == null) {
+	// 						pB = pathB.insertPointAfter(pointB0, interPoint.clone());
+	// 						pointB0 = pB;
+	// 					}
+	//
+	// 					pA.setInter(interPoint);
+	// 					pB.setInter(interPoint);
+	//
+	// 					result[id] = interPoint;
+	// 				}
+	// 			}
+	// 		});
+	// 	}
+	// });
+}
 
 /**
  * @param pointA0 {Point}
@@ -186,9 +298,9 @@ Algorithms.genRandomLine = function (fromPoint, toPoint, xStep, yStep) {
 		}
 
 		var point = new Point(x, y);
-		prevPoint.addPoint(point);
-		point.addPoint(prevPoint);
-		prevPoint = point;
+		//prevPoint.addPoint(point);
+		//point.addPoint(prevPoint);
+		//prevPoint = point;
 		result.push(point);
 	}
 
@@ -376,6 +488,9 @@ Algorithms.findNextInterOnPath = function (destinationInter, path, graphFragment
 Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, path, graphFragment, direction) {
 
 	var x0, y0;
+	var finish = false;
+
+	console.log("findNextInterFromMiddleOfPath: " + path.getId() + " dir:" + direction + ", destination point: " + destinationInter);
 
 	while (point != null) {
 
@@ -389,6 +504,8 @@ Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, pa
 			//last point for cycled paths
 			if (point == null && path.isPrelast(prePoint)) {
 				point = path.getFirst();
+				//point = path.getSecond();
+				//finish = true;
 			}
 
 		} else {
@@ -408,6 +525,7 @@ Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, pa
 				return;
 			} else {
 				graphFragment.addPoint(point);
+				if (finish) break;
 			}
 		}
 	}

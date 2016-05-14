@@ -8,12 +8,14 @@ function BulletWall() {
 	this.init = function () {
 
 		var step = 1;
-		var pathLine = genLinePath(new Point(-1.5, 1.5), new Point(1.5, -1.5), step, step).setId("line");
+		var pathLineTopDown = genLinePath(new Point(-1.5, 1.5), new Point(1.5, -1.5), step, step).setId("line-top-down");
+		var pathLineDownTop = genLinePath(new Point(-1.5, -1.5), new Point(1.5, 1.5), step, step).setId("line-down-top");
 		var pathFrame = createFrame().setId("frame");
 
-		views = [pathLine, pathFrame];
+		views = [pathLineTopDown, pathFrame];
+		// views = [pathLineDownTop, pathLineTopDown, pathFrame];
 
-		var intersectionPoints = Algorithms.getIntersectionPointsOfPaths(pathLine, pathFrame);
+		var intersectionPoints = Algorithms.getIntersectionPointsOfPaths(views.slice());
 		var inter = null;
 
 		for (var id in intersectionPoints) {
@@ -24,6 +26,8 @@ function BulletWall() {
 
 			views.push(Utils.createSquareAt(0.1, 0.1, point.x, point.y, 0x0000FF));
 		}
+
+
 
 		Algorithms.genGraphFragments(inter);
 

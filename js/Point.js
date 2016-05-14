@@ -5,8 +5,9 @@ function Point(x, y, z) {
 	this.y = y;
 	this.z = Utils.isNotDefined(z) ? 0 : z;
 
-	/** @type {Array<PointsPath>} */
-	this.paths = [];
+	/** @type {Object} */
+	this.paths = {};
+	// this.paths = [];
 	/** @type {Array<Point>} */
 	this.neighbourPoints = [];
 	/** @type {Point|null} */
@@ -17,13 +18,44 @@ function Point(x, y, z) {
 	this.intersection = null;
 	/** @type {boolean} */
 	this.isIntersection = false;
+	/** @type {Object} - only for intersection points */
+	this.intersectedPaths = {};
+	/** @type {Object} Where key is id of path and objects are instances of IntersectionPathData */
+	this.intersectionPathsData = {};
 }
+
+/**
+ * @param path {PointsPath}
+ * @param pointA {Point}
+ * @param pointB {Point}
+ * @constructor
+ */
+function IntersectionPathData(path, pointA, pointB) {
+	this.id = path.getId();
+	this.path = path;
+	this.pointA = pointA;
+	this.pointB = pointB;
+}
+
+Point.create = function (x, y) {
+	return new Point(x, y);
+};
+
+
+/** @param path {PointsPath} */
+Point.prototype.addIntersectionPath = function (path) {
+	this.intersectedPaths.push(path);
+};
+
+/** @returns {Array.<PointsPath>} */
+Point.prototype.getIntersectionPaths = function () {
+	return this.intersectedPaths;
+};
 
 /** @return {boolean} */
 Point.prototype.hasNextAndPrev = function () {
 	return this.hasNext() && this.hasPrev();
 };
-
 
 /** @return {boolean} */
 Point.prototype.hasNext = function () {
@@ -62,7 +94,11 @@ Point.prototype.getNext = function () {
 
 /** @returns {Array.<PointsPath>} */
 Point.prototype.getPaths = function () {
-	return this.paths;
+	var result = [];
+	for (var pathId in this.paths)
+		result.push(this.paths[pathId]);
+
+	return result;
 };
 
 /** @return {Point} */
@@ -77,7 +113,7 @@ Point.prototype.setPrev = function (point) {
 
 /** @param path {PointsPath} */
 Point.prototype.addPath = function (path) {
-	this.paths.push(path);
+	this.paths[path.getId()] = path;
 };
 
 /** @param point {Point} */
@@ -95,6 +131,10 @@ Point.prototype.getId = function () {
 	return this.x + ":" + this.y;
 };
 
+Point.prototype.clone = function () {
+	return Point.create(this.x, this.y);
+};
+
 /** @returns {String} */
 Point.prototype.toString = function () {
 	var result = {};
@@ -108,8 +148,8 @@ Point.prototype.toString = function () {
 		result.neighbours.push(this.neighbourPoints[i].getId());
 	}
 
-	for (var i = 0; i < this.paths.length; i++) {
-		result.paths.push(this.paths[i].getId());
-	}
+	// for (var i = 0; i < this.paths.length; i++) {
+	// 	result.paths.push(this.paths[i].getId());
+	// }
 	return JSON.stringify(result);
 };
