@@ -6,25 +6,20 @@
 
     <script src="../common/tween.js"></script>
     <script src="../common/Utils.js"></script>
-    <script src="../common/Visualizer.js"></script>
+    <script src="../common/CreateObj.js"></script>
     <script src="../common/three.min.js"></script>
 
     <script src="../Config.js"></script>
 
-    <script src="BulletPhysics.js"></script>
-    <script src="BulletWall.js"></script>
-    <script src="Point.js"></script>
-    <script src="BWAlgs.js"></script>
-    <script src="PointsPath.js"></script>
-    <script src="GraphFragment.js"></script>
-
+    <script src="App.js"></script>
 </head>
 <body>
 <div id="WebGLCanvas" style="background-color:#000000; height: 600px; width: 600px;"></div>
 
 <script>
     'use strict';
-    new BulletPhysics().init();
+    console.log("Command and conquer init...");
+    new App().init();
 </script>
 </body>
 </html>
