@@ -1,5 +1,5 @@
 "use strict";
-function Algorithms() {
+function BWAlgs() {
 
 }
 
@@ -7,7 +7,7 @@ function Algorithms() {
  * @param paths {Array<PointsPath>}
  * @returns {Object}
  */
-Algorithms.getIntersectionPointsOfPaths = function (paths) {
+BWAlgs.getIntersectionPointsOfPaths = function (paths) {
 
 	var result = {};
 	var i;
@@ -26,14 +26,14 @@ Algorithms.getIntersectionPointsOfPaths = function (paths) {
 	while (paths.length > 1) {
 		var longer = paths.splice(0, 1)[0];
 		for (i = 0; i < paths.length; i++)
-			Algorithms.comparePaths(longer, paths[i], result);
+			BWAlgs.comparePaths(longer, paths[i], result);
 	}
 
 	return result;
 };
 
 /** * @param intersections {Object} */
-Algorithms.cutPathsWithIntersections = function (intersections) {
+BWAlgs.cutPathsWithIntersections = function (intersections) {
 	for (var id in intersections) {
 		/** @type {Point} */
 		var interPoint = intersections[id];
@@ -63,7 +63,7 @@ Algorithms.cutPathsWithIntersections = function (intersections) {
  * @param pathB {PointsPath}
  * @param result {Object}
  */
-Algorithms.comparePaths = function (pathA, pathB, result) {
+BWAlgs.comparePaths = function (pathA, pathB, result) {
 
 	console.log("Compare:`" + pathA.getId() + "` with `" + pathB.getId() + "`");
 	var vis = false;
@@ -86,7 +86,7 @@ Algorithms.comparePaths = function (pathA, pathB, result) {
 			}
 
 			if (vis) Visualizer.inst().addTwoLines(pointA0, pointA1, pointB0, pointB1);
-			var interPoint = Algorithms.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
+			var interPoint = BWAlgs.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
 			if (interPoint != null) {
 
 				var id = interPoint.getId();
@@ -135,7 +135,7 @@ Algorithms.comparePaths = function (pathA, pathB, result) {
 	//
 	// 			if (pointB0.hasNext()) {
 	// 				var pointB1 = pointB0.getNext();
-	// 				var interPoint = Algorithms.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
+	// 				var interPoint = BWAlgs.getLinesIntersectionPoint(pointA0, pointA1, pointB0, pointB1);
 	// 				if (interPoint != null) {
 	// 					interPoint.addPath(pathA);
 	// 					interPoint.addPath(pathB);
@@ -172,7 +172,7 @@ Algorithms.comparePaths = function (pathA, pathB, result) {
  * @param pointB1 {Point}
  * @returns {boolean}
  */
-Algorithms.areLinesIntersect = function (pointA0, pointA1, pointB0, pointB1) {
+BWAlgs.areLinesIntersect = function (pointA0, pointA1, pointB0, pointB1) {
 
 	var m1, m2;
 	var x1 = pointB1.x;
@@ -204,7 +204,7 @@ Algorithms.areLinesIntersect = function (pointA0, pointA1, pointB0, pointB1) {
  * @param b2 {Point}
  * @returns {Point|null}
  */
-Algorithms.getLinesIntersectionPoint = function (a1, a2, b1, b2) {
+BWAlgs.getLinesIntersectionPoint = function (a1, a2, b1, b2) {
 
 	var result = null;
 
@@ -240,7 +240,7 @@ Algorithms.getLinesIntersectionPoint = function (a1, a2, b1, b2) {
  * @param pointB1 {Point}
  * @returns {Point|null}
  */
-Algorithms.getVectorsIntersection = function (pointA0, pointA1, pointB0, pointB1) {
+BWAlgs.getVectorsIntersection = function (pointA0, pointA1, pointB0, pointB1) {
 
 
 	var x1 = pointB1.x;
@@ -266,13 +266,13 @@ Algorithms.getVectorsIntersection = function (pointA0, pointA1, pointB0, pointB1
 
 /**
  *
- * @param fromPoint {Point}
- * @param toPoint {Point}
+ * @param fromPoint {Point} - left top 
+ * @param toPoint {Point} - right bottom
  * @param xStep {number}
  * @param yStep {number}
  * @returns {Array<Point>}
  */
-Algorithms.genRandomLine = function (fromPoint, toPoint, xStep, yStep) {
+BWAlgs.genRandomLineInSquare = function (fromPoint, toPoint, xStep, yStep) {
 	var result = [];
 	var x = fromPoint.x;
 	var y = fromPoint.y;
@@ -313,7 +313,7 @@ Algorithms.genRandomLine = function (fromPoint, toPoint, xStep, yStep) {
 
 /**
  * Generates 2D(flat) polygon coordinates
- * sample params: Algorithms.genRandomPolygon(1.0, 0.7, 0.5, 0.25, 0.25)
+ * sample params: BWAlgs.genRandomPolygon(1.0, 0.7, 0.5, 0.25, 0.25)
  *
  * @param maxHeight {number}
  * @param maxWidth {number}
@@ -322,7 +322,7 @@ Algorithms.genRandomLine = function (fromPoint, toPoint, xStep, yStep) {
  * @param yStep {number}
  * @returns {Array}
  */
-Algorithms.genRandomPolygon = function (maxHeight, maxWidth, midHeight, xStep, yStep) {
+BWAlgs.genRandomPolygon = function (maxHeight, maxWidth, midHeight, xStep, yStep) {
 	var x = -1;
 	var y = -1;
 	var tmpX = 0;
@@ -393,13 +393,13 @@ Algorithms.genRandomPolygon = function (maxHeight, maxWidth, midHeight, xStep, y
  * @param prevPath {PointsPath|undefined}
  * @param fragmentsMap {Object|undefined}
  */
-Algorithms.genGraphFragments = function (startInter, nextInter, prevPath, fragmentsMap) {
+BWAlgs.genGraphFragments = function (startInter, nextInter, prevPath, fragmentsMap) {
 
 	if (fragmentsMap == null) fragmentsMap = {};
 	var paths = startInter.getPaths();
 	var path = paths[0];
 
-	Algorithms.findNextInterOnPath(startInter, path, GraphFragment.create());
+	BWAlgs.findNextInterOnPath(startInter, path, GraphFragment.create());
 
 	return fragmentsMap;
 };
@@ -410,33 +410,33 @@ Algorithms.genGraphFragments = function (startInter, nextInter, prevPath, fragme
  * @param path {PointsPath}
  * @param graphFragment {GraphFragment}
  */
-Algorithms.findNextInterOnPath = function (destinationInter, path, graphFragment) {
+BWAlgs.findNextInterOnPath = function (destinationInter, path, graphFragment) {
 
 	console.log("find of: " + path.getId());
 	var x0, y0, x1, y1;
 
-	var current = path.getFirst();
-	graphFragment.addPoint(current);
+	var currentPoint = path.getFirst();
+	graphFragment.addPoint(currentPoint);
 
-	while (current != null) {
+	while (currentPoint != null) {
 
-		Visualizer.inst().add(current);
+		Visualizer.inst().add(currentPoint);
 
 
-		x0 = current.x;
-		y0 = current.y;
+		x0 = currentPoint.x;
+		y0 = currentPoint.y;
 
-		if (current.hasInter()) {
+		if (currentPoint.hasInter()) {
 
-			var inter = current.getInter();
+			var inter = currentPoint.getInter();
 			var paths = inter.getPaths();
 
 			if (destinationInter === inter) {
-				current = current.getNext();
-				graphFragment.addPoint(current);
+				currentPoint = currentPoint.getNext();
+				graphFragment.addPoint(currentPoint);
 
-				x1 = current.x;
-				y1 = current.y;
+				x1 = currentPoint.x;
+				y1 = currentPoint.y;
 				Visualizer.inst().addLine(x0, y0, x1, y1);
 
 				continue;
@@ -451,12 +451,12 @@ Algorithms.findNextInterOnPath = function (destinationInter, path, graphFragment
 
 					if (pUnderInter.hasNextAndPrev()) {
 						console.log("Found path separation");
-						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, graphFragment.clone(), 1);
-						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, graphFragment.clone(), -1);
+						BWAlgs.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, graphFragment.clone(), 1);
+						BWAlgs.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, graphFragment.clone(), -1);
 					} else if (pUnderInter.hasNext()) {
-						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, graphFragment, 1);
+						BWAlgs.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, graphFragment, 1);
 					} else if (pUnderInter.hasPrev()) {
-						Algorithms.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, graphFragment, -1);
+						BWAlgs.findNextInterFromMiddleOfPath(destinationInter, pUnderInter, p, graphFragment, -1);
 					} else {
 						console.log("End of path");
 					}
@@ -470,12 +470,12 @@ Algorithms.findNextInterOnPath = function (destinationInter, path, graphFragment
 
 			break;
 		}
-		current = current.getNext();
-		graphFragment.addPoint(current);
+		currentPoint = currentPoint.getNext();
+		graphFragment.addPoint(currentPoint);
 
-		if (current != null) {
-			x1 = current.x;
-			y1 = current.y;
+		if (currentPoint != null) {
+			x1 = currentPoint.x;
+			y1 = currentPoint.y;
 			Visualizer.inst().addLine(x0, y0, x1, y1);
 		}
 	}
@@ -489,7 +489,7 @@ Algorithms.findNextInterOnPath = function (destinationInter, path, graphFragment
  * @param graphFragment {GraphFragment}
  * @param direction {number} - next = 1, prev = -1
  */
-Algorithms.findNextInterFromMiddleOfPath = function (destinationInter, point, path, graphFragment, direction) {
+BWAlgs.findNextInterFromMiddleOfPath = function (destinationInter, point, path, graphFragment, direction) {
 
 	var x0, y0;
 	var finish = false;

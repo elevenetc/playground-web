@@ -5,23 +5,25 @@ function BulletWall() {
 	var wallHeight = 3;
 	var views;
 
-	function buildIntersectionPoints(){
-            var intersectionPoints = Algorithms.getIntersectionPointsOfPaths(views.slice());
-            var inter = null;
+	function buildIntersectionPoints() {
+		var intersectionPoints = BWAlgs.getIntersectionPointsOfPaths(views.slice());
+		var inter = null;
 
-            for (var id in intersectionPoints) {
-                var point = intersectionPoints[id];
-                if (inter == null) inter = point;
+		for (var id in intersectionPoints) {
+			var point = intersectionPoints[id];
+			if (inter == null) inter = point;
 
-                views.push(Utils.createSquareAt(0.1, 0.1, point.x, point.y, 0x0000FF));
-            }
+			views.push(Utils.createSquareAt(0.1, 0.1, point.x, point.y, 0x0000FF));
+		}
 
-            Utils.printArray(intersectionPoints, "Intersections");
-        }
+		Utils.printArray(intersectionPoints, "Intersections");
+
+		return inter;
+	}
 
 	function buildFragments() {
-		buildIntersectionPoints();
-		//Algorithms.genGraphFragments(inter);
+		var intersections = buildIntersectionPoints();
+		BWAlgs.genGraphFragments(intersections);
 	}
 
 	this.init = function () {
@@ -31,8 +33,8 @@ function BulletWall() {
 		var pathLineDownTop = genLinePath(new Point(-1.5, -1.5), new Point(1.5, 1.5), step, step).setId("line-down-top");
 		var pathFrame = createFrame().setId("frame");
 
-		views = [pathLineDownTop, pathLineTopDown, pathFrame];
-		// views = [pathLineDownTop, pathLineTopDown, pathFrame];
+		//views = [pathLineDownTop, pathLineTopDown, pathFrame];
+		views = [pathLineDownTop, pathFrame];
 		buildFragments();
 
 		return this;
@@ -70,7 +72,7 @@ function BulletWall() {
 	}
 
 	function genLinePath(fromPoint, toPoint, xStep, yStep) {
-		var points = Algorithms.genRandomLine(fromPoint, toPoint, xStep, yStep);
+		var points = BWAlgs.genRandomLineInSquare(fromPoint, toPoint, xStep, yStep);
 		var path = PointsPath.create();
 		Utils.iterate(points, function (point) {
 			path.addPoint(point);

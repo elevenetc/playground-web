@@ -12,6 +12,7 @@ function GraphFragment() {
 
 /** @returns {GraphFragment} */
 GraphFragment.create = function () {
+	
 	return new GraphFragment();
 };
 
