@@ -19,11 +19,15 @@ App.prototype.init = function () {
 	document.getElementById(Config.DIV_NAME).appendChild(renderer.domElement);
 	camera.position.set(0, 0, 1000);
 
-	scene.add(CreateObj.box(200, 200, 200, new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true})));
-
-	//scene.add(camera);
+	this.composeScene(scene);
 
 	this.renderScene();
+};
+
+App.prototype.composeScene = function (scene) {
+	"use strict";
+	var compositor = new SampleCompositor();
+	compositor.addToScene(scene);
 };
 
 App.prototype.renderScene = function () {
