@@ -1,12 +1,8 @@
 /**
  * Created by eleven on 15/05/2016.
  */
-function Component() {
-	"use strict";
-
+class Component {
+	update() {
+		
+	}
 }
-
-Component.prototype.update = function () {
-	"use strict";
-	
-};
