@@ -6,9 +6,12 @@ class BoxViewComponent extends ViewComponent {
 	constructor() {
 		super();
 
-		super.setView(CreateObj.box(200, 200, 200, new THREE.MeshBasicMaterial({
-			color: 0xff0000,
+		var view = CreateObj.box(200, 200, 200, new THREE.MeshBasicMaterial({
+			color: 0x00ff00,
 			wireframe: true
-		})));
+		}));
+		
+		
+		super.setView(view);
 	}
 }

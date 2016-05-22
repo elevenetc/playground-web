@@ -15,4 +15,12 @@ class ViewComponent extends Component {
 	setView(view) {
 		this.view = view;
 	}
+
+	updatePosition(positionComponent) {
+		this.view.geometry.translate(
+			positionComponent.x,
+			positionComponent.y,
+			positionComponent.z
+		);
+	}
 }

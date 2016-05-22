@@ -23,5 +23,7 @@ CreateObj.box = function (width, height, depth, material) {
 	if (Utils.isNotDefined(material))
 		material = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true});
 
-	return new THREE.Mesh(geometry, material);
+	var result = new THREE.Mesh(geometry, material);
+	//result.geometry.translate(200, 2, 2);
+	return result;
 };
