@@ -3,13 +3,13 @@
  */
 class Tank extends Composite {
 
-	constructor() {
+	constructor(x = 0, y = 0) {
 		super();
 
-		super.addComponent(new PositionComponent(200, 200, 0));
+		super.addComponent(new PositionComponent(x, y, 0));
 		super.addComponent(new BoxViewComponent());
 		super.compose();
-		
+
 
 	}
 }

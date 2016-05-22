@@ -1,10 +1,11 @@
 /**
  * Created by eleven on 15/05/2016.
  */
-function SampleCompositor() {
-	"use strict";
-	this.addComposite(new Tank());
+class SampleCompositor extends Compositor {
+	constructor() {
+		super();
+		super.addComposite(new Tank());
+		super.addComposite(new Tank(200, 200));
+		super.addComposite(new Ground());
+	}
 }
-
-SampleCompositor.prototype = new Compositor();
-SampleCompositor.prototype.constructor = SampleCompositor;
