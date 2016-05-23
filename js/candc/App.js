@@ -3,7 +3,7 @@
  */
 class App {
 
-	constructor(){
+	constructor() {
 		this.scene = null;
 		this.renderer = null;
 		this.camera = null;
@@ -36,7 +36,8 @@ class App {
 			self.renderScene();
 		});
 		this.renderer.render(this.scene, this.camera);
-		//TWEEN.update();
+
+		TWEEN.update();
 	}
 
 	toString() {

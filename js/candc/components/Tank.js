@@ -8,6 +8,7 @@ class Tank extends Composite {
 
 		super.addComponent(new PositionComponent(x, y, 0));
 		super.addComponent(new BoxViewComponent());
+		super.addComponent(new MovementComponent());
 		super.compose();
 
 

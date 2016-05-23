@@ -4,8 +4,24 @@
 class PositionComponent extends Component {
 	constructor(x, y, z) {
 		super();
+		this.viewComponent = null;
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+
+	setX(x) {
+		this.x = x;
+		this.viewComponent.updatePosition(this);
+	}
+
+	setY(y) {
+		this.y = y;
+		this.viewComponent.updatePosition(this);
+	}
+
+	onComposeFinished() {
+		super.onComposeFinished();
+		this.viewComponent = super.getComposite().getViewComponent();
 	}
 }
