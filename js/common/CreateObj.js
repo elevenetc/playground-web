@@ -30,7 +30,7 @@ CreateObj.box = function (width, height, depth, material) {
 CreateObj.plane = function (width, height, material) {
 	"use strict";
 
-	var geometry = new THREE.PlaneGeometry(width, height, 10, 10);
+	var geometry = new THREE.PlaneGeometry(width, height, 3, 3);
 	if (Utils.isNotDefined(material))
 		material = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true});
 	

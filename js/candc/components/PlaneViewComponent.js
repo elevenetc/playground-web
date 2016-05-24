@@ -3,10 +3,10 @@
  */
 class PlaneViewComponent extends ViewComponent {
 
-	constructor() {
+	constructor(xSize, ySize) {
 		super();
 
-		var view = CreateObj.plane(600, 600, new THREE.MeshBasicMaterial({
+		var view = CreateObj.plane(xSize, ySize, new THREE.MeshBasicMaterial({
 			color: 0x0000ff,
 			wireframe: true
 		}));

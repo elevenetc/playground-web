@@ -17,6 +17,10 @@ class Composite {
 
 	}
 
+	isVisibile() {
+		return this.viewComponent != null;
+	}
+
 	/** @param component {Component} */
 	addComponent(component) {
 		if (component instanceof ViewComponent) this.viewComponent = component;
