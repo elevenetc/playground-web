@@ -7,6 +7,7 @@ class App {
 		this.scene = null;
 		this.renderer = null;
 		this.camera = null;
+		this.compositor = null;
 	}
 
 	init() {
@@ -26,18 +27,21 @@ class App {
 	}
 
 	composeScene() {
-		var compositor = new SampleCompositor();
-		compositor.addToScene(this.scene);
+		this.compositor = new SampleCompositor();
+		this.compositor.addToScene(this.scene);
 	}
 
 	renderScene() {
+
+		this.compositor.update();
+		this.renderer.render(this.scene, this.camera);
+
+		TWEEN.update();
+
 		var self = this;
 		requestAnimationFrame(function () {
 			self.renderScene();
 		});
-		this.renderer.render(this.scene, this.camera);
-
-		TWEEN.update();
 	}
 
 	toString() {

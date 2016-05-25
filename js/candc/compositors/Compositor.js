@@ -3,6 +3,9 @@
  */
 class Compositor {
 	constructor() {
+		/**
+		 * @type {Array.<Composite>}
+		 */
 		this.composits = [];
 	}
 
@@ -11,7 +14,7 @@ class Compositor {
 	}
 
 	addToScene(scene) {
-		
+
 		for (var c in this.composits) {
 			var composite = this.composits[c];
 			var viewComponent = composite.getViewComponent();
@@ -20,5 +23,10 @@ class Compositor {
 				scene.add(view);
 			}
 		}
+	}
+
+	update() {
+		for (var i = 0; i < this.composits.length; i++)
+			this.composits[i].update();
 	}
 }

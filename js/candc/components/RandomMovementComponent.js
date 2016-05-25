@@ -7,7 +7,7 @@ class RandomMovementComponent extends MovementComponent {
 		super();
 		/** @type {PositionComponent} */
 		this.positionComponent = null;
-		this.animTime = 10// + Math.random() * 100;
+		this.animTime = 100// + Math.random() * 100;
 		/** @type {GroundModel} */
 		this.groundControl = groundControl;
 	}

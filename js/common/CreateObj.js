@@ -35,12 +35,14 @@ CreateObj.box = function (width, height, depth, material) {
  */
 CreateObj.matrix = function (wUnits, hUnits) {
 
-	var material = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true});
+
 	var group = new THREE.Object3D();
 
 	for (var w = 0; w < wUnits; w++) {
 
 		for (var h = 0; h < hUnits; h++) {
+			var color = 0x00ff00;
+			var material = new THREE.MeshBasicMaterial({color: color, wireframe: true});
 			var geometry = new THREE.PlaneGeometry(CConfig.Unit, CConfig.Unit, 1, 1);
 			var mesh = new THREE.Mesh(geometry, material);
 			mesh.position.x = CConfig.Unit * w;

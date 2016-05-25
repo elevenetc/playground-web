@@ -7,9 +7,9 @@ class GroundModel extends Composite {
 		super();
 		this.xPositions = [0, 0, 0];
 		this.yPositions = [0, 0, 0];
-		this.logAvaialability = true;
-		this.width = this.xPositions.lenght;
-		this.height = this.yPositions.lenght;
+		this.logAvaialability = false;
+		this.width = this.xPositions.length;
+		this.height = this.yPositions.length;
 	}
 
 	getWidth() {
@@ -28,7 +28,7 @@ class GroundModel extends Composite {
 		//check map boundaries
 		if (x < 0 || y < 0 || x > this.xPositions.length - 1 || y > this.yPositions.length - 1) return false;
 
-		var result = this.xPositions[x] == 0 || this.yPositions[y];
+		var result = this.xPositions[x] == 0 || this.yPositions[y] == 0;
 		if (this.logAvaialability)
 			console.log(x + ':' + y + ' - ' + (result ? 'available' : 'not available'));
 		return result;
