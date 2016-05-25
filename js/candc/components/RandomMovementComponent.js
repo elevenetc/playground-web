@@ -7,7 +7,7 @@ class RandomMovementComponent extends MovementComponent {
 		super();
 		/** @type {PositionComponent} */
 		this.positionComponent = null;
-		this.animTime = 300;
+		this.animTime = 10// + Math.random() * 100;
 		/** @type {GroundModel} */
 		this.groundControl = groundControl;
 	}
@@ -20,30 +20,19 @@ class RandomMovementComponent extends MovementComponent {
 	nextRandomPosition() {
 		var currentX = this.positionComponent.x;
 		var currentY = this.positionComponent.y;
-		var nextX = 0;
-		var nextY = 0;
+		var nextX = currentX;
+		var nextY = currentY;
 		var unit = CConfig.Unit;
 
-		if (currentX >= unit) {
-			nextX = currentX - unit;
-		} else if (currentX <= -unit) {
-			nextX = currentX + unit;
-		} else {
-			if (Math.random() > 0.5)
-				nextX = currentX + (Math.random() > 0.5 ? unit : -unit);
-		}
+		if (Math.random() > 0.5)
+			nextX = currentX + (Math.random() > 0.5 ? unit : -unit);
 
-		if (currentY >= unit) {
-			nextY = currentY - unit;
-		} else if (currentY <= -unit) {
-			nextY = currentY + unit;
-		} else {
-			if (Math.random() > 0.5)
-				nextY = currentY + (Math.random() > 0.5 ? unit : -unit);
-		}
+		if (Math.random() > 0.5)
+			nextY = currentY + (Math.random() > 0.5 ? unit : -unit);
 
+		var same = nextX == currentX && nextY == currentY;
 
-		if (this.groundControl.isAvailable(nextX, nextY)) {
+		if (!same && this.groundControl.isAvailable(nextX, nextY)) {
 			this.groundControl.clear(currentX, currentY);
 			this.groundControl.occupy(nextX, nextY);
 			this.startMovement(nextX, nextY);

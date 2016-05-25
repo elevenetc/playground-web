@@ -17,14 +17,7 @@ class ViewComponent extends Component {
 	}
 
 	updatePosition(positionComponent) {
-
 		this.view.position.x = positionComponent.x;
 		this.view.position.y = positionComponent.y;
-
-		// this.view.geometry.translate(
-		// 	positionComponent.x,
-		// 	positionComponent.y,
-		// 	positionComponent.z
-		// );
 	}
 }

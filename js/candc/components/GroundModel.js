@@ -5,34 +5,50 @@ class GroundModel extends Composite {
 
 	constructor() {
 		super();
-		this.xPositions = {
-			'-100': true, '0': true, '100': true
-		};
-		this.yPositions = {
-			'-100': true, '0': true, '100': true
-		};
-		this.logAvaialability = false;
+		this.xPositions = [0, 0, 0];
+		this.yPositions = [0, 0, 0];
+		this.logAvaialability = true;
+		this.width = this.xPositions.lenght;
+		this.height = this.yPositions.lenght;
+	}
+
+	getWidth() {
+		return this.width;
+	}
+
+	getHeight() {
+		return this.height;
 	}
 
 	isAvailable(x, y) {
-		var isX = this.xPositions.hasOwnProperty(x);
-		var isY = this.yPositions.hasOwnProperty(y);
-		if (!isX || !isY) return false;
-		var xPosition = this.xPositions[x + ''];
-		var yPosition = this.yPositions[y + ''];
-		var result = xPosition || yPosition;
+
+		x = x / CConfig.Unit;
+		y = y / CConfig.Unit;
+
+		//check map boundaries
+		if (x < 0 || y < 0 || x > this.xPositions.length - 1 || y > this.yPositions.length - 1) return false;
+
+		var result = this.xPositions[x] == 0 || this.yPositions[y];
 		if (this.logAvaialability)
 			console.log(x + ':' + y + ' - ' + (result ? 'available' : 'not available'));
 		return result;
 	}
 
 	occupy(x, y) {
-		this.xPositions[x + ''] = false;
-		this.yPositions[y + ''] = false;
+
+		x = x / CConfig.Unit;
+		y = y / CConfig.Unit;
+
+		this.xPositions[x] = 1;
+		this.yPositions[y] = 1;
 	}
 
 	clear(x, y) {
-		this.xPositions[x + ''] = true;
-		this.yPositions[y + ''] = true;
+
+		x = x / CConfig.Unit;
+		y = y / CConfig.Unit;
+
+		this.xPositions[x] = 0;
+		this.yPositions[y] = 0;
 	}
 }
