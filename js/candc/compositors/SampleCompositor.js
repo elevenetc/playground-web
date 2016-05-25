@@ -4,7 +4,7 @@
 class SampleCompositor extends Compositor {
 	constructor() {
 		super();
-		var groundControl = new GroundControl();
+		var groundControl = new GroundModel();
 		super.addComposite(groundControl);
 		super.addComposite(new Tank(groundControl, 0, 0));
 		super.addComposite(new Ground(groundControl));

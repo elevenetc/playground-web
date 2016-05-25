@@ -1,7 +1,7 @@
 /**
  * Created by eleven on 24/05/2016.
  */
-class GroundControl extends Composite {
+class GroundModel extends Composite {
 
 	constructor() {
 		super();
@@ -11,6 +11,7 @@ class GroundControl extends Composite {
 		this.yPositions = {
 			'-100': true, '0': true, '100': true
 		};
+		this.logAvaialability = false;
 	}
 
 	isAvailable(x, y) {
@@ -19,7 +20,10 @@ class GroundControl extends Composite {
 		if (!isX || !isY) return false;
 		var xPosition = this.xPositions[x + ''];
 		var yPosition = this.yPositions[y + ''];
-		return xPosition && yPosition;
+		var result = xPosition || yPosition;
+		if (this.logAvaialability)
+			console.log(x + ':' + y + ' - ' + (result ? 'available' : 'not available'));
+		return result;
 	}
 
 	occupy(x, y) {
