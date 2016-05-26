@@ -7,7 +7,7 @@ class RandomMovementComponent extends MovementComponent {
 		super();
 		/** @type {PositionComponent} */
 		this.positionComponent = null;
-		this.animTime = 100// + Math.random() * 100;
+		this.animTime = 100 + Math.random() * 100;
 		/** @type {GroundModel} */
 		this.groundControl = groundControl;
 	}
@@ -33,8 +33,8 @@ class RandomMovementComponent extends MovementComponent {
 		var same = nextX == currentX && nextY == currentY;
 
 		if (!same && this.groundControl.isAvailable(nextX, nextY)) {
-			this.groundControl.clear(currentX, currentY);
 			this.groundControl.occupy(nextX, nextY);
+			this.groundControl.clear(currentX, currentY);
 			this.startMovement(nextX, nextY);
 		} else {
 			var ref = this;

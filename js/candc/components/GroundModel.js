@@ -5,11 +5,15 @@ class GroundModel extends Composite {
 
 	constructor() {
 		super();
-		this.xPositions = [0, 0, 0];
-		this.yPositions = [0, 0, 0];
+		this.matrix = [
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0]
+		];
 		this.logAvaialability = false;
-		this.width = this.xPositions.length;
-		this.height = this.yPositions.length;
+		this.width = this.matrix.length;
+		this.height = this.matrix[0].length;
 	}
 
 	getWidth() {
@@ -26,29 +30,23 @@ class GroundModel extends Composite {
 		y = y / CConfig.Unit;
 
 		//check map boundaries
-		if (x < 0 || y < 0 || x > this.xPositions.length - 1 || y > this.yPositions.length - 1) return false;
+		if (x < 0 || y < 0 || x > this.matrix.length - 1 || y > this.matrix[0].length - 1) return false;
 
-		var result = this.xPositions[x] == 0 || this.yPositions[y] == 0;
+		var result = this.matrix[x][y] == 0;
 		if (this.logAvaialability)
 			console.log(x + ':' + y + ' - ' + (result ? 'available' : 'not available'));
 		return result;
 	}
 
 	occupy(x, y) {
-
 		x = x / CConfig.Unit;
 		y = y / CConfig.Unit;
-
-		this.xPositions[x] = 1;
-		this.yPositions[y] = 1;
+		this.matrix[x][y] = 1;
 	}
 
 	clear(x, y) {
-
 		x = x / CConfig.Unit;
 		y = y / CConfig.Unit;
-
-		this.xPositions[x] = 0;
-		this.yPositions[y] = 0;
+		this.matrix[x][y] = 0;
 	}
 }

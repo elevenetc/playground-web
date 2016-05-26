@@ -32,12 +32,15 @@ class Ground extends Composite {
 
 	updateColor(object) {
 		if (!(object instanceof THREE.Mesh)) return;
-		var x = object.position.x / CConfig.Unit;
-		var y = object.position.y / CConfig.Unit;
 
-		if (this.groundModel.isAvailable(object.position.x, object.position.y)) {
+		var x = object.position.x;
+		var y = object.position.y;
+		var available = this.groundModel.isAvailable(x, y);
+		if (available) {
+			object.material.wireframe = true;
 			object.material.color.setHex(0x00ff00);
 		} else {
+			object.material.wireframe = false;
 			object.material.color.setHex(0xff0000);
 		}
 
