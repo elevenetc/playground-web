@@ -35,11 +35,15 @@ class Ground extends Composite {
 
 		var x = object.position.x;
 		var y = object.position.y;
-		var available = this.groundModel.isAvailable(x, y);
-		if (available) {
+		var type = this.groundModel.getType(x, y);
+
+		if (type == GroundModel.CLEAR) {
 			object.material.wireframe = true;
 			object.material.color.setHex(0x00ff00);
-		} else {
+		} else if (type == GroundModel.UNIT) {
+			object.material.wireframe = false;
+			object.material.color.setHex(0x0000ff);
+		} else if (type == GroundModel.OBS) {
 			object.material.wireframe = false;
 			object.material.color.setHex(0xff0000);
 		}
