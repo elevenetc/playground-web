@@ -20,3 +20,4 @@ gen/
 *.apk
 *.ap_
 *.dex
+/bower_components
