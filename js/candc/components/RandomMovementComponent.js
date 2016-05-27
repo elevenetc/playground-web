@@ -36,6 +36,9 @@ class RandomMovementComponent extends MovementComponent {
 			this.groundControl.occupy(nextX, nextY);
 			this.groundControl.clear(currentX, currentY);
 			this.startMovement(nextX, nextY);
+
+			this.groundControl.findPath(0, 0, 2, 3);
+
 		} else {
 			var ref = this;
 			new TWEEN.Tween({})

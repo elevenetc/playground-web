@@ -6,14 +6,28 @@ class GroundModel extends Composite {
 	constructor() {
 		super();
 		this.matrix = [
-			[0, 0, 0, 0],
-			[0, 0, 0, 0],
-			[0, 0, 0, 0],
-			[0, 0, 0, GroundModel.OBS]
+			[0, 0, 0, 0, 0],
+			[0, 1, 0, 0, 0],
+			[0, 0, 1, 0, 0],
+			[0, 0, 0, 1, 0],
+			[0, 0, 0, 0, 0]
 		];
 		this.logAvaialability = false;
 		this.width = this.matrix.length;
 		this.height = this.matrix[0].length;
+
+		this.grid = new PF.Grid(this.matrix);
+	}
+
+	findPath(fromX, fromY, toX, toY) {
+		return new PF.AStarFinder().findPath(fromY, fromX, toY, toX, new PF.Grid(this.matrix));
+	}
+
+	updateMatrix(path) {
+		for (var i = 0; i < path.length; i++) {
+			var occupied = path[i];
+			this.matrix[occupied[1]][occupied[0]] = GroundModel.PATH;
+		}
 	}
 
 	getWidth() {
@@ -33,9 +47,6 @@ class GroundModel extends Composite {
 			return GroundModel.OBS;
 
 		return this.matrix[x][y];
-		//var value = this.matrix[x][y];
-		//var result = value != GroundModel.OBS && value == 0;
-		//return
 	}
 
 	isAvailable(x, y) {
@@ -61,3 +72,4 @@ class GroundModel extends Composite {
 GroundModel.CLEAR = 0;
 GroundModel.UNIT = 1;
 GroundModel.OBS = 2;
+GroundModel.PATH = 3;
