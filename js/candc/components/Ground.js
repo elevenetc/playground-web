@@ -18,9 +18,6 @@ class Ground extends Composite {
 		));
 		super.addComponent(new PositionComponent(0, 0, 0));
 		super.compose();
-
-		// var path = this.groundModel.findPath(0, 0, 2, 2);
-		// this.groundModel.updateMatrix(path);
 	}
 
 

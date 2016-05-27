@@ -5,5 +5,12 @@ class MovementComponent extends Component {
 
 	constructor() {
 		super();
+		/** @type {Array} */
+		this.path = [];
+	}
+
+	/** @returns {Array} */
+	getPath() {
+		return this.path;
 	}
 }

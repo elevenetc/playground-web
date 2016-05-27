@@ -50,7 +50,9 @@ class Composite {
 
 		if (this.viewComponent != null) this.viewComponent.updatePosition(this.positionComponent);
 
-		for (var i = 0; i < this.components.length; i++) this.components[i].onComposeFinished();
+		for (var i = 0; i < this.components.length; i++) {
+			this.components[i].onComposeFinished();
+		}
 	}
 
 }

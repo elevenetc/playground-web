@@ -35,14 +35,11 @@ class RandomPathMovementComponent extends MovementComponent {
 	moveTo(fromX, fromY, toX, toY) {
 
 		if (this.log) console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
-		var path = this.groundControl.findPath(fromX, fromY, toX, toY);
-		if (this.log) console.log('path length: ' + path.length);
+		this.path = this.groundControl.findPath(fromX, fromY, toX, toY);
+		if (this.log) console.log('path length: ' + this.path.length);
 
-		if (path.length > 0) {
-			this.moveToPoint(path);
-		} else {
-			this.waitForNext();
-		}
+		if (this.path.length > 0) this.moveToPoint();
+		else this.waitForNext();
 	}
 
 	waitForNext() {
@@ -59,16 +56,21 @@ class RandomPathMovementComponent extends MovementComponent {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
 
-	moveToPoint(path) {
+	getPath() {
+		return this.path;
+	}
+
+	moveToPoint() {
 
 		var x = 0;
 		var y = 0;
 
-		if (path.length == 0) {
+		if (this.path.length == 0) {
+			this.path = null;
 			this.nextRandomPosition();
 			return;
 		} else {
-			var point = path.splice(0, 1);
+			var point = this.path.splice(0, 1);
 			x = point[0][1] * CConfig.Unit;
 			y = point[0][0] * CConfig.Unit;
 		}
@@ -86,7 +88,7 @@ class RandomPathMovementComponent extends MovementComponent {
 				positionComponent.setY(this.y);
 			})
 			.onComplete(function () {
-				ref.moveToPoint(path);
+				ref.moveToPoint();
 			})
 			.start();
 	}
