@@ -10,6 +10,14 @@ class PositionComponent extends Component {
 		this.z = z;
 	}
 
+	getX() {
+		return this.x / CConfig.Unit;
+	}
+
+	getY() {
+		return this.y / CConfig.Unit;
+	}
+
 	setX(x) {
 		this.x = x;
 		this.viewComponent.updatePosition(this);

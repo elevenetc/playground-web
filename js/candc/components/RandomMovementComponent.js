@@ -22,7 +22,7 @@ class RandomMovementComponent extends MovementComponent {
 		var currentY = this.positionComponent.y;
 		var nextX = currentX;
 		var nextY = currentY;
-		var unit = CConfig.Unit;
+		var unit = 1;
 
 		if (Math.random() > 0.5)
 			nextX = currentX + (Math.random() > 0.5 ? unit : -unit);
@@ -56,8 +56,8 @@ class RandomMovementComponent extends MovementComponent {
 		var fromY = positionComponent.y;
 		var ref = this;
 
-		new TWEEN.Tween({x: fromX, y: fromY})
-			.to({x: x, y: y}, ref.animTime)
+		new TWEEN.Tween({x: fromX * CConfig.Unit, y: fromY * CConfig.Unit})
+			.to({x: x * CConfig.Unit, y: y * CConfig.Unit}, ref.animTime)
 			.onUpdate(function () {
 				positionComponent.setX(this.x);
 				positionComponent.setY(this.y);

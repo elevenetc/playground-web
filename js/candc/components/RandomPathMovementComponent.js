@@ -19,8 +19,8 @@ class RandomPathMovementComponent extends MovementComponent {
 	}
 
 	nextRandomPosition() {
-		var currentX = this.positionComponent.x / CConfig.Unit;
-		var currentY = this.positionComponent.y / CConfig.Unit;
+		var currentX = this.positionComponent.getX();
+		var currentY = this.positionComponent.getY();
 
 		var width = this.groundControl.getWidth();
 		var height = this.groundControl.getHeight();
@@ -33,16 +33,22 @@ class RandomPathMovementComponent extends MovementComponent {
 	}
 
 	moveTo(fromX, fromY, toX, toY) {
-
+		console.log('moveTo');
 		if (this.log) console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
 		this.path = this.groundControl.findPath(fromX, fromY, toX, toY);
 		if (this.log) console.log('path length: ' + this.path.length);
 
-		if (this.path.length > 0) this.moveToPoint();
-		else this.waitForNext();
+		if (this.path.length > 0) {
+			this.targetPoint = [toX, toY];
+			this.moveToPoint();
+		} else {
+			this.waitForNext();
+		}
+
 	}
 
 	waitForNext() {
+		console.log('waitForNext');
 		var ref = this;
 		new TWEEN.Tween({})
 			.to({}, ref.animTime)
@@ -61,9 +67,14 @@ class RandomPathMovementComponent extends MovementComponent {
 	}
 
 	moveToPoint() {
-
+		console.log('moveToPoint');
 		var x = 0;
 		var y = 0;
+		var composite = super.getComposite();
+		var positionComponent = composite.getPositionComponent();
+		var fromX = positionComponent.getX();
+		var fromY = positionComponent.getY();
+		var ref = this;
 
 		if (this.path.length == 0) {
 			this.path = null;
@@ -71,18 +82,22 @@ class RandomPathMovementComponent extends MovementComponent {
 			return;
 		} else {
 			var point = this.path.splice(0, 1);
-			x = point[0][1] * CConfig.Unit;
-			y = point[0][0] * CConfig.Unit;
+			x = point[0][1];
+			y = point[0][0];
+
+			if (!(fromX == x && fromY == y) && !this.groundControl.isAvailable(x, y)) {
+				this.path = [];
+				this.moveTo(fromX, fromY, this.targetPoint[0], this.targetPoint[1]);
+				console.log('found obstancle');
+				return;
+			}
 		}
 
-		var composite = super.getComposite();
-		var positionComponent = composite.getPositionComponent();
-		var fromX = positionComponent.x;
-		var fromY = positionComponent.y;
-		var ref = this;
+		this.groundControl.clear(fromX, fromY);
+		this.groundControl.occupy(x, y);
 
-		new TWEEN.Tween({x: fromX, y: fromY})
-			.to({x: x, y: y}, ref.animTime)
+		new TWEEN.Tween({x: fromX * CConfig.Unit, y: fromY * CConfig.Unit})
+			.to({x: x * CConfig.Unit, y: y * CConfig.Unit}, ref.animTime)
 			.onUpdate(function () {
 				positionComponent.setX(this.x);
 				positionComponent.setY(this.y);

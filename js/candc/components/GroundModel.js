@@ -5,13 +5,22 @@ class GroundModel extends Composite {
 
 	constructor() {
 		super();
+
 		this.matrix = [
-			[0, 0, 0, 0, 0],
-			[0, 1, 0, 0, 0],
-			[0, 0, 1, 0, 0],
-			[0, 0, 0, 1, 0],
-			[0, 0, 0, 0, 0]
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0]
 		];
+
+		// this.matrix = [
+		// 	[0, 0, 0, 0, 0, 0],
+		// 	[0, 1, 0, 0, 0, 0],
+		// 	[0, 0, 1, 0, 0, 0],
+		// 	[0, 0, 0, 1, 0, 0],
+		// 	[0, 0, 0, 0, 0, 0],
+		// 	[0, 0, 0, 0, 0, 0]
+		// ];
 		this.logAvaialability = false;
 		this.width = this.matrix.length;
 		this.height = this.matrix[0].length;
@@ -39,8 +48,6 @@ class GroundModel extends Composite {
 	}
 
 	getType(x, y) {
-		x = x / CConfig.Unit;
-		y = y / CConfig.Unit;
 
 		//check map boundaries
 		if (x < 0 || y < 0 || x > this.matrix.length - 1 || y > this.matrix[0].length - 1)
@@ -57,14 +64,10 @@ class GroundModel extends Composite {
 	}
 
 	occupy(x, y) {
-		x = x / CConfig.Unit;
-		y = y / CConfig.Unit;
 		this.matrix[x][y] = GroundModel.UNIT;
 	}
 
 	clear(x, y) {
-		x = x / CConfig.Unit;
-		y = y / CConfig.Unit;
 		this.matrix[x][y] = GroundModel.CLEAR;
 	}
 }

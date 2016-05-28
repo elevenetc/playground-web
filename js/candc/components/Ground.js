@@ -33,8 +33,8 @@ class Ground extends Composite {
 	updateColor(object) {
 		if (!(object instanceof THREE.Mesh)) return;
 
-		var x = object.position.x;
-		var y = object.position.y;
+		var x = object.position.x / CConfig.Unit;
+		var y = object.position.y / CConfig.Unit;
 		var type = this.groundModel.getType(x, y);
 
 		if (type == GroundModel.CLEAR) {

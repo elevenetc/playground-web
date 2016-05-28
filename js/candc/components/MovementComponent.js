@@ -7,6 +7,8 @@ class MovementComponent extends Component {
 		super();
 		/** @type {Array} */
 		this.path = [];
+		/** @type {Array} */
+		this.targetPoint = [];
 	}
 
 	/** @returns {Array} */
