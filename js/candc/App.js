@@ -16,11 +16,12 @@ class App {
 		var h = Config.SCENE_HEIGHT;
 
 		this.scene = new THREE.Scene();
-		this.camera = new THREE.PerspectiveCamera(60, w / h, 1, 1000000);
+		this.camera = new THREE.OrthographicCamera(w / -2, w / 2, h / 2, h / -2, 0, 1000000);
+		// this.camera = new THREE.PerspectiveCamera(60, w / h, 1, 1000000);
 
 		this.renderer.setSize(w, h);
 		document.getElementById(Config.DIV_NAME).appendChild(this.renderer.domElement);
-		this.camera.position.set(0, 0, 1000);
+		this.camera.position.set(CConfig.Unit, CConfig.Unit, 1000);
 
 		this.composeScene(this.scene);
 		this.renderScene();

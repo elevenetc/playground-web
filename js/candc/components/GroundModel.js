@@ -104,8 +104,6 @@ class GroundModel extends Composite {
 		this.occupants[x][y] = entity;
 		this.matrix[x][y] = GroundModel.CLEAR;
 
-		console.log('cleared: ' + x + ':' + y);
-
 		for (var waiterId in this.clearListeners) {
 			if (this.clearListeners.hasOwnProperty(waiterId)) {
 				if (this.clearListeners[waiterId][0] == x && this.clearListeners[waiterId][1] == y) {

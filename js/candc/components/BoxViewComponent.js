@@ -9,7 +9,7 @@ class BoxViewComponent extends ViewComponent {
 		var view = CreateObj.box(xSize, ySize, CConfig.Unit,
 			new THREE.MeshBasicMaterial({
 				color: 0x00ff00,
-				wireframe: true
+				wireframe: false
 			})
 		);
 
