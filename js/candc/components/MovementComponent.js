@@ -28,7 +28,6 @@ class MovementComponent extends Component {
 		}
 	}
 
-
 	onComposeFinished() {
 		super.onComposeFinished();
 		this.positionComponent = super.getComposite().getPositionComponent();

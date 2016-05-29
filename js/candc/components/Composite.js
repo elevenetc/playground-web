@@ -13,6 +13,8 @@ class Composite {
 		this.movementComponent = null;
 		/** @type {String} */
 		this.id = id;
+
+		this.activeCommand = null;
 	}
 
 	/** @returns {String} */
