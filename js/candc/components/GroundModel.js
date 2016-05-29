@@ -13,6 +13,13 @@ class GroundModel extends Composite {
 			[0, 0, 0, 0]
 		];
 
+		this.occupants = [
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0],
+			[0, 0, 0, 0]
+		];
+
 		// this.matrix = [
 		// 	[0, 0, 0, 0, 0, 0],
 		// 	[0, 1, 0, 0, 0, 0],
@@ -63,11 +70,34 @@ class GroundModel extends Composite {
 		return result;
 	}
 
-	occupy(x, y) {
+	/**
+	 * @param x
+	 * @param y
+	 * @returns {Composite}
+	 */
+	getOccupant(x, y) {
+		if (x < 0 || y < 0 || x > this.matrix.length - 1 || y > this.matrix[0].length - 1)
+			return null;
+		return this.occupants[x][y];
+	}
+
+	/**
+	 * @param entity {Composite}
+	 * @param x {int}
+	 * @param y {int}
+	 */
+	occupy(entity, x, y) {
+		this.occupants[x][y] = entity;
 		this.matrix[x][y] = GroundModel.UNIT;
 	}
 
-	clear(x, y) {
+	/**
+	 * @param entity {Composite}
+	 * @param x {int}
+	 * @param y {int}
+	 */
+	clear(entity, x, y) {
+		this.occupants[x][y] = null;
 		this.matrix[x][y] = GroundModel.CLEAR;
 	}
 }

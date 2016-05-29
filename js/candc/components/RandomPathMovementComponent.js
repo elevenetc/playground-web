@@ -3,14 +3,21 @@
  */
 class RandomPathMovementComponent extends MovementComponent {
 
-	constructor(groundControl) {
+	/**
+	 * @param conflictResolver {ConflictResolver}
+	 * @param groundControl {PositionComponent}
+	 */
+	constructor(conflictResolver, groundControl) {
 		super();
+		/** @type {ConflictResolver} */
+		this.conflictResolver = conflictResolver;
 		/** @type {PositionComponent} */
 		this.positionComponent = null;
-		this.animTime = 100;
+		this.animTime = 30;
 		/** @type {GroundModel} */
 		this.groundControl = groundControl;
 		this.log = false;
+		this.attemptToAvoidObstacle = 0;
 	}
 
 	onComposeFinished() {
@@ -33,14 +40,29 @@ class RandomPathMovementComponent extends MovementComponent {
 	}
 
 	moveTo(fromX, fromY, toX, toY) {
-		console.log('moveTo');
+
 		if (this.log) console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
 		this.path = this.groundControl.findPath(fromX, fromY, toX, toY);
 		if (this.log) console.log('path length: ' + this.path.length);
 
 		if (this.path.length > 0) {
+			this.attemptToAvoidObstacle = 0;
 			this.targetPoint = [toX, toY];
-			this.moveToPoint();
+
+			if (this.skipStep) {
+				var ref = this;
+				this.skipStep = false;
+				new TWEEN.Tween({})
+					.to({}, ref.animTime)
+					.onComplete(function () {
+						ref.moveToPoint();
+						//ref.nextRandomPosition();
+					})
+					.start();
+			} else {
+				this.moveToPoint();
+			}
+
 		} else {
 			this.waitForNext();
 		}
@@ -48,7 +70,6 @@ class RandomPathMovementComponent extends MovementComponent {
 	}
 
 	waitForNext() {
-		console.log('waitForNext');
 		var ref = this;
 		new TWEEN.Tween({})
 			.to({}, ref.animTime)
@@ -66,8 +87,13 @@ class RandomPathMovementComponent extends MovementComponent {
 		return this.path;
 	}
 
+
+	releaseStop() {
+		super.releaseStop();
+		this.moveToPoint();
+	}
+
 	moveToPoint() {
-		console.log('moveToPoint');
 		var x = 0;
 		var y = 0;
 		var composite = super.getComposite();
@@ -87,14 +113,24 @@ class RandomPathMovementComponent extends MovementComponent {
 
 			if (!(fromX == x && fromY == y) && !this.groundControl.isAvailable(x, y)) {
 				this.path = [];
-				this.moveTo(fromX, fromY, this.targetPoint[0], this.targetPoint[1]);
-				console.log('found obstancle');
+				this.attemptToAvoidObstacle++;
+				this.setStop();
+				this.conflictResolver.pushConflict(this.getComposite(), this.groundControl.getOccupant(x, y), x, y);
+
+				//this.groundControl.getOccupant(x, y).getMovementComponent().setSkipStep();
+				//this.setStop();
+				//this.conflictResolver.pushConflict(this.getComposite(), this.groundControl.getOccupant(x, y), x, y);
+				//this.moveTo(fromX, fromY, this.targetPoint[0], this.targetPoint[1]);
 				return;
+			} else {
+				this.conflictResolver.resolveConflict(this.getComposite());
 			}
 		}
 
-		this.groundControl.clear(fromX, fromY);
-		this.groundControl.occupy(x, y);
+		this.conflictResolver.resolveConflict(super.getComposite());
+
+		this.groundControl.clear(this.getComposite(), fromX, fromY);
+		this.groundControl.occupy(this.getComposite(), x, y);
 
 		new TWEEN.Tween({x: fromX * CConfig.Unit, y: fromY * CConfig.Unit})
 			.to({x: x * CConfig.Unit, y: y * CConfig.Unit}, ref.animTime)

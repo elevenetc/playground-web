@@ -2,7 +2,7 @@
  * Created by eleven on 15/05/2016.
  */
 class Composite {
-	constructor() {
+	constructor(id = null) {
 		/** @type {Component[]} */
 		this.components = [];
 		/** @type {ViewComponent} */
@@ -11,6 +11,13 @@ class Composite {
 		this.positionComponent = null;
 		/** @type {MovementComponent} */
 		this.movementComponent = null;
+		/** @type {String} */
+		this.id = id;
+	}
+
+	/** @returns {String} */
+	getId() {
+		return this.id;
 	}
 
 	update() {

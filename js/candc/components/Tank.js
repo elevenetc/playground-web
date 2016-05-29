@@ -3,12 +3,12 @@
  */
 class Tank extends Composite {
 
-	constructor(groundControl, x = 0, y = 0) {
-		super();
+	constructor(conflictResolver, groundControl, x = 0, y = 0, id) {
+		super(id);
 
 		super.addComponent(new PositionComponent(x, y, 0));
 		super.addComponent(new BoxViewComponent());
-		super.addComponent(new RandomPathMovementComponent(groundControl));
+		super.addComponent(new RandomPathMovementComponent(conflictResolver, groundControl));
 		// super.addComponent(new RandomMovementComponent(groundControl));
 		super.compose();
 

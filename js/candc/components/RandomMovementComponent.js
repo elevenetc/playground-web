@@ -33,8 +33,8 @@ class RandomMovementComponent extends MovementComponent {
 		var same = nextX == currentX && nextY == currentY;
 
 		if (!same && this.groundControl.isAvailable(nextX, nextY)) {
-			this.groundControl.occupy(nextX, nextY);
-			this.groundControl.clear(currentX, currentY);
+			this.groundControl.occupy(this.getComposite() , nextX, nextY);
+			this.groundControl.clear(this.getComposite(), currentX, currentY);
 			this.startMovement(nextX, nextY);
 
 		} else {
