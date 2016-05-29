@@ -9,19 +9,14 @@ class RandomPathMovementComponent extends MovementComponent {
 	 */
 	constructor(conflictResolver, groundModel) {
 		super();
-		/** @type {ConflictResolver} */
-		this.conflictResolver = conflictResolver;
-		/** @type {PositionComponent} */
-		this.positionComponent = null;
-		this.animTime = 100;
+		this.animTime = 110;
 		/** @type {GroundModel} */
 		this.groundModel = groundModel;
 		this.log = false;
-		this.attemptToAvoidObstacle = 0;
 	}
 
 	onComposeFinished() {
-		this.positionComponent = super.getComposite().getPositionComponent();
+		super.onComposeFinished();
 		this.nextRandomPosition();
 	}
 
@@ -35,6 +30,7 @@ class RandomPathMovementComponent extends MovementComponent {
 		var rndX = this.getRandomInt(0, width - 1);
 		var rndY = this.getRandomInt(0, height - 1);
 
+		var ref = this;
 		if (currentX != rndX || currentY != rndY) this.moveTo(currentX, currentY, rndX, rndY);
 		else this.waitForNextRandomPoint();
 	}
@@ -50,8 +46,8 @@ class RandomPathMovementComponent extends MovementComponent {
 
 	startPath(toX, toY) {
 		if (this.path.length > 0) {
-			this.attemptToAvoidObstacle = 0;
 			this.targetPoint = [toX, toY];
+			var ref = this;
 			this.moveToPoint();
 		} else {
 			this.waitForNextRandomPoint();
@@ -60,23 +56,37 @@ class RandomPathMovementComponent extends MovementComponent {
 
 	waitForNextRandomPoint() {
 		var ref = this;
+
 		new TWEEN.Tween({})
-			.to({}, ref.animTime)
+			.to({}, this.animTime)
 			.onComplete(function () {
 				ref.nextRandomPosition();
-			})
-			.start();
+			}).start();
+
+		// super.animateWait(this.animTime, function () {
+		// 	ref.nextRandomPosition();
+		// });
 	}
 
 	waitAndMoveToTargetPoint() {
+		var fromX = this.positionComponent.getX();
+		var fromY = this.positionComponent.getY();
+		var toX = this.targetPoint[0];
+		var toY = this.targetPoint[1];
 		var ref = this;
+
 		new TWEEN.Tween({})
-			.to({}, ref.animTime)
+			.to({}, this.animTime)
 			.onComplete(function () {
-				ref.moveTo(ref.positionComponent.getX(), ref.positionComponent.getY(), ref.targetPoint[0], ref.targetPoint[1]);
-				//ref.nextRandomPosition();
-			})
-			.start();
+				ref.moveTo(fromX, fromY, toX, toY)
+			}).start();
+
+		// super.animateWait(
+		// 	this.animTime,
+		// 	function () {
+		// 		ref.moveTo(fromX, fromY, toX, toY)
+		// 	}
+		// );
 	}
 
 	getRandomInt(min, max) {
@@ -89,13 +99,8 @@ class RandomPathMovementComponent extends MovementComponent {
 
 	releaseStop() {
 		super.releaseStop();
-		if (this.isTargetEmpty()) {
-			console.log('no target');
-			this.waitForNextRandomPoint();
-		} else {
-			console.log('attempt to reach target');
-			this.waitAndMoveToTargetPoint();
-		}
+		if (this.isTargetEmpty())this.waitForNextRandomPoint();
+		else this.waitAndMoveToTargetPoint();
 	}
 
 	recalculatePath() {
@@ -114,7 +119,6 @@ class RandomPathMovementComponent extends MovementComponent {
 		var positionComponent = composite.getPositionComponent();
 		var fromX = positionComponent.getX();
 		var fromY = positionComponent.getY();
-		var ref = this;
 
 		if (this.path.length == 0) {
 			this.path = null;
@@ -129,15 +133,14 @@ class RandomPathMovementComponent extends MovementComponent {
 			var isAvailable = this.groundModel.isAvailable(x, y);
 
 			if (!isSame && !isAvailable) {
-				//this.path = [];
 
 				var occupant = this.groundModel.getOccupant(x, y);
 				var occupantMC = occupant.getMovementComponent();
 
 				if (occupantMC.isStopped()) {
 					this.recalculatePath();
-				}else{
-					console.log(this.getComposite().getId() + ' waiting for ' + x + ':' + y);
+				} else {
+					if (this.log) console.log(this.getComposite().getId() + ' waiting for ' + x + ':' + y);
 					this.setStop();
 					this.groundModel.waitFor(this.getComposite(), x, y);
 				}
@@ -150,6 +153,16 @@ class RandomPathMovementComponent extends MovementComponent {
 
 		this.groundModel.occupy(this.getComposite(), x, y);
 		this.groundModel.clear(this.getComposite(), fromX, fromY);
+		var ref = this;
+
+		// super.animateStep(
+		// 	fromX, fromY,
+		// 	x, y,
+		// 	this.animTime,
+		// 	function () {
+		// 		ref.moveToPoint();
+		// 	}
+		// );
 
 		new TWEEN.Tween({x: fromX * CConfig.Unit, y: fromY * CConfig.Unit})
 			.to({x: x * CConfig.Unit, y: y * CConfig.Unit}, ref.animTime)

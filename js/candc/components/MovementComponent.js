@@ -13,6 +13,8 @@ class MovementComponent extends Component {
 		this.skipStep = false;
 		/** @type {boolean} */
 		this.stop = false;
+		/** @type {PositionComponent} */
+		this.positionComponent = null;
 	}
 
 	/*** @param movementComponent {MovementComponent} */
@@ -24,6 +26,12 @@ class MovementComponent extends Component {
 		} else {
 			return tp[0] == this.targetPoint[0] && tp[1] == this.targetPoint[1];
 		}
+	}
+
+
+	onComposeFinished() {
+		super.onComposeFinished();
+		this.positionComponent = super.getComposite().getPositionComponent();
 	}
 
 	isTargetEmpty() {
@@ -53,8 +61,31 @@ class MovementComponent extends Component {
 		return this.stop;
 	}
 
-	setSkipStep() {
-		console.log('skip step');
-		this.skipStep = true;
+	animateWait(time, endHandler) {
+		this.animate({}, {}, time, endHandler);
+	}
+
+	animateStep(fromX, fromY, toX, toY, time, endHandler) {
+		this.animate(
+			{x: fromX * CConfig.Unit, y: fromY * CConfig.Unit},
+			{x: toX * CConfig.Unit, y: toY * CConfig.Unit},
+			time,
+			endHandler
+		);
+	}
+
+	animate(from, to, time, endHandler) {
+		var comp = this;
+		new TWEEN.Tween(from)
+			.to(to, time)
+			.onUpdate(function () {
+				var interRef = this;
+				comp.positionComponent.setX(interRef.x);
+				comp.positionComponent.setY(interRef.y);
+			})
+			.onComplete(function () {
+				endHandler();
+			})
+			.start();
 	}
 }
