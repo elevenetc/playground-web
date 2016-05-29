@@ -9,7 +9,7 @@ class RandomMovementComponent extends MovementComponent {
 		this.positionComponent = null;
 		this.animTime = 100 + Math.random() * 100;
 		/** @type {GroundModel} */
-		this.groundControl = groundControl;
+		this.groundModel = groundControl;
 	}
 
 	onComposeFinished() {
@@ -32,9 +32,9 @@ class RandomMovementComponent extends MovementComponent {
 
 		var same = nextX == currentX && nextY == currentY;
 
-		if (!same && this.groundControl.isAvailable(nextX, nextY)) {
-			this.groundControl.occupy(this.getComposite() , nextX, nextY);
-			this.groundControl.clear(this.getComposite(), currentX, currentY);
+		if (!same && this.groundModel.isAvailable(nextX, nextY)) {
+			this.groundModel.occupy(this.getComposite() , nextX, nextY);
+			this.groundModel.clear(this.getComposite(), currentX, currentY);
 			this.startMovement(nextX, nextY);
 
 		} else {

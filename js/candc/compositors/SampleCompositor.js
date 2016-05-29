@@ -5,12 +5,12 @@ class SampleCompositor extends Compositor {
 	constructor() {
 		super();
 		var conflictResolver = new ConflictResolver();
-		var groundControl = new GroundModel();
-		super.addComposite(groundControl);
-		super.addComposite(new Tank(conflictResolver, groundControl, 0, 0, 'a'));
-		super.addComposite(new Tank(conflictResolver, groundControl, CConfig.Unit * 3, CConfig.Unit * 3, 'b'));
-		// super.addComposite(new Tank(groundControl, CConfig.Unit * 2, CConfig.Unit * 2));
-		super.addComposite(new Ground(groundControl));
-		// super.addComposite(new PathGround(groundControl, this));
+		var groundModel = new GroundModel();
+		super.addComposite(groundModel);
+		super.addComposite(new Tank(conflictResolver, groundModel, 0, 0, 'a'));
+		super.addComposite(new Tank(conflictResolver, groundModel, CConfig.Unit * 2, CConfig.Unit * 2, 'b'));
+		super.addComposite(new Tank(conflictResolver, groundModel, CConfig.Unit * 3, CConfig.Unit * 3, 'c'));
+		super.addComposite(new Ground(groundModel));
+		// super.addComposite(new PathGround(groundModel, this));
 	}
 }

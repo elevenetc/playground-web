@@ -20,6 +20,10 @@ class GroundModel extends Composite {
 			[0, 0, 0, 0]
 		];
 
+		this.entitiesMap = {};
+
+		this.clearListeners = {};
+
 		// this.matrix = [
 		// 	[0, 0, 0, 0, 0, 0],
 		// 	[0, 1, 0, 0, 0, 0],
@@ -97,8 +101,35 @@ class GroundModel extends Composite {
 	 * @param y {int}
 	 */
 	clear(entity, x, y) {
-		this.occupants[x][y] = null;
+		this.occupants[x][y] = entity;
 		this.matrix[x][y] = GroundModel.CLEAR;
+
+		console.log('cleared: ' + x + ':' + y);
+
+		for (var waiterId in this.clearListeners) {
+			if (this.clearListeners.hasOwnProperty(waiterId)) {
+				if (this.clearListeners[waiterId][0] == x && this.clearListeners[waiterId][1] == y) {
+					if (this.entitiesMap.hasOwnProperty(waiterId)) {
+						/*** @type {Composite} */
+						var entity = this.entitiesMap[waiterId];
+						delete this.clearListeners[waiterId];
+						entity.getMovementComponent().releaseStop();
+						break;
+					}
+				}
+			}
+
+		}
+	}
+
+	/**
+	 * @param entity {Composite}
+	 * @param x {int}
+	 * @param y {int}
+	 */
+	waitFor(entity, x, y) {
+		this.entitiesMap[entity.getId()] = entity;
+		this.clearListeners[entity.getId()] = [x, y];
 	}
 }
 
