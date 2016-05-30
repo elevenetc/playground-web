@@ -9,7 +9,7 @@ class RandomPathMovementComponent extends MovementComponent {
 	 */
 	constructor(conflictResolver, groundModel) {
 		super();
-		this.animTime = 110;
+		this.animTime = 50;
 		/** @type {GroundModel} */
 		this.groundModel = groundModel;
 		this.log = false;
@@ -30,25 +30,10 @@ class RandomPathMovementComponent extends MovementComponent {
 		var rndX = this.getRandomInt(0, width - 1);
 		var rndY = this.getRandomInt(0, height - 1);
 
-		var ref = this;
-		if (currentX != rndX || currentY != rndY) this.moveTo(currentX, currentY, rndX, rndY);
-		else this.waitForNextRandomPoint();
-	}
-
-	moveTo(fromX, fromY, toX, toY) {
-
-		if (this.log) console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
-		this.path = this.groundModel.findPath(fromX, fromY, toX, toY);
-		if (this.log) console.log('path length: ' + this.path.length);
-
-		this.startPath(toX, toY);
-	}
-
-	startPath(toX, toY) {
-		if (this.path.length > 0) {
-			this.targetPoint = [toX, toY];
-			var ref = this;
-			this.moveToPoint();
+		if (currentX != rndX || currentY != rndY) {
+			this.moveTo(currentX, currentY, rndX, rndY, function () {
+				this.waitForNextRandomPoint();
+			});
 		} else {
 			this.waitForNextRandomPoint();
 		}
@@ -69,7 +54,9 @@ class RandomPathMovementComponent extends MovementComponent {
 		var ref = this;
 
 		super.animateWait(this.animTime, function () {
-			ref.moveTo(fromX, fromY, toX, toY);
+			ref.moveTo(fromX, fromY, toX, toY, function () {
+				ref.waitForNextRandomPoint();
+			});
 		});
 	}
 
@@ -77,13 +64,9 @@ class RandomPathMovementComponent extends MovementComponent {
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
 
-	getPath() {
-		return this.path;
-	}
-
 	releaseStop() {
 		super.releaseStop();
-		if (this.isTargetEmpty())this.waitForNextRandomPoint();
+		if (this.isTargetEmpty()) this.waitForNextRandomPoint();
 		else this.waitAndMoveToTargetPoint();
 	}
 
@@ -96,51 +79,5 @@ class RandomPathMovementComponent extends MovementComponent {
 		this.startPath(this.targetPoint[0], this.targetPoint[1]);
 	}
 
-	moveToPoint() {
-		var x = 0;
-		var y = 0;
-		var composite = super.getComposite();
-		var positionComponent = composite.getPositionComponent();
-		var fromX = positionComponent.getX();
-		var fromY = positionComponent.getY();
-		var ref = this;
-
-		if (this.path.length == 0) {
-			this.path = null;
-			this.targetPoint = [];
-			this.nextRandomPosition();
-			return;
-		} else {
-			var point = this.path[0];
-			x = point[1];
-			y = point[0];
-			var isSame = fromX == x && fromY == y;
-			var isAvailable = this.groundModel.isAvailable(x, y);
-
-			if (!isSame && !isAvailable) {
-
-				var occupant = this.groundModel.getOccupant(x, y);
-				var occupantMC = occupant.getMovementComponent();
-
-				if (occupantMC.isStopped()) {
-					this.recalculatePath();
-				} else {
-					if (this.log) console.log(this.getComposite().getId() + ' waiting for ' + x + ':' + y);
-					this.setStop();
-					this.groundModel.waitFor(this.getComposite(), x, y);
-				}
-
-				return;
-			}
-		}
-
-		this.path.splice(0, 1);
-		this.groundModel.occupy(this.getComposite(), x, y);
-		this.groundModel.clear(this.getComposite(), fromX, fromY);
-
-		super.animateStep(fromX, fromY, x, y, this.animTime, function () {
-			ref.moveToPoint();
-		});
-	}
 }
 
