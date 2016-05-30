@@ -61,26 +61,28 @@ class MovementComponent extends Component {
 	}
 
 	animateWait(time, endHandler) {
-		this.animate({}, {}, time, endHandler);
+		this.animate({}, {}, time, null, endHandler);
 	}
 
 	animateStep(fromX, fromY, toX, toY, time, endHandler) {
+		var pc = this.positionComponent;
 		this.animate(
 			{x: fromX * CConfig.Unit, y: fromY * CConfig.Unit},
 			{x: toX * CConfig.Unit, y: toY * CConfig.Unit},
 			time,
+			function (animator) {
+				pc.setX(animator.x);
+				pc.setY(animator.y);
+			},
 			endHandler
 		);
 	}
 
-	animate(from, to, time, endHandler) {
-		var comp = this;
+	animate(from, to, time, updateHandler, endHandler) {
 		new TWEEN.Tween(from)
 			.to(to, time)
 			.onUpdate(function () {
-				var interRef = this;
-				comp.positionComponent.setX(interRef.x);
-				comp.positionComponent.setY(interRef.y);
+				if (updateHandler != null && updateHandler != undefined) updateHandler(this);
 			})
 			.onComplete(function () {
 				endHandler();

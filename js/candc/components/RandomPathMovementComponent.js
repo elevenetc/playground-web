@@ -56,16 +56,9 @@ class RandomPathMovementComponent extends MovementComponent {
 
 	waitForNextRandomPoint() {
 		var ref = this;
-
-		new TWEEN.Tween({})
-			.to({}, this.animTime)
-			.onComplete(function () {
-				ref.nextRandomPosition();
-			}).start();
-
-		// super.animateWait(this.animTime, function () {
-		// 	ref.nextRandomPosition();
-		// });
+		super.animateWait(this.animTime, function () {
+			ref.nextRandomPosition();
+		});
 	}
 
 	waitAndMoveToTargetPoint() {
@@ -75,18 +68,9 @@ class RandomPathMovementComponent extends MovementComponent {
 		var toY = this.targetPoint[1];
 		var ref = this;
 
-		new TWEEN.Tween({})
-			.to({}, this.animTime)
-			.onComplete(function () {
-				ref.moveTo(fromX, fromY, toX, toY)
-			}).start();
-
-		// super.animateWait(
-		// 	this.animTime,
-		// 	function () {
-		// 		ref.moveTo(fromX, fromY, toX, toY)
-		// 	}
-		// );
+		super.animateWait(this.animTime, function () {
+			ref.moveTo(fromX, fromY, toX, toY);
+		});
 	}
 
 	getRandomInt(min, max) {
@@ -119,6 +103,7 @@ class RandomPathMovementComponent extends MovementComponent {
 		var positionComponent = composite.getPositionComponent();
 		var fromX = positionComponent.getX();
 		var fromY = positionComponent.getY();
+		var ref = this;
 
 		if (this.path.length == 0) {
 			this.path = null;
@@ -150,30 +135,12 @@ class RandomPathMovementComponent extends MovementComponent {
 		}
 
 		this.path.splice(0, 1);
-
 		this.groundModel.occupy(this.getComposite(), x, y);
 		this.groundModel.clear(this.getComposite(), fromX, fromY);
-		var ref = this;
 
-		// super.animateStep(
-		// 	fromX, fromY,
-		// 	x, y,
-		// 	this.animTime,
-		// 	function () {
-		// 		ref.moveToPoint();
-		// 	}
-		// );
-
-		new TWEEN.Tween({x: fromX * CConfig.Unit, y: fromY * CConfig.Unit})
-			.to({x: x * CConfig.Unit, y: y * CConfig.Unit}, ref.animTime)
-			.onUpdate(function () {
-				positionComponent.setX(this.x);
-				positionComponent.setY(this.y);
-			})
-			.onComplete(function () {
-				ref.moveToPoint();
-			})
-			.start();
+		super.animateStep(fromX, fromY, x, y, this.animTime, function () {
+			ref.moveToPoint();
+		});
 	}
 }
 
