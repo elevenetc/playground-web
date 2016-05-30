@@ -31,5 +31,7 @@ class PositionComponent extends Component {
 	onComposeFinished() {
 		super.onComposeFinished();
 		this.viewComponent = super.getComposite().getViewComponent();
+		this.setX(this.x * CConfig.Unit);
+		this.setY(this.y * CConfig.Unit);
 	}
 }

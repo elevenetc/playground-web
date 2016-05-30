@@ -8,7 +8,7 @@ class RandomPathMovementComponent extends MovementComponent {
 	 * @param groundModel {GroundModel}
 	 */
 	constructor(conflictResolver, groundModel) {
-		super();
+		super(groundModel);
 		this.animTime = 50;
 		/** @type {GroundModel} */
 		this.groundModel = groundModel;

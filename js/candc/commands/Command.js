@@ -3,6 +3,6 @@
  */
 class Command {
 	start() {
-		
+
 	}
 }

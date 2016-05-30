@@ -3,8 +3,13 @@
  */
 class MovementComponent extends Component {
 
-	constructor() {
+	/**
+	 * @param groundModel {GroundModel}
+	 */
+	constructor(groundModel) {
 		super();
+		/** @type {GroundModel} */
+		this.groundModel = groundModel;
 		/** @type {Array} */
 		this.path = [];
 		/** @type {Array} */
@@ -17,6 +22,8 @@ class MovementComponent extends Component {
 		this.positionComponent = null;
 		/** @type {function} */
 		this.endPathHandler = null;
+		this.animTime = 100;
+		this.log = true;
 	}
 
 	/*** @param movementComponent {MovementComponent} */
