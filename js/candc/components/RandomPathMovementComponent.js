@@ -69,15 +69,6 @@ class RandomPathMovementComponent extends MovementComponent {
 		if (this.isTargetEmpty()) this.waitForNextRandomPoint();
 		else this.waitAndMoveToTargetPoint();
 	}
-
-	recalculatePath() {
-		var composite = super.getComposite();
-		var positionComponent = composite.getPositionComponent();
-		var fromX = positionComponent.getX();
-		var fromY = positionComponent.getY();
-		this.path = this.groundModel.findPath(fromX, fromY, this.targetPoint[0], this.targetPoint[1]);
-		this.startPath(this.targetPoint[0], this.targetPoint[1]);
-	}
-
+	
 }
 

@@ -22,8 +22,8 @@ class MovementComponent extends Component {
 		this.positionComponent = null;
 		/** @type {function} */
 		this.endPathHandler = null;
-		this.animTime = 100;
-		this.log = true;
+		this.animTime = 250;
+		this.log = false;
 	}
 
 	/*** @param movementComponent {MovementComponent} */
@@ -61,7 +61,10 @@ class MovementComponent extends Component {
 	}
 
 	releaseStop() {
+		if (!this.stop) return;
 		this.stop = false;
+		this.recalculatePath();
+
 	}
 
 	/*** @returns {boolean} */
@@ -139,6 +142,17 @@ class MovementComponent extends Component {
 			ref.moveToPoint();
 		});
 	}
+
+	recalculatePath() {
+		var composite = super.getComposite();
+		var positionComponent = composite.getPositionComponent();
+		var fromX = positionComponent.getX();
+		var fromY = positionComponent.getY();
+		this.path = this.groundModel.findPath(fromX, fromY, this.targetPoint[0], this.targetPoint[1]);
+		this.moveToPoint();
+		// this.startPath(this.targetPoint[0], this.targetPoint[1]);
+	}
+
 
 	// animation
 	// animation
