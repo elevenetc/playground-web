@@ -8,6 +8,9 @@ class App {
 		this.renderer = null;
 		this.camera = null;
 		this.compositor = null;
+		this.mouse = new THREE.Vector2();
+		this.raycaster = new THREE.Raycaster();
+		this.selectedObject = null;
 	}
 
 	init() {
@@ -23,8 +26,20 @@ class App {
 		document.getElementById(Config.DIV_NAME).appendChild(this.renderer.domElement);
 		this.camera.position.set(CConfig.Unit, CConfig.Unit, 1000);
 
+		this.initMouseHandlers();
 		this.composeScene(this.scene);
 		this.renderScene();
+	}
+
+	initMouseHandlers() {
+		var ref = this;
+		document.addEventListener('mousemove', function (event) {
+			event.preventDefault();
+			ref.mouse.x = ( event.clientX / 600 ) * 2 - 1;
+			ref.mouse.y = -( event.clientY / 600 ) * 2 + 1;
+			// ref.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+			// ref.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
+		}, false);
 	}
 
 	composeScene() {
@@ -39,10 +54,29 @@ class App {
 
 		TWEEN.update();
 
+		this.handleMouseSelection();
+
 		var self = this;
 		requestAnimationFrame(function () {
 			self.renderScene();
 		});
+	}
+
+	handleMouseSelection() {
+		this.raycaster.setFromCamera(this.mouse, this.camera);
+		var intersects = this.raycaster.intersectObjects(this.scene.children);
+
+		if (intersects.length > 0) {
+
+			if (this.selectedObject != intersects[0].object) {
+				this.selectedObject = intersects[0].object;
+				this.selectedObject.material.color.setHex(0xff0000);
+			}
+
+		} else {
+			if (this.selectedObject !== null) this.selectedObject.material.color.setHex(0xfffff);
+			this.selectedObject = null;
+		}
 	}
 
 	toString() {
