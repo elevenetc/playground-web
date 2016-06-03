@@ -12,6 +12,7 @@ class Tank extends Composite {
 		// super.addComponent(new RandomPathMovementComponent(conflictResolver, groundModel));
 		// super.addComponent(new RandomMovementComponent(groundModel));
 		super.addComponent(new SampleCommander(fromX, fromY, toX, toY));
+		super.addComponent(new DimenComponent(1, 1));
 		super.compose();
 
 

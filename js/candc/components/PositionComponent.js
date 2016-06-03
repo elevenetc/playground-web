@@ -2,7 +2,7 @@
  * Created by eleven on 22/05/2016.
  */
 class PositionComponent extends Component {
-	constructor(x, y, z) {
+	constructor(x, y, z = 0) {
 		super();
 		this.viewComponent = null;
 		this.x = x;

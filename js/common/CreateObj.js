@@ -31,18 +31,18 @@ CreateObj.box = function (width, height, depth, material) {
  *
  * @param wUnits {int}
  * @param hUnits {int}
+ * @param color {int}
  * @returns {THREE.Object3D}
  */
-CreateObj.matrix = function (wUnits, hUnits) {
-
+CreateObj.matrix = function (wUnits, hUnits, color = 0x000000) {
 
 	var group = new THREE.Object3D();
+	var mat = {color: color, wireframe: color == 0x000000};
 
 	for (var w = 0; w < wUnits; w++) {
 
 		for (var h = 0; h < hUnits; h++) {
-			var color = 0x00ff00;
-			var material = new THREE.MeshBasicMaterial({color: color, wireframe: true});
+			var material = new THREE.MeshBasicMaterial(mat);
 			var geometry = new THREE.PlaneGeometry(CConfig.Unit, CConfig.Unit, 1, 1);
 			var mesh = new THREE.Mesh(geometry, material);
 			mesh.position.x = CConfig.Unit * w;

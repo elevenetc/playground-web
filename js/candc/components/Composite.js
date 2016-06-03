@@ -11,6 +11,8 @@ class Composite {
 		this.positionComponent = null;
 		/** @type {MovementComponent} */
 		this.movementComponent = null;
+		/** @type {DimenComponent} */
+		this.dimenComponent = null;
 		/** @type {String} */
 		this.id = id;
 
@@ -36,8 +38,14 @@ class Composite {
 		if (component instanceof ViewComponent) this.viewComponent = component;
 		if (component instanceof PositionComponent) this.positionComponent = component;
 		if (component instanceof MovementComponent) this.movementComponent = component;
+		if (component instanceof DimenComponent) this.dimenComponent = component;
 		component.setComposite(this);
 		this.components.push(component);
+	}
+
+	/** @returns {DimenComponent} */
+	getDimenComponent() {
+		return this.dimenComponent;
 	}
 
 	/** @returns {PositionComponent} */
@@ -57,11 +65,11 @@ class Composite {
 
 	compose() {
 
-		if (this.viewComponent != null) this.viewComponent.updatePosition(this.positionComponent);
-
 		for (var i = 0; i < this.components.length; i++) {
 			this.components[i].onComposeFinished();
 		}
+
+		if (this.viewComponent != null) this.viewComponent.updatePosition(this.positionComponent);
 	}
 
 }
