@@ -36,6 +36,9 @@ CreateObj.box = function (width, height, depth, material) {
  */
 CreateObj.matrix = function (wUnits, hUnits, color = 0x000000) {
 
+	if (wUnits === undefined || hUnits === undefined)
+		throw new Error('Undefined params: ' + wUnits + ',' + hUnits);
+
 	var group = new THREE.Object3D();
 	var mat = {color: color, wireframe: color == 0x000000};
 

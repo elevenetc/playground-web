@@ -5,7 +5,7 @@ class DimenComponent extends Component {
 
 	constructor(width, height) {
 		super();
-		this.widht = width;
+		this.width = width;
 		this.height = height;
 	}
 
