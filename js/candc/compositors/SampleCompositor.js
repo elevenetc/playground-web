@@ -8,7 +8,7 @@ class SampleCompositor extends Compositor {
 		var groundModel = new GroundModel();
 		super.addComposite(groundModel);
 		// super.addComposite(new LargeTank(groundModel, 0, 2, 2, 0, 'a'));
-		super.addComposite(new Tank(groundModel, 0, 3, 2, 0, 'a'));
+		super.addComposite(new Tank(groundModel, 0, 0, 3, 3, 'a'));
 		// super.addComposite(new Tank(groundModel, 0, 3, 3, 0, 'b'));
 		// super.addComposite(new Tank(groundModel, CConfig.Unit * 2, CConfig.Unit * 2, 'b'));
 		// super.addComposite(new Tank(groundModel, CConfig.Unit * 3, CConfig.Unit * 3, 'c'));

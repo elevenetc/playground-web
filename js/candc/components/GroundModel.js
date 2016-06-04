@@ -41,7 +41,10 @@ class GroundModel extends Composite {
 
 	findPath(fromX, fromY, toX, toY) {
 		this.validatePathParams(fromX, fromY, toX, toY);
-		return new PF.AStarFinder().findPath(fromY, fromX, toY, toX, new PF.Grid(this.matrix));
+		var result = new PF.AStarFinder().findPath(fromY, fromX, toY, toX, new PF.Grid(this.matrix));
+		if (result.length > 0 && result[0][1] == fromY && result[0][0] == fromX)//cut first same point
+			result.splice(0, 1);
+		return result;
 	}
 
 	updateMatrix(path) {
@@ -135,7 +138,7 @@ class GroundModel extends Composite {
 
 		var w = this.matrix.length;
 		var h = this.matrix[0].length;
-		if(fromX > w || toX > w || fromY > h || toY > h)
+		if (fromX > w || toX > w || fromY > h || toY > h)
 			throw new Error('Out of map: ' + fromX + ':' + fromY + ':' + toX + ':' + toY);
 
 		if (fromX === undefined || fromY === undefined || toX === undefined || toY === undefined)

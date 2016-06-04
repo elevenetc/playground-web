@@ -20,6 +20,8 @@ class MovementComponent extends Component {
 		this.stop = false;
 		/** @type {PositionComponent} */
 		this.positionComponent = null;
+		/** @type {ViewComponent} */
+		this.viewComponent = null;
 		/** @type {function} */
 		this.endPathHandler = null;
 		this.animTime = 250;
@@ -40,6 +42,7 @@ class MovementComponent extends Component {
 	onComposeFinished() {
 		super.onComposeFinished();
 		this.positionComponent = super.getComposite().getPositionComponent();
+		this.viewComponent = super.getComposite().getViewComponent();
 	}
 
 	isTargetEmpty() {
@@ -178,15 +181,20 @@ class MovementComponent extends Component {
 
 	animateStep(fromX, fromY, toX, toY, time, endHandler) {
 		var pc = this.positionComponent;
+		var vc = this.viewComponent;
 		this.animate(
 			{x: fromX * CConfig.Unit, y: fromY * CConfig.Unit},
 			{x: toX * CConfig.Unit, y: toY * CConfig.Unit},
 			time,
 			function (animator) {
-				pc.setX(animator.x);
-				pc.setY(animator.y);
+				vc.setX(animator.x);
+				vc.setY(animator.y);
 			},
-			endHandler
+			function () {
+				pc.setX(toX);
+				pc.setY(toY);
+				endHandler();
+			}
 		);
 	}
 

@@ -16,8 +16,16 @@ class ViewComponent extends Component {
 		this.view = view;
 	}
 
+	setX(x) {
+		this.view.position.x = x;
+	}
+
+	setY(y) {
+		this.view.position.y = y;
+	}
+
 	updatePosition(positionComponent) {
-		this.view.position.x = positionComponent.x;
-		this.view.position.y = positionComponent.y;
+		this.view.position.x = positionComponent.x * CConfig.Unit;
+		this.view.position.y = positionComponent.y * CConfig.Unit;
 	}
 }
