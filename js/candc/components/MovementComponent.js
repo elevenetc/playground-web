@@ -125,9 +125,9 @@ class MovementComponent extends Component {
 				if (occupantMC.isStopped()) {
 					this.recalculatePath();
 				} else {
-					if (this.log) console.log(this.getComposite().getId() + ' waiting for ' + x + ':' + y);
+					if (this.log) console.log(composite.getId() + ' waiting for ' + x + ':' + y);
 					this.setStop();
-					this.groundModel.waitFor(this.getComposite(), x, y);
+					this.groundModel.waitFor(composite, x, y);
 				}
 
 				return;
@@ -135,8 +135,23 @@ class MovementComponent extends Component {
 		}
 
 		this.path.splice(0, 1);
-		this.groundModel.occupy(this.getComposite(), x, y);
-		this.groundModel.clear(this.getComposite(), fromX, fromY);
+
+		var dimens = composite.getDimenComponent();
+		var width = dimens.getWidth();
+		var height = dimens.getHeight();
+		var xD;
+		var yD;
+
+		// for (xD = x; xD < x + width; xD++)
+		// 	for (yD = y; yD < y + height; yD++)
+		// 		this.groundModel.occupy(composite, xD, yD);
+		//
+		// for (xD = fromX; xD < x - fromX; xD++)
+		// 	for (yD = fromY; yD < y - fromY; yD++)
+		// 		this.groundModel.clear(composite, xD, yD);
+
+		this.groundModel.occupy(composite, x, y);
+		this.groundModel.clear(composite, fromX, fromY);
 
 		this.animateStep(fromX, fromY, x, y, this.animTime, function () {
 			ref.moveToPoint();
@@ -150,7 +165,6 @@ class MovementComponent extends Component {
 		var fromY = positionComponent.getY();
 		this.path = this.groundModel.findPath(fromX, fromY, this.targetPoint[0], this.targetPoint[1]);
 		this.moveToPoint();
-		// this.startPath(this.targetPoint[0], this.targetPoint[1]);
 	}
 
 

@@ -5,8 +5,8 @@ class PositionComponent extends Component {
 	constructor(x, y, z = 0) {
 		super();
 		this.viewComponent = null;
-		this.x = x;
-		this.y = y;
+		this.x = x * CConfig.Unit;
+		this.y = y * CConfig.Unit;
 		this.z = z;
 	}
 

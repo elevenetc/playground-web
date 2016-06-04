@@ -132,19 +132,24 @@ class GroundModel extends Composite {
 	}
 
 	validatePathParams(fromX, fromY, toX, toY) {
-		if (fromX === undefined || fromY === undefined || toX === undefined || toY === undefined) {
-			throw new Error('Undefined param: ' + fromX + ':' + fromY + ':' + toX + ':' + toY + ':');
-		}
+
+		var w = this.matrix.length;
+		var h = this.matrix[0].length;
+		if(fromX > w || toX > w || fromY > h || toY > h)
+			throw new Error('Out of map: ' + fromX + ':' + fromY + ':' + toX + ':' + toY);
+
+		if (fromX === undefined || fromY === undefined || toX === undefined || toY === undefined)
+			throw new Error('Undefined param: ' + fromX + ':' + fromY + ':' + toX + ':' + toY);
 
 		var fromXInt = fromX | 0;
 		var fromYInt = fromY | 0;
 		var toXInt = toX | 0;
 		var toYInt = toY | 0;
 
-		if(fromX - fromXInt > 0) throw new Error('Invalid fromX: ' + fromX);
-		if(fromY - fromYInt > 0) throw new Error('Invalid fromY: ' + fromY);
-		if(toX - toXInt > 0) throw new Error('Invalid toX: ' + toX);
-		if(toY - toYInt > 0) throw new Error('Invalid toY: ' + toY);
+		if (fromX - fromXInt > 0) throw new Error('Invalid fromX: ' + fromX);
+		if (fromY - fromYInt > 0) throw new Error('Invalid fromY: ' + fromY);
+		if (toX - toXInt > 0) throw new Error('Invalid toX: ' + toX);
+		if (toY - toYInt > 0) throw new Error('Invalid toY: ' + toY);
 
 	}
 }
