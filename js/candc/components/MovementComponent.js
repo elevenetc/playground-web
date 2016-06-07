@@ -24,7 +24,7 @@ class MovementComponent extends Component {
 		this.viewComponent = null;
 		/** @type {function} */
 		this.endPathHandler = null;
-		this.animTime = 50;
+		this.animTime = 350;
 		this.log = true;
 	}
 
@@ -182,7 +182,9 @@ class MovementComponent extends Component {
 	// animation
 
 	animateWait(time, endHandler) {
-		this.animate({}, {}, time, null, endHandler);
+		setTimeout(function () {
+			endHandler();
+		}, time);
 	}
 
 	animateStep(fromX, fromY, toX, toY, time, endHandler) {
