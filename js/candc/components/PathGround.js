@@ -15,12 +15,10 @@ class PathGround extends Composite {
 		/*** @type {Compositor} */
 		this.compositor = compositor;
 
-
-		super.addComponent(new PlaneViewComponent(
-			groundModel.getWidth(),
-			groundModel.getHeight()
-		));
-		super.addComponent(new PositionComponent(0, 0, 0));
+		var width = groundModel.getWidth();
+		var height = groundModel.getHeight();
+		super.addComponent(new PlaneViewComponent(width, height));
+		super.addComponent(new PositionComponent(0, 0, new DimenComponent(width, height), groundModel));
 		super.compose();
 	}
 

@@ -2,12 +2,20 @@
  * Created by eleven on 22/05/2016.
  */
 class PositionComponent extends Component {
-	constructor(x, y, z = 0) {
+	/**
+	 *
+	 * @param x {int}
+	 * @param y {int}
+	 * @param dimenComponent {DimenComponent}
+	 * @param groundModel {GroundModel}
+	 */
+	constructor(x, y, dimenComponent, groundModel) {
 		super();
 		this.viewComponent = null;
 		this.x = x;
 		this.y = y;
-		this.z = z;
+		this.groundModel = groundModel;
+		this.dimenComponent = dimenComponent;
 	}
 
 	getX() {
@@ -20,18 +28,21 @@ class PositionComponent extends Component {
 
 	setX(x) {
 		this.x = x;
-		//this.viewComponent.updatePosition(this);
 	}
 
 	setY(y) {
 		this.y = y;
-		//this.viewComponent.updatePosition(this);
 	}
 
 	onComposeFinished() {
 		super.onComposeFinished();
 		this.viewComponent = super.getComposite().getViewComponent();
-		this.setX(this.x);
-		this.setY(this.y);
+
+		var width = this.dimenComponent.getWidth();
+		var height = this.dimenComponent.getHeight();
+
+		for (var x = this.x; x < x + width; x++)
+			for (var y = this.y; y < y + height; y++)
+				this.groundModel.occupy(super.getComposite(), x, y);
 	}
 }
