@@ -73,3 +73,5 @@ class Composite {
 	}
 
 }
+
+module.exports = Composite;

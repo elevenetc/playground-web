@@ -1,41 +1,27 @@
 /**
  * Created by eleven on 24/05/2016.
  */
+
+var PF = require('../../../bower_components/pathfinding/pathfinding-browser');
+var Composite = require('./Composite');
+
 class GroundModel extends Composite {
 
-	constructor() {
+	constructor(matrix = [
+		[0, 0, 0, 0],
+		[0, 0, 0, 0],
+		[0, 0, 0, 0],
+		[0, 0, 0, 0]
+	]) {
 		super();
 
-		this.matrix = [
-			[0, 0, 0, 0],
-			[0, 0, 0, 0],
-			[0, 0, 0, 0],
-			[0, 0, 0, 0]
-		];
-
-		this.occupants = [
-			[0, 0, 0, 0],
-			[0, 0, 0, 0],
-			[0, 0, 0, 0],
-			[0, 0, 0, 0]
-		];
-
+		this.matrix = matrix;
+		this.occupants = this.matrix.slice();
 		this.entitiesMap = {};
-
 		this.clearListeners = {};
-
-		// this.matrix = [
-		// 	[0, 0, 0, 0, 0, 0],
-		// 	[0, 1, 0, 0, 0, 0],
-		// 	[0, 0, 1, 0, 0, 0],
-		// 	[0, 0, 0, 1, 0, 0],
-		// 	[0, 0, 0, 0, 0, 0],
-		// 	[0, 0, 0, 0, 0, 0]
-		// ];
 		this.logAvaialability = false;
 		this.width = this.matrix.length;
 		this.height = this.matrix[0].length;
-
 		this.grid = new PF.Grid(this.matrix);
 	}
 
@@ -161,3 +147,5 @@ GroundModel.CLEAR = 0;
 GroundModel.UNIT = 1;
 GroundModel.OBS = 2;
 GroundModel.PATH = 3;
+
+module.exports = GroundModel;
