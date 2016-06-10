@@ -1,6 +1,9 @@
 /**
  * Created by eleven on 03/06/2016.
  */
+
+var Component = require('./Component');
+
 class DimenComponent extends Component {
 
 	constructor(width, height) {
@@ -18,3 +21,5 @@ class DimenComponent extends Component {
 	}
 
 }
+
+module.exports = DimenComponent;

@@ -1,6 +1,9 @@
 /**
  * Created by eleven on 22/05/2016.
  */
+
+var Component = require('./Component');
+
 class PositionComponent extends Component {
 	/**
 	 *
@@ -46,3 +49,5 @@ class PositionComponent extends Component {
 				this.groundModel.occupy(super.getComposite(), x, y);
 	}
 }
+
+module.exports = PositionComponent;

@@ -1,6 +1,9 @@
 /**
  * Created by eleven on 23/05/2016.
  */
+
+var Component = require('./Component');
+
 class MovementComponent extends Component {
 
 	/**
@@ -220,3 +223,4 @@ class MovementComponent extends Component {
 }
 
 MovementComponent.sss = 0;
+module.exports = MovementComponent;

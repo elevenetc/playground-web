@@ -1,6 +1,11 @@
 /**
  * Created by eleven on 15/05/2016.
  */
+var ViewComponent = function(){};
+var MovementComponent = require('./MovementComponent');
+var PositionComponent = require('./PositionComponent');
+var DimenComponent = require('./DimenComponent');
+
 class Composite {
 	constructor(id = null) {
 		/** @type {Component[]} */
