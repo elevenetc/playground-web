@@ -12,10 +12,33 @@ class Modules {
 		}
 	}
 
+	static getDocument() {
+		return {
+			getElementById: function () {
+				return {
+					appendChild: function () {
+
+					}
+				}
+			}
+		};
+		//return document;
+	}
+
+	static getView() {
+		var ViewClass = null;
+		if (Modules.BUILD_TYPE === Modules.DEBUG_NODE) {
+			ViewClass = require('./view/BaseView');
+		} else if (Modules.BUILD_TYPE == Modules.DEBUG_BROWSER) {
+			ViewClass = require('./view/WebView');
+		}
+		return new ViewClass();
+	}
+
 }
-Modules.DEBUG = 'debug';
-Modules.RELEASE = 'release';
+Modules.DEBUG_NODE = 'debug_node';
+Modules.DEBUG_BROWSER = 'debug_browser';
 Modules.TEST = 'test';
-Modules.BUILD_TYPE = Modules.TEST;
+Modules.BUILD_TYPE = Modules.DEBUG_BROWSER;
 
 module.exports = Modules;
