@@ -8,6 +8,7 @@ var MovementComponent = require('../components/MovementComponent');
 var Composite = require('../components/Composite');
 var PositionComponent = require('../components/PositionComponent');
 var DimenComponent = require('../components/DimenComponent');
+var should = require('chai').should();
 
 class MovementComponentTests extends BaseTest {
 
@@ -44,17 +45,17 @@ class MovementComponentTests extends BaseTest {
 		this.movementComponent.setComposite(this.composite);
 	}
 
-	run() {
-		this.testBasicMovement();
-	}
-
 	testBasicMovement() {
-		this.before();
-		this.movementComponent.moveTo(0, 0, 2, 2, function () {
-
-		});
+		const fromX = 0;
+		const fromY = 0;
+		const toX = 1;
+		const toY = 1;
+		this.movementComponent.moveTo(fromX, fromY, toX, toY);
+		this.positionComponent.getX().should.equal(toX);
+		this.positionComponent.getY().should.equal(toY);
+		this.groundModel.isAvailable(toX, toY).should.equal(false);
+		this.groundModel.isAvailable(fromX, fromY).should.equal(true);
 	}
 }
 
 module.exports = MovementComponentTests;
-//new MovementComponentTests().run();

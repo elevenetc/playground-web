@@ -24,7 +24,6 @@ class TestGroundModel extends BaseTest {
 	}
 
 	testPathFinding() {
-		this.before();
 		var x = 1;
 		var y = 2;
 		var path = this.groundModel.findPath(0, 0, x, y);
@@ -35,7 +34,6 @@ class TestGroundModel extends BaseTest {
 	}
 
 	testOccupation() {
-		this.before();
 		var x = 1;
 		var y = 2;
 		this.groundModel.occupy(null, x, y);
@@ -44,7 +42,6 @@ class TestGroundModel extends BaseTest {
 	}
 
 	testClear() {
-		this.before();
 		var x = 0;
 		var y = 0;
 		this.groundModel.isAvailable(x, y).should.equal(true);
@@ -52,13 +49,6 @@ class TestGroundModel extends BaseTest {
 		this.groundModel.isAvailable(x, y).should.equal(false);
 		this.groundModel.clear(null, x, y);
 		this.groundModel.isAvailable(x, y).should.equal(true);
-	}
-
-
-	run() {
-		this.testPathFinding();
-		this.testOccupation();
-		this.testClear();
 	}
 }
 

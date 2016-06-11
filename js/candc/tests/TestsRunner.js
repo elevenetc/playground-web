@@ -12,6 +12,7 @@ class TestsRunner {
 		var ignore = [testRunnerFileName, 'BaseTest.js'];
 
 		TestsRunner.walkSync('./', function (path, obj) {
+			
 			var TestClass = require('./' + path);
 			var test = new TestClass();
 			var methodsAmount = 0;
@@ -29,10 +30,7 @@ class TestsRunner {
 				}
 			}
 
-			// test.run();
-			if (methodsAmount == 0) {
-				console.log('Not found test methods in ' + path);
-			}
+			if (methodsAmount == 0) console.log('Not found test methods in ' + path);
 
 		}, ignore);
 	}
