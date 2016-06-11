@@ -21,3 +21,4 @@ gen/
 *.ap_
 *.dex
 /bower_components
+/node_modules
