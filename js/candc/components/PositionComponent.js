@@ -44,9 +44,9 @@ class PositionComponent extends Component {
 		var width = this.dimenComponent.getWidth();
 		var height = this.dimenComponent.getHeight();
 
-		for (var x = this.x; x < x + width; x++)
-			for (var y = this.y; y < y + height; y++)
-				this.groundModel.occupy(super.getComposite(), x, y);
+		// for (var x = this.x; x < x + width; x++)
+		// 	for (var y = this.y; y < y + height; y++)
+		// 		this.groundModel.occupy(super.getComposite(), x, y);
 	}
 }
 

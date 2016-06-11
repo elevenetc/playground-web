@@ -2,7 +2,10 @@
  * Created by eleven on 23/05/2016.
  */
 
+var Modules = require('../Modules');
 var Component = require('./Component');
+var CConfig = require('../CConfig');
+var Animator = Modules.getAnimator();
 
 class MovementComponent extends Component {
 
@@ -160,8 +163,7 @@ class MovementComponent extends Component {
 				this.groundModel.clear(composite, x, y);
 			}
 		}
-
-
+		
 		// this.groundModel.occupy(composite, nextX, nextY);
 		// this.groundModel.clear(composite, fromX, fromY);
 
@@ -210,7 +212,7 @@ class MovementComponent extends Component {
 	}
 
 	animate(from, to, time, updateHandler, endHandler) {
-		new TWEEN.Tween(from)
+		new Animator(from)
 			.to(to, time)
 			.onUpdate(function () {
 				if (updateHandler != null && updateHandler != undefined) updateHandler(this);
