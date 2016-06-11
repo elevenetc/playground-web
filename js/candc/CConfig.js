@@ -6,5 +6,3 @@ class CConfig {
 }
 
 CConfig.Unit = 100;
-
-console.log(CConfig.Unit);
