@@ -1,14 +1,12 @@
 /**
  * Created by eleven on 11/06/2016.
  */
-// var TweenAnimator = ;
-var MockAnimator = require('./animation/Animator');
 
 class Modules {
 
 	static getAnimator() {
 		if (Modules.BUILD_TYPE === Modules.TEST) {
-			return MockAnimator;
+			return require('./animation/Animator');
 		} else {
 			return require('../../bower_components/tween.js/src/Tween');
 		}
