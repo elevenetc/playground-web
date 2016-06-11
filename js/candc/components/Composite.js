@@ -1,7 +1,7 @@
 /**
  * Created by eleven on 15/05/2016.
  */
-var ViewComponent = function(){};
+var ViewComponent = require('./ViewComponent');
 var MovementComponent = require('./MovementComponent');
 var PositionComponent = require('./PositionComponent');
 var DimenComponent = require('./DimenComponent');

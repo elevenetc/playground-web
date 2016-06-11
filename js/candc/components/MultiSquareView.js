@@ -1,20 +1,25 @@
 /**
  * Created by eleven on 03/06/2016.
  */
+var ViewComponent = require('./ViewComponent');
+var Modules = require('../Modules');
+
 class MultiSquareView extends ViewComponent {
 
 	constructor(color) {
 		super();
 		this.color = color;
 	}
-	
+
 	onComposeFinished() {
 		super.onComposeFinished();
 		var dimen = super.getComposite().getDimenComponent();
-		super.setView(CreateObj.matrix(
+		super.setView(Modules.getObjectCreator().matrix(
 			dimen.getWidth(),
 			dimen.getHeight(),
 			this.color
 		));
 	}
 }
+
+module.exports = MultiSquareView;

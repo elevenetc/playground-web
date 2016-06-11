@@ -1,6 +1,15 @@
 /**
  * Created by eleven on 15/05/2016.
  */
+var DimenComponent = require('./DimenComponent');
+var MultiSquareView = require('./MultiSquareView');
+var MovementComponent = require('./MovementComponent');
+var PositionComponent = require('./PositionComponent');
+var BoxViewComponent = require('./BoxViewComponent');
+var Composite = require('./Composite');
+var SampleCommander = require('../commands/SampleCommander');
+
+
 class Tank extends Composite {
 
 	constructor(groundModel, fromX, fromY, toX, toY, id) {
@@ -22,3 +31,5 @@ class Tank extends Composite {
 
 	}
 }
+
+module.exports = Tank;

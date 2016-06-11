@@ -123,6 +123,7 @@ class MovementComponent extends Component {
 			var point = this.path[0];
 			nextX = point[1];
 			nextY = point[0];
+
 			var isSame = fromX == nextX && fromY == nextY;
 			var isAvailable = this.groundModel.isAvailable(nextX, nextY);
 

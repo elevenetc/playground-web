@@ -1,6 +1,8 @@
 /**
  * Created by eleven on 30/05/2016.
  */
+var Component = require('../components/Component');
+
 class Commander extends Component {
 	constructor() {
 		super();
@@ -16,3 +18,5 @@ class Commander extends Component {
 		this.activeCommand.start();
 	}
 }
+
+module.exports = Commander;

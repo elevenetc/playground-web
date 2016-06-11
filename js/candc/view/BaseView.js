@@ -7,7 +7,15 @@ class BaseView {
 	}
 
 	render() {
-		
+
+	}
+
+	getScene() {
+		return {
+			add: function (view) {
+
+			}
+		}
 	}
 }
 

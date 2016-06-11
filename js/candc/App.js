@@ -3,6 +3,7 @@
  */
 var THREE = require('../../bower_components/three.js/build/three.min');
 var Modules = require('./Modules');
+var SampleCompositor = require('./compositors/SampleCompositor');
 
 class App {
 

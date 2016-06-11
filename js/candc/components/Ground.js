@@ -1,6 +1,11 @@
 /**
  * Created by eleven on 22/05/2016.
  */
+var Composite = require('./Composite');
+var PlaneViewComponent = require('./PlaneViewComponent');
+var PositionComponent = require('./PositionComponent');
+var DimenComponent = require('./DimenComponent');
+
 class Ground extends Composite {
 
 	/**
@@ -53,3 +58,5 @@ class Ground extends Composite {
 
 	}
 }
+
+module.exports = Ground;

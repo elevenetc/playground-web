@@ -8,10 +8,12 @@ class Animator {
 		this.endParams = null;
 		this.updateHandler = null;
 		this.completeHandler = null;
+		this.time = 0;
 	}
 
 	to(endParams, time) {
 		this.endParams = endParams;
+		this.time = time;
 		return this;
 	}
 
@@ -26,7 +28,10 @@ class Animator {
 	}
 
 	start() {
-		this.completeHandler();
+		var ref = this;
+		setTimeout(function () {
+			ref.completeHandler();
+		}, this.time);
 	}
 
 	static empty() {

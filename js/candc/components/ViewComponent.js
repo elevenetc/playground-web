@@ -1,6 +1,9 @@
 /**
  * Created by eleven on 15/05/2016.
  */
+var Component = require('./Component');
+var CConfig = require('../CConfig');
+
 class ViewComponent extends Component {
 
 	constructor() {
@@ -29,3 +32,5 @@ class ViewComponent extends Component {
 		this.view.position.y = positionComponent.y * CConfig.Unit;
 	}
 }
+
+module.exports = ViewComponent;

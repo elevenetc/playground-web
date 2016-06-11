@@ -39,3 +39,5 @@ class Compositor {
 			this.composites[i].update();
 	}
 }
+
+module.exports = Compositor;

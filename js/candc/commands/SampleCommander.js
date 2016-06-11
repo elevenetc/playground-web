@@ -1,6 +1,10 @@
 /**
  * Created by eleven on 30/05/2016.
  */
+
+var Commander = require('./Commander');
+var PatrolCommand = require('./PatrolCommand');
+
 class SampleCommander extends Commander {
 
 	constructor(fromX, fromY, toX, toY) {
@@ -20,3 +24,5 @@ class SampleCommander extends Commander {
 		));
 	}
 }
+
+module.exports = SampleCommander;

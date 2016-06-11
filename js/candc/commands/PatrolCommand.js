@@ -1,6 +1,8 @@
 /**
  * Created by eleven on 30/05/2016.
  */
+var Command = require('./Command');
+
 class PatrolCommand extends Command {
 
 	constructor(entity,
@@ -50,3 +52,5 @@ class PatrolCommand extends Command {
 			this.currentTarget = [this.fromX, this.fromY];
 	}
 }
+
+module.exports = PatrolCommand;

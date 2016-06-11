@@ -6,3 +6,5 @@ class CConfig {
 }
 
 CConfig.Unit = 100;
+
+module.exports = CConfig;
