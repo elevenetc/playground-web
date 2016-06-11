@@ -1,12 +1,14 @@
 var Composite = require('../components/Composite');
 var GroundModel = require('../components/GroundModel');
+var BaseTest = require('./BaseTest');
 var assert = require('chai').assert;
 var expect = require('chai').expect;
 var should = require('chai').should();
 
-class TestGroundModel {
+class TestGroundModel extends BaseTest {
 
 	constructor() {
+		super();
 		this.matrix = null;
 		/** @type {GroundModel} */
 		this.groundModel = null;
@@ -60,6 +62,6 @@ class TestGroundModel {
 	}
 }
 
-new TestGroundModel().run();
+module.exports = TestGroundModel;
 
 

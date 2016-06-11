@@ -31,7 +31,7 @@ class MovementComponent extends Component {
 		/** @type {function} */
 		this.endPathHandler = null;
 		this.animTime = 350;
-		this.log = true;
+		this.log = false;
 	}
 
 	/*** @param movementComponent {MovementComponent} */
@@ -163,7 +163,7 @@ class MovementComponent extends Component {
 				this.groundModel.clear(composite, x, y);
 			}
 		}
-		
+
 		// this.groundModel.occupy(composite, nextX, nextY);
 		// this.groundModel.clear(composite, fromX, fromY);
 

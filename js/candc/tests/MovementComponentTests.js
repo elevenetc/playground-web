@@ -2,15 +2,17 @@
  * Created by eleven on 10/06/2016.
  */
 
+var BaseTest = require('./BaseTest');
 var GroundModel = require('../components/GroundModel');
 var MovementComponent = require('../components/MovementComponent');
 var Composite = require('../components/Composite');
 var PositionComponent = require('../components/PositionComponent');
 var DimenComponent = require('../components/DimenComponent');
 
-class MovementComponentTests {
+class MovementComponentTests extends BaseTest {
 
 	constructor() {
+		super();
 		/** @type {MovementComponent} */
 		this.movementComponent = null;
 		/** @type {GroundModel} */
@@ -54,4 +56,5 @@ class MovementComponentTests {
 	}
 }
 
-new MovementComponentTests().run();
+module.exports = MovementComponentTests;
+//new MovementComponentTests().run();
