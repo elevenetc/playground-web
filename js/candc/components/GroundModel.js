@@ -16,7 +16,7 @@ class GroundModel extends Composite {
 		super();
 
 		this.matrix = matrix;
-		this.occupants = this.matrix.slice();
+		this.occupants = GroundModel.createEmptyArray(matrix.length, matrix[0].length);
 		this.entitiesMap = {};
 		this.clearListeners = {};
 		this.logAvaialability = false;
@@ -70,7 +70,7 @@ class GroundModel extends Composite {
 	 * @returns {Composite}
 	 */
 	getOccupant(x, y) {
-		if (x < 0 || y < 0 || x > this.matrix.length - 1 || y > this.matrix[0].length - 1)
+		if (x < 0 || y < 0 || x > this.occupants.length - 1 || y > this.occupants[0].length - 1)
 			return null;
 		return this.occupants[x][y];
 	}
@@ -91,7 +91,7 @@ class GroundModel extends Composite {
 	 * @param y {int}
 	 */
 	clear(entity, x, y) {
-		this.occupants[x][y] = entity;
+		this.occupants[x][y] = GroundModel.CLEAR;
 		this.matrix[x][y] = GroundModel.CLEAR;
 
 		for (var waiterId in this.clearListeners) {
@@ -140,6 +140,19 @@ class GroundModel extends Composite {
 		if (toX - toXInt > 0) throw new Error('Invalid toX: ' + toX);
 		if (toY - toYInt > 0) throw new Error('Invalid toY: ' + toY);
 
+	}
+
+	static createEmptyArray(w, h) {
+		var result = [];
+		for (var i = 0; i < w; i++) {
+			var inter = [];
+			for (var k = 0; k < h; k++) {
+				inter[k] = 0;
+			}
+			result[i] = inter;
+		}
+
+		return result;
 	}
 }
 
