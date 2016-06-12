@@ -85,12 +85,50 @@ class GroundModel extends Composite {
 		this.matrix[x][y] = GroundModel.UNIT;
 	}
 
+	/** @param entity {Composite} */
+	clearFromEntity(entity) {
+		var dimen = entity.getDimenComponent();
+		var position = entity.getPositionComponent();
+		var minX = position.getX();
+		var minY = position.getY();
+		var x;
+		var y;
+		var width = dimen.getWidth();
+		var height = dimen.getHeight();
+		for (x = minX; x < minX + width; x++)
+			for (y = minY; y < minY + height; y++)
+				this.clearFromAt(entity, x, y);
+	}
+
+	occupyBy(entity) {
+		var dimen = entity.getDimenComponent();
+		var position = entity.getPositionComponent();
+		var minX = position.getX();
+		var minY = position.getY();
+		var x;
+		var y;
+		var width = dimen.getWidth();
+		var height = dimen.getHeight();
+		for (x = minX; x < minX + width; x++)
+			for (y = minY; y < minY + height; y++)
+				this.occupy(entity, x, y);
+	}
+
 	/**
 	 * @param entity {Composite}
 	 * @param x {int}
 	 * @param y {int}
 	 */
-	clear(entity, x, y) {
+	clearFromAt(entity, x, y) {
+		if (!GroundModel.isValid(this.occupants, x, y)) return;
+		if (this.occupants[x][y] === entity) this.clear(x, y);
+	}
+
+	/**
+	 * @param x {int}
+	 * @param y {int}
+	 */
+	clear(x, y) {
 		this.occupants[x][y] = GroundModel.CLEAR;
 		this.matrix[x][y] = GroundModel.CLEAR;
 
@@ -153,6 +191,17 @@ class GroundModel extends Composite {
 		}
 
 		return result;
+	}
+
+	static isValid(array, x, y) {
+		if (x < 0 || y < 0 || x > array.length - 1 || y > array[0].length - 1) {
+			return false;
+			// var error = new Error('Invalid indexes (' + x + ':' + y + ')');
+			// console.log(error.stack);
+			// throw error;
+		} else {
+			return true;
+		}
 	}
 }
 

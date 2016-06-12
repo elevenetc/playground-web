@@ -47,7 +47,7 @@ class TestGroundModel extends BaseTest {
 		this.groundModel.isAvailable(x, y).should.equal(true);
 		this.groundModel.occupy(null, x, y);
 		this.groundModel.isAvailable(x, y).should.equal(false);
-		this.groundModel.clear(null, x, y);
+		this.groundModel.clear(x, y);
 		this.groundModel.isAvailable(x, y).should.equal(true);
 	}
 }

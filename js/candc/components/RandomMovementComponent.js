@@ -34,7 +34,7 @@ class RandomMovementComponent extends MovementComponent {
 
 		if (!same && this.groundModel.isAvailable(nextX, nextY)) {
 			this.groundModel.occupy(this.getComposite() , nextX, nextY);
-			this.groundModel.clear(this.getComposite(), currentX, currentY);
+			this.groundModel.clear(currentX, currentY);
 			this.startMovement(nextX, nextY);
 
 		} else {

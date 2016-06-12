@@ -43,7 +43,7 @@ class CreateObj {
 			throw new Error('Undefined params: ' + wUnits + ',' + hUnits);
 
 		var group = new THREE.Object3D();
-		var mat = {color: color, wireframe: color == 0x000000};
+		var mat = {color: color, wireframe: true};
 
 		for (var w = 0; w < wUnits; w++) {
 

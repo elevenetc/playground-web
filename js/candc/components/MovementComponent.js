@@ -30,8 +30,8 @@ class MovementComponent extends Component {
 		this.viewComponent = null;
 		/** @type {function} */
 		this.endPathHandler = null;
-		this.animTime = 350;
-		this.log = false;
+		this.animTime = 100;
+		this.log = true;
 	}
 
 	/*** @param movementComponent {MovementComponent} */
@@ -90,7 +90,13 @@ class MovementComponent extends Component {
 		this.endPathHandler = endPathHandler;
 
 		if (this.log) console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
+
+		this.groundModel.clearFromEntity(this.getComposite());
+
 		this.path = this.groundModel.findPath(fromX, fromY, toX, toY);
+
+		this.groundModel.occupyBy(this.getComposite());
+
 		if (this.log) console.log('path length: ' + this.path.length);
 
 		this.startPath(toX, toY);
@@ -131,16 +137,21 @@ class MovementComponent extends Component {
 
 				var occupant = this.groundModel.getOccupant(nextX, nextY);
 				var occupantMC = occupant.getMovementComponent();
+				var occupiedByItself = composite === occupant;
 
-				if (occupantMC.isStopped()) {
-					this.recalculatePath();
-				} else {
-					if (this.log) console.log(composite.getId() + ' waiting for ' + nextX + ':' + nextY);
-					this.setStop();
-					this.groundModel.waitFor(composite, nextX, nextY);
+				if (occupiedByItself) if (this.log) console.log('occupied buy itself');
+
+				if (!occupiedByItself) {
+					if (occupantMC.isStopped()) {
+						this.recalculatePath();
+					} else {
+						if (this.log) console.log(composite.getId() + ' waiting for ' + nextX + ':' + nextY);
+						this.setStop();
+						this.groundModel.waitFor(composite, nextX, nextY);
+					}
+
+					return;
 				}
-
-				return;
 			}
 		}
 
@@ -151,19 +162,19 @@ class MovementComponent extends Component {
 		var height = dimens.getHeight();
 		var x;
 		var y;
+		var minX = fromX <= nextX ? fromX : nextX;
+		var minY = fromY <= nextY ? fromY : nextY;
 
-		for (x = nextX; x < nextX + width; x++) {
-			for (y = nextY; y < nextY + height; y++) {
+		//TODO: optimize - merge clear and occupy traverses
+
+		for (x = minX; x < minX + width + 1; x++)//+1 movement step
+			for (y = minY; y < minY + height + 1; y++)//+1 movement step
+				this.groundModel.clearFromAt(composite, x, y);
+
+		for (x = nextX; x < nextX + width; x++)
+			for (y = nextY; y < nextY + height; y++)
 				this.groundModel.occupy(composite, x, y);
-			}
-		}
 
-
-		for (x = fromX; x <= fromX; x++) {
-			for (y = fromY; y <= fromY; y++) {
-				this.groundModel.clear(composite, x, y);
-			}
-		}
 
 		// this.groundModel.occupy(composite, nextX, nextY);
 		// this.groundModel.clear(composite, fromX, fromY);
