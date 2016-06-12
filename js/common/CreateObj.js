@@ -1,6 +1,10 @@
 /**
  * Created by eleven on 15/05/2016.
  */
+var Utils = require('./Utils');
+var CConfig = require('../candc/CConfig');
+var THREE = require('../../bower_components/three.js/build/three.min');
+
 class CreateObj {
 
 	static box(width, height, depth, material) {
@@ -63,6 +67,7 @@ class CreateObj {
 
 		return new THREE.Mesh(geometry, material);
 	};
-	
+
 }
 
+module.exports = CreateObj;

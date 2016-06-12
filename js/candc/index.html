@@ -5,52 +5,62 @@
     <title>Hello</title>
 
     <script>
-        window.module = {exports: {}};
+        //        window.module = {exports: {}};
+        //        window.require = function (param) {
+        //            return null;
+        //        }
     </script>
 
-    <script src="../../bower_components/pathfinding/pathfinding-browser.js"></script>
-    <script src="../../bower_components/three.js/build/three.js"></script>
 
-    <script src="../common/tween.js"></script>
-    <script src="../common/Utils.js"></script>
-    <script src="../common/CreateObj.js"></script>
+    <!--<script src="../../bower_components/pathfinding/pathfinding-browser.js"></script>-->
+    <!--<script src="../../bower_components/three.js/build/three.js"></script>-->
 
-    <script src="../Config.js"></script>
+    <!--<script src="../common/tween.js"></script>-->
+    <!--<script src="../common/Utils.js"></script>-->
+    <!--<script src="../common/CreateObj.js"></script>-->
 
-    <script src="App.js"></script>
-    <script src="components/Component.js"></script>
-    <script src="components/Composite.js"></script>
-    <script src="components/ViewComponent.js"></script>
-    <script src="components/PathGround.js"></script>
-    <script src="components/PositionComponent.js"></script>
-    <script src="components/PlaneViewComponent.js"></script>
-    <script src="components/MovementComponent.js"></script>
-    <script src="components/RandomMovementComponent.js"></script>
-    <script src="components/RandomPathMovementComponent.js"></script>
-    <script src="components/GroundModel.js"></script>
-    <script src="CConfig.js"></script>
-    <script src="compositors/Compositor.js"></script>
-    <script src="compositors/SampleCompositor.js"></script>
-    <script src="components/BoxViewComponent.js"></script>
-    <script src="components/Tank.js"></script>
-    <script src="components/LargeTank.js"></script>
-    <script src="components/Ground.js"></script>
-    <script src="components/ConflictResolver.js"></script>
-    <script src="commands/Command.js"></script>
-    <script src="commands/Commander.js"></script>
-    <script src="commands/PatrolCommand.js"></script>
-    <script src="commands/SampleCommander.js"></script>
-    <script src="components/BuildingComposite.js"></script>
-    <script src="components/MultiSquareView.js"></script>
-    <script src="components/DimenComponent.js"></script>
+    <!--<script src="../Config.js"></script>-->
+
+    <!--<script src="App.js"></script>-->
+    <!--<script src="components/Component.js"></script>-->
+    <!--<script src="components/Composite.js"></script>-->
+    <!--<script src="components/ViewComponent.js"></script>-->
+    <!--<script src="components/PathGround.js"></script>-->
+    <!--<script src="components/PositionComponent.js"></script>-->
+    <!--<script src="components/PlaneViewComponent.js"></script>-->
+    <!--<script src="components/MovementComponent.js"></script>-->
+    <!--<script src="components/RandomMovementComponent.js"></script>-->
+    <!--<script src="components/RandomPathMovementComponent.js"></script>-->
+    <!--<script src="components/GroundModel.js"></script>-->
+    <!--<script src="CConfig.js"></script>-->
+    <!--<script src="compositors/Compositor.js"></script>-->
+    <!--<script src="compositors/SampleCompositor.js"></script>-->
+    <!--<script src="components/BoxViewComponent.js"></script>-->
+    <!--<script src="components/Tank.js"></script>-->
+    <!--<script src="components/LargeTank.js"></script>-->
+    <!--<script src="components/Ground.js"></script>-->
+    <!--<script src="components/ConflictResolver.js"></script>-->
+    <!--<script src="commands/Command.js"></script>-->
+    <!--<script src="commands/Commander.js"></script>-->
+    <!--<script src="commands/PatrolCommand.js"></script>-->
+    <!--<script src="commands/SampleCommander.js"></script>-->
+    <!--<script src="components/BuildingComposite.js"></script>-->
+    <!--<script src="components/MultiSquareView.js"></script>-->
+    <!--<script src="components/DimenComponent.js"></script>-->
 
 </head>
 <body>
 <div id="WebGLCanvas" style="background-color:#000000; height: 600px; width: 600px;"></div>
 
+<script src="./build/bundle.js"></script>
+
 <script>
     'use strict';
-    new App().init();
+
+    //    document.addEventListener("DOMContentLoaded", function (event) {
+    //        new App().init();
+    //    });
+
 </script>
 </body>
 </html>

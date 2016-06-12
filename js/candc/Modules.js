@@ -8,8 +8,12 @@ class Modules {
 		if (Modules.BUILD_TYPE === Modules.TEST || Modules.BUILD_TYPE === Modules.DEBUG_NODE) {
 			return require('./animation/Animator');
 		} else {
-			return require('../../bower_components/tween.js/src/Tween');
+			return require('../../bower_components/tween.js/src/Tween').Tween;
 		}
+	}
+
+	static getAnimatorUpdate() {
+		return require('../../bower_components/tween.js/src/Tween');
 	}
 
 	static getDocument() {
@@ -71,6 +75,6 @@ class Modules {
 Modules.DEBUG_NODE = 'debug_node';
 Modules.DEBUG_BROWSER = 'debug_browser';
 Modules.TEST = 'test';
-Modules.BUILD_TYPE = Modules.DEBUG_NODE;
+Modules.BUILD_TYPE = Modules.DEBUG_BROWSER;
 
 module.exports = Modules;

@@ -4,6 +4,8 @@
 
 var THREE = require('../../../bower_components/three.js/build/three.min');
 var BaseView = require('./BaseView');
+var CConfig = require('../CConfig');
+var Modules = require('../Modules');
 
 class WebView extends BaseView {
 
@@ -26,15 +28,15 @@ class WebView extends BaseView {
 		super.init();
 
 		this.renderer = new THREE.WebGLRenderer({antialias: true});
-		var w = Config.SCENE_WIDTH;
-		var h = Config.SCENE_HEIGHT;
+		var w = 600;
+		var h = 600;
 
 		this.scene = new THREE.Scene();
 		this.camera = new THREE.OrthographicCamera(w / -2, w / 2, h / 2, h / -2, 0, 1000000);
 		// this.camera = new THREE.PerspectiveCamera(60, w / h, 1, 1000000);
 
 		this.renderer.setSize(w, h);
-		document.getElementById(Config.DIV_NAME).appendChild(this.renderer.domElement);
+		document.getElementById('WebGLCanvas').appendChild(this.renderer.domElement);
 		this.camera.position.set(CConfig.Unit, CConfig.Unit, 1000);
 
 		this.initMouseHandlers();
@@ -51,18 +53,16 @@ class WebView extends BaseView {
 		}, false);
 	}
 
-	render() {
+	render(updateHandler) {
 		super.render();
 
 		this.renderer.render(this.scene, this.camera);
 
-		TWEEN.update();
-
+		Modules.getAnimatorUpdate().update();
 		this.handleMouseSelection();
 
-		var self = this;
 		requestAnimationFrame(function () {
-			self.renderScene();
+			updateHandler.renderScene();
 		});
 	}
 

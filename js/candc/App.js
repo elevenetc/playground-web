@@ -1,7 +1,7 @@
 /**
  * Created by eleven on 15/05/2016.
  */
-var THREE = require('../../bower_components/three.js/build/three.min');
+// var THREE = require('../../bower_components/three.js/build/three.min');
 var Modules = require('./Modules');
 var SampleCompositor = require('./compositors/SampleCompositor');
 
@@ -9,15 +9,13 @@ class App {
 
 	constructor() {
 		this.compositor = null;
-		/**
-		 *
-		 * @type {BaseView}
-		 */
+		/** @type {BaseView} */
 		this.view = null;
 	}
 
 	init() {
 		this.view = Modules.getView();
+		this.view.init();
 		this.composeScene();
 		this.renderScene();
 	}
@@ -28,9 +26,9 @@ class App {
 	}
 
 	renderScene() {
-
 		this.compositor.update();
-		//view.render
+		var ref = this;
+		this.view.render(ref);
 	}
 
 	toString() {
