@@ -4,6 +4,10 @@
 
 class Modules {
 
+	static getThree() {
+		return require('../../bower_components/three.js/build/three.min');
+	}
+
 	static getAnimator() {
 		if (Modules.BUILD_TYPE === Modules.TEST || Modules.BUILD_TYPE === Modules.DEBUG_NODE) {
 			return require('./animation/Animator');

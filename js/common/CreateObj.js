@@ -3,7 +3,8 @@
  */
 var Utils = require('./Utils');
 var CConfig = require('../candc/CConfig');
-var THREE = require('../../bower_components/three.js/build/three.min');
+var Modules = require('../candc/Modules')
+var THREE = Modules.getThree();
 
 class CreateObj {
 

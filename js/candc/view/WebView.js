@@ -2,10 +2,10 @@
  * Created by eleven on 11/06/2016.
  */
 
-var THREE = require('../../../bower_components/three.js/build/three.min');
+var Modules = require('../Modules');
+var THREE = Modules.getThree();
 var BaseView = require('./BaseView');
 var CConfig = require('../CConfig');
-var Modules = require('../Modules');
 
 class WebView extends BaseView {
 

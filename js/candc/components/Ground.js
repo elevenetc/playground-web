@@ -7,7 +7,8 @@ var PositionComponent = require('./PositionComponent');
 var DimenComponent = require('./DimenComponent');
 var CConfig = require('../CConfig');
 var GroundModel = require('./GroundModel');
-var THREE = require('../../../bower_components/three.js/build/three.min');
+var Modules = require('../Modules');
+var THREE = Modules.getThree();
 
 class Ground extends Composite {
 
