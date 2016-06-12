@@ -175,10 +175,6 @@ class MovementComponent extends Component {
 			for (y = nextY; y < nextY + height; y++)
 				this.groundModel.occupy(composite, x, y);
 
-
-		// this.groundModel.occupy(composite, nextX, nextY);
-		// this.groundModel.clear(composite, fromX, fromY);
-
 		this.animateStep(fromX, fromY, nextX, nextY, this.animTime, function () {
 			ref.moveToPoint();
 		});
@@ -192,7 +188,6 @@ class MovementComponent extends Component {
 		this.path = this.groundModel.findPath(fromX, fromY, this.targetPoint[0], this.targetPoint[1]);
 		this.moveToPoint();
 	}
-
 
 	// animation
 	// animation

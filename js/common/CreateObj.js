@@ -3,7 +3,7 @@
  */
 var Utils = require('./Utils');
 var CConfig = require('../candc/CConfig');
-var Modules = require('../candc/Modules')
+var Modules = require('../candc/Modules');
 var THREE = Modules.getThree();
 
 class CreateObj {
