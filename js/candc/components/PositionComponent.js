@@ -40,10 +40,7 @@ class PositionComponent extends Component {
 	onComposeFinished() {
 		super.onComposeFinished();
 		this.viewComponent = super.getComposite().getViewComponent();
-
-		var width = this.dimenComponent.getWidth();
-		var height = this.dimenComponent.getHeight();
-		//TODO: occupy plane when initial composition is finished
+		this.groundModel.occupyBy(this.getComposite());
 	}
 }
 
