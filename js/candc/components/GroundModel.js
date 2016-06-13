@@ -102,6 +102,7 @@ class GroundModel extends Composite {
 
 	occupyBy(entity) {
 		var dimen = entity.getDimenComponent();
+		if (dimen === null) return;//avoid if entity without dimenstion
 		var position = entity.getPositionComponent();
 		var minX = position.getX();
 		var minY = position.getY();
