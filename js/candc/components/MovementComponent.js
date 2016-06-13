@@ -31,7 +31,7 @@ class MovementComponent extends Component {
 		/** @type {function} */
 		this.endPathHandler = null;
 		this.animTime = 100;
-		this.log = true;
+		this.log = false;
 	}
 
 	/*** @param movementComponent {MovementComponent} */
@@ -89,7 +89,8 @@ class MovementComponent extends Component {
 
 		this.endPathHandler = endPathHandler;
 
-		if (this.log) console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
+		// if (this.log) console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
+		console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
 
 		this.groundModel.clearFromEntity(this.getComposite());
 
@@ -107,6 +108,7 @@ class MovementComponent extends Component {
 			this.targetPoint = [toX, toY];
 			this.moveToPoint();
 		} else {
+			console.log('end path:' + this.getComposite().getId());
 			if (this.endPathHandler != null) this.endPathHandler();
 		}
 	}

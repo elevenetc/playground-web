@@ -4,6 +4,10 @@
 
 class Modules {
 
+	static getPathFinding() {
+		return require('../../bower_components/pathfinding/pathfinding-browser');
+	}
+
 	static getThree() {
 		return require('../../bower_components/three.js/build/three.min');
 	}

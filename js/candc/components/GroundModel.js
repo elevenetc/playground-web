@@ -2,7 +2,8 @@
  * Created by eleven on 24/05/2016.
  */
 
-var PF = require('../../../bower_components/pathfinding/pathfinding-browser');
+var Modules = require('../Modules');
+var PF = Modules.getPathFinding();
 var Composite = require('./Composite');
 
 class GroundModel extends Composite {

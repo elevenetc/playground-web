@@ -18,7 +18,10 @@ class SampleCommander extends Commander {
 	onComposeFinished() {
 		super.onComposeFinished();
 		var ref = this;
-		super.setCommand(new PatrolCommand(super.getComposite(),
+		var composite = super.getComposite();
+		super.setCommand(new PatrolCommand(
+			composite.getMovementComponent(),
+			composite.getPositionComponent(),
 			ref.fromX, ref.fromY,
 			ref.toX, ref.toY
 		));

@@ -5,16 +5,15 @@ var Command = require('./Command');
 
 class PatrolCommand extends Command {
 
-	constructor(entity,
+	constructor(movementComponent,
+	            positionComponent,
 	            fromX, fromY,
 	            toX, toY) {
 		super();
-		/*** @type {Composite} */
-		this.entity = entity;
 		/*** @type {MovementComponent} */
-		this.movementComponent = this.entity.getMovementComponent();
+		this.movementComponent = movementComponent;
 		/*** @type {PositionComponent} */
-		this.positionComponent = this.entity.getPositionComponent();
+		this.positionComponent = positionComponent;
 		this.fromX = fromX;
 		this.fromY = fromY;
 		this.toX = toX;
