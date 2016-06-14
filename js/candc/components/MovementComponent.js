@@ -108,8 +108,12 @@ class MovementComponent extends Component {
 			this.targetPoint = [toX, toY];
 			this.moveToPoint();
 		} else {
-			console.log('end path:' + this.getComposite().getId());
-			if (this.endPathHandler != null) this.endPathHandler();
+			if (this.endPathHandler != null) {
+				var ref = this;
+				this.animateWait(100, function(){
+					ref.endPathHandler();
+				});
+			}
 		}
 	}
 
