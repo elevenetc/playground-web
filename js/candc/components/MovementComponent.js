@@ -30,7 +30,8 @@ class MovementComponent extends Component {
 		this.viewComponent = null;
 		/** @type {function} */
 		this.endPathHandler = null;
-		this.animTime = 300;
+		this.animTime = Math.random() * 1000;
+		// this.animTime = 300;
 		this.log = false;
 	}
 
@@ -140,25 +141,24 @@ class MovementComponent extends Component {
 			var isAvailable = this.groundModel.isAvailableFor(composite, nextX, nextY);
 			// var isAvailable = this.groundModel.isAvailable(nextX, nextY);
 
-			if (!isAvailable) {
+			if (isAvailable !== null) {
 
-				var occupant = this.groundModel.getOccupant(nextX, nextY);
+				var occupant = isAvailable;//this.groundModel.getOccupant(nextX, nextY);
 				var occupantMC = occupant.getMovementComponent();
 				var occupiedByItself = composite === occupant;
 
 				if (occupiedByItself) if (this.log) console.log('occupied buy itself');
 
-				if (!occupiedByItself) {
-					if (occupantMC.isStopped()) {
-						this.recalculatePath();
-					} else {
-						if (this.log) console.log(composite.getId() + ' waiting for ' + nextX + ':' + nextY);
-						this.setStop();
-						this.groundModel.waitFor(composite, nextX, nextY);
-					}
-
-					return;
+				if (occupantMC.isStopped()) {
+					this.recalculatePathWithObstacle(occupant);
+				} else {
+					console.log(composite.getId() + ' stopped and waiting for ' + nextX + ':' + nextY + ' occupied by ' + occupant.getId());
+					if (this.log) console.log(composite.getId() + ' waiting for ' + nextX + ':' + nextY);
+					this.setStop();
+					this.groundModel.waitFor(composite, nextX, nextY);
 				}
+
+				return;
 			}
 		}
 
@@ -185,6 +185,18 @@ class MovementComponent extends Component {
 		this.animateStep(fromX, fromY, nextX, nextY, this.animTime, function () {
 			ref.moveToPoint();
 		});
+	}
+
+	/**
+	 * @param obstacle {Composite}
+	 */
+	recalculatePathWithObstacle(obstacle) {
+		var composite = super.getComposite();
+		var positionComponent = composite.getPositionComponent();
+		var fromX = positionComponent.getX();
+		var fromY = positionComponent.getY();
+		this.path = this.groundModel.findPathWithObstacle(obstacle, fromX, fromY, this.targetPoint[0], this.targetPoint[1]);
+		this.moveToPoint();
 	}
 
 	recalculatePath() {

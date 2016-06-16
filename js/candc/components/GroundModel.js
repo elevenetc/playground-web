@@ -35,6 +35,38 @@ class GroundModel extends Composite {
 		return result;
 	}
 
+	/**
+	 *
+	 * @param obstacle {Composite}
+	 * @param fromX
+	 * @param fromY
+	 * @param toX
+	 * @param toY
+	 * @returns {*|Array.<Array.<number>>}
+	 */
+	findPathWithObstacle(obstacle, fromX, fromY, toX, toY) {
+		this.validatePathParams(fromX, fromY, toX, toY);
+
+		var dimen = obstacle.getDimenComponent();
+		var width = dimen.getWidth();
+		var height = dimen.getHeight();
+		var minX = obstacle.getPositionComponent().getX();
+		var minY = obstacle.getPositionComponent().getY();
+		var x, y;
+		var map = GroundModel.createEmptyArray(this.staticMap.length, this.staticMap[0].length);
+		for (x = minX; x < minX + width; x++) {
+			for (y = minY; y < minY + height; y++) {
+				map[x][y] = 1;
+			}
+		}
+
+		var result = new PF.AStarFinder().findPath(fromY, fromX, toY, toX, new PF.Grid(map));
+		if (result.length > 0 && result[0][1] == fromY && result[0][0] == fromX)//cut first same point
+			result.splice(0, 1);
+		return result;
+	}
+
+
 	updateMatrix(path) {
 		for (var i = 0; i < path.length; i++) {
 			var occupied = path[i];
@@ -63,6 +95,7 @@ class GroundModel extends Composite {
 	 * @param entity {Composite}
 	 * @param minX {int}
 	 * @param minY {int}
+	 * @return {Composite}
 	 */
 	isAvailableFor(entity, minX, minY) {
 		var dimen = entity.getDimenComponent();
@@ -73,12 +106,14 @@ class GroundModel extends Composite {
 
 		for (x = minX; x < minX + width; x++) {
 			for (y = minY; y < minY + height; y++) {
-				if (!this.isAvailable(x, y) && this.getOccupant(x, y) !== entity) {
-					return false;
+				var occupant = this.getOccupant(x, y);
+				if (occupant === entity) continue;
+				if (!this.isAvailable(x, y)) {
+					return occupant;
 				}
 			}
 		}
-		return true;
+		return null;
 	}
 
 	isAvailable(x, y) {
@@ -91,12 +126,12 @@ class GroundModel extends Composite {
 	/**
 	 * @param x
 	 * @param y
-	 * @returns {Composite}
+	 * @returns {Composite||int}
 	 */
 	getOccupant(x, y) {
 		if (x < 0 || y < 0 || x > this.occupants.length - 1 || y > this.occupants[0].length - 1)
 			return null;
-		return this.occupants[x][y];
+		return this.occupants[x][y] == 0 ? null : this.occupants[x][y];
 	}
 
 	/**
