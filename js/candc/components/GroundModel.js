@@ -18,6 +18,7 @@ class GroundModel extends Composite {
 
 		this.matrix = matrix;
 		this.occupants = GroundModel.createEmptyArray(matrix.length, matrix[0].length);
+		this.staticMap = GroundModel.createEmptyArray(matrix.length, matrix[0].length);
 		this.entitiesMap = {};
 		this.clearListeners = {};
 		this.logAvaialability = false;
@@ -28,7 +29,7 @@ class GroundModel extends Composite {
 
 	findPath(fromX, fromY, toX, toY) {
 		this.validatePathParams(fromX, fromY, toX, toY);
-		var result = new PF.AStarFinder().findPath(fromY, fromX, toY, toX, new PF.Grid(this.matrix));
+		var result = new PF.AStarFinder().findPath(fromY, fromX, toY, toX, new PF.Grid(this.staticMap));
 		if (result.length > 0 && result[0][1] == fromY && result[0][0] == fromX)//cut first same point
 			result.splice(0, 1);
 		return result;
@@ -56,6 +57,28 @@ class GroundModel extends Composite {
 			return GroundModel.OBS;
 
 		return this.matrix[x][y];
+	}
+
+	/**
+	 * @param entity {Composite}
+	 * @param minX {int}
+	 * @param minY {int}
+	 */
+	isAvailableFor(entity, minX, minY) {
+		var dimen = entity.getDimenComponent();
+		var width = dimen.getWidth();
+		var height = dimen.getHeight();
+		var x;
+		var y;
+
+		for (x = minX; x < minX + width; x++) {
+			for (y = minY; y < minY + height; y++) {
+				if (!this.isAvailable(x, y) && this.getOccupant(x, y) !== entity) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	isAvailable(x, y) {

@@ -30,7 +30,7 @@ class MovementComponent extends Component {
 		this.viewComponent = null;
 		/** @type {function} */
 		this.endPathHandler = null;
-		this.animTime = 100;
+		this.animTime = 300;
 		this.log = false;
 	}
 
@@ -89,8 +89,8 @@ class MovementComponent extends Component {
 
 		this.endPathHandler = endPathHandler;
 
-		// if (this.log) console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
-		console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
+		if (this.log) console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
+		// console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
 
 		this.groundModel.clearFromEntity(this.getComposite());
 
@@ -110,7 +110,7 @@ class MovementComponent extends Component {
 		} else {
 			if (this.endPathHandler != null) {
 				var ref = this;
-				this.animateWait(100, function(){
+				this.animateWait(100, function () {
 					ref.endPathHandler();
 				});
 			}
@@ -136,10 +136,11 @@ class MovementComponent extends Component {
 			nextX = point[1];
 			nextY = point[0];
 
-			var isSame = fromX == nextX && fromY == nextY;
-			var isAvailable = this.groundModel.isAvailable(nextX, nextY);
+			//var isSame = fromX == nextX && fromY == nextY;
+			var isAvailable = this.groundModel.isAvailableFor(composite, nextX, nextY);
+			// var isAvailable = this.groundModel.isAvailable(nextX, nextY);
 
-			if (!isSame && !isAvailable) {
+			if (!isAvailable) {
 
 				var occupant = this.groundModel.getOccupant(nextX, nextY);
 				var occupantMC = occupant.getMovementComponent();

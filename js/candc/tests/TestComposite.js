@@ -28,7 +28,7 @@ class TestComposite extends BaseTest {
 		var dimen = new DimenComponent(1, 1);
 		var position = new PositionComponent(0, 0, dimen, groundModel);
 
-		view.setView({position:{x:0,y:0}});
+		view.setView({position: {x: 0, y: 0}});
 
 		compsite.addComponent(view);
 		compsite.addComponent(movement);

@@ -48,7 +48,7 @@ class MovementComponentTests extends BaseTest {
 	testBasicMovement() {
 		const fromX = 0;
 		const fromY = 0;
-		const toX = 1;
+		const toX = 0;
 		const toY = 1;
 		this.movementComponent.moveTo(fromX, fromY, toX, toY);
 		this.positionComponent.getX().should.equal(toX);

@@ -24,7 +24,7 @@ class CreateObj {
 
 		var geometry = new THREE.BoxGeometry(width, height, depth);
 		if (Utils.isNotDefined(material))
-			material = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true});
+			material = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: false});
 
 		var result = new THREE.Mesh(geometry, material);
 		return result;
@@ -43,7 +43,7 @@ class CreateObj {
 			throw new Error('Undefined params: ' + wUnits + ',' + hUnits);
 
 		var group = new THREE.Object3D();
-		var mat = {color: color, wireframe: true};
+		var mat = {color: color, wireframe: false};
 
 		for (var w = 0; w < wUnits; w++) {
 
