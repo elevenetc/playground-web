@@ -131,6 +131,7 @@ class MovementComponent extends Component {
 			this.path = null;
 			this.targetPoint = [];
 			if (this.endPathHandler != null) this.endPathHandler();
+			if (this.log) console.log('Finish path:' + this.getComposite().getId());
 			return;
 		} else {
 			var point = this.path[0];
@@ -196,6 +197,9 @@ class MovementComponent extends Component {
 		var fromX = positionComponent.getX();
 		var fromY = positionComponent.getY();
 		this.path = this.groundModel.findPathWithObstacle(obstacle, fromX, fromY, this.targetPoint[0], this.targetPoint[1]);
+		if (this.path.length == 0) {
+			if (this.log) console.log('Mutual stop conflict: ' + this.getComposite().getId() + ':' + obstacle.getId());
+		}
 		this.moveToPoint();
 	}
 
