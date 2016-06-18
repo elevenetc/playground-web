@@ -16,7 +16,8 @@ class WebView extends BaseView {
 		this.renderer = null;
 		this.camera = null;
 		this.selectedObject = null;
-		this.mouse = new THREE.Vector2();
+		this.mouseOver = new THREE.Vector2();
+		this.mouseClick = new THREE.Vector2();
 		this.raycaster = new THREE.Raycaster();
 	}
 
@@ -46,10 +47,15 @@ class WebView extends BaseView {
 		var ref = this;
 		document.addEventListener('mousemove', function (event) {
 			event.preventDefault();
-			ref.mouse.x = ( event.clientX / 600 ) * 2 - 1;
-			ref.mouse.y = -( event.clientY / 600 ) * 2 + 1;
-			// ref.mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-			// ref.mouse.y = -( event.clientY / window.innerHeight ) * 2 + 1;
+			ref.mouseOver.x = ( event.clientX / 600 ) * 2 - 1;
+			ref.mouseOver.y = -( event.clientY / 600 ) * 2 + 1;
+		}, false);
+
+		document.addEventListener('click', function (event) {
+			event.preventDefault();
+			ref.mouseClick.x = ( event.clientX / 600 ) * 2 - 1;
+			ref.mouseClick.y = -( event.clientY / 600 ) * 2 + 1;
+			ref.handleMouseClick();
 		}, false);
 	}
 
@@ -59,6 +65,7 @@ class WebView extends BaseView {
 		this.renderer.render(this.scene, this.camera);
 
 		Modules.getAnimatorUpdate().update();
+
 		this.handleMouseSelection();
 
 		requestAnimationFrame(function () {
@@ -66,9 +73,19 @@ class WebView extends BaseView {
 		});
 	}
 
+	handleMouseClick() {
+		var intersects = this.getIntersections(this.mouseClick);
+		if (intersects.length > 0) {
+			if (intersects[0].object.composite !== null && intersects[0].object.composite !== undefined) {
+				/*** @type {Composite} */
+				var composite = intersects[0].object.composite;
+				console.log('id:' + composite.getId() + ' ' + composite.getMovementComponent().toString());
+			}
+		}
+	}
+
 	handleMouseSelection() {
-		this.raycaster.setFromCamera(this.mouse, this.camera);
-		var intersects = this.raycaster.intersectObjects(this.scene.children);
+		var intersects = this.getIntersections(this.mouseOver);
 
 		if (intersects.length > 0) {
 
@@ -81,6 +98,11 @@ class WebView extends BaseView {
 			if (this.selectedObject !== null) this.selectedObject.material.color.setHex(0xfffff);
 			this.selectedObject = null;
 		}
+	}
+
+	getIntersections(vector) {
+		this.raycaster.setFromCamera(vector, this.camera);
+		return this.raycaster.intersectObjects(this.scene.children);
 	}
 }
 
