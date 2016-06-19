@@ -142,7 +142,7 @@ class MovementComponent extends Component {
 			var isAvailable = this.groundModel.isAvailableFor(composite, nextX, nextY);
 			// var isAvailable = this.groundModel.isAvailable(nextX, nextY);
 
-			if (isAvailable !== null) {
+			if (isAvailable !== null && isAvailable !== undefined) {
 
 				var occupant = isAvailable;//this.groundModel.getOccupant(nextX, nextY);
 				var occupantMC = occupant.getMovementComponent();
@@ -153,8 +153,8 @@ class MovementComponent extends Component {
 				if (occupantMC.isStopped()) {
 					this.recalculatePathWithObstacle(occupant);
 				} else {
-					console.log(composite.getId() + ' stopped and waiting for ' + nextX + ':' + nextY + ' occupied by ' + occupant.getId());
-					if (this.log) console.log(composite.getId() + ' waiting for ' + nextX + ':' + nextY);
+					//console.log(composite.getId() + ' stopped and waiting for ' + nextX + ':' + nextY + ' occupied by ' + occupant.getId());
+					//if (this.log) console.log(composite.getId() + ' waiting for ' + nextX + ':' + nextY);
 					this.setStop();
 					this.groundModel.waitFor(composite, nextX, nextY);
 				}
@@ -198,9 +198,14 @@ class MovementComponent extends Component {
 		var fromY = positionComponent.getY();
 		this.path = this.groundModel.findPathWithObstacle(obstacle, fromX, fromY, this.targetPoint[0], this.targetPoint[1]);
 		if (this.path.length == 0) {
-			if (this.log) console.log('Mutual stop conflict: ' + this.getComposite().getId() + ':' + obstacle.getId());
+			var ref = this;
+			this.animateWait(100, function () {
+				ref.setStop();
+				ref.groundModel.waitFor(composite, ref.targetPoint[0], ref.targetPoint[1]);
+			});
+		} else {
+			this.moveToPoint();
 		}
-		this.moveToPoint();
 	}
 
 	recalculatePath() {
@@ -251,6 +256,16 @@ class MovementComponent extends Component {
 				if (endHandler != null && endHandler != undefined) endHandler();
 			})
 			.start();
+	}
+
+	toString() {
+		var entity = this.getComposite();
+		var isWaiting = this.groundModel.isWaiting(entity);
+		var target = null;
+		if (isWaiting) {
+			target = this.groundModel.getWaitingTarget(entity);
+		}
+		return 'Movement | isStopped:' + this.isStopped() + ' isWaiting:' + isWaiting + (target == null ? '' : ' target:' + target);
 	}
 }
 
