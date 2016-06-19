@@ -12,13 +12,13 @@ class MultiSquareView extends ViewComponent {
 	}
 
 	onComposeFinished() {
-		super.onComposeFinished();
 		var dimen = super.getComposite().getDimenComponent();
 		super.setView(Modules.getObjectCreator().matrix(
 			dimen.getWidth(),
 			dimen.getHeight(),
 			this.color
 		));
+		super.onComposeFinished();
 	}
 }
 
