@@ -12,6 +12,7 @@ class MultiSquareView extends ViewComponent {
 	}
 
 	onComposeFinished() {
+
 		var dimen = super.getComposite().getDimenComponent();
 		super.setView(Modules.getObjectCreator().matrix(
 			dimen.getWidth(),
@@ -19,6 +20,14 @@ class MultiSquareView extends ViewComponent {
 			this.color
 		));
 		super.onComposeFinished();
+	}
+
+
+	attachComposite() {
+		var composite = this.getComposite();
+		for(var i = 0; i < this.view.children.length; i++){
+			this.view.children[i].composite = composite;
+		}
 	}
 }
 

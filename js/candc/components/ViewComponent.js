@@ -32,10 +32,13 @@ class ViewComponent extends Component {
 		this.view.position.y = positionComponent.y * CConfig.Unit;
 	}
 
-
 	onComposeFinished() {
 		super.onComposeFinished();
-		this.view.composite = this.getComposite();
+		this.attachComposite();
+	}
+
+	attachComposite() {
+
 	}
 }
 

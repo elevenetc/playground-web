@@ -80,7 +80,11 @@ class WebView extends BaseView {
 				/*** @type {Composite} */
 				var composite = intersects[0].object.composite;
 				console.log('id:' + composite.getId() + ' ' + composite.getMovementComponent().toString());
+			} else {
+				console.log('unable to find composite in mesh');
 			}
+		} else {
+			console.log('no intersections');
 		}
 	}
 
@@ -102,7 +106,7 @@ class WebView extends BaseView {
 
 	getIntersections(vector) {
 		this.raycaster.setFromCamera(vector, this.camera);
-		return this.raycaster.intersectObjects(this.scene.children);
+		return this.raycaster.intersectObjects(this.scene.children, true);
 	}
 }
 

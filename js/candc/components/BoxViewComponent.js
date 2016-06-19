@@ -16,6 +16,11 @@ class BoxViewComponent extends ViewComponent {
 
 		super.setView(view);
 	}
+
+
+	attachComposite() {
+		this.view.composite = this.getComposite();
+	}
 }
 
 module.exports = BoxViewComponent;
