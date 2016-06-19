@@ -6,9 +6,9 @@ var MultiSquareView = require('./MultiSquareView');
 var MovementComponent = require('./MovementComponent');
 var PositionComponent = require('./PositionComponent');
 var BoxViewComponent = require('./BoxViewComponent');
+var WeightComponent = require('./WeightComponent');
 var Composite = require('./Composite');
 var SampleCommander = require('../commands/SampleCommander');
-
 
 class Tank extends Composite {
 
@@ -17,6 +17,7 @@ class Tank extends Composite {
 
 		var dimenComponent = new DimenComponent(1, 1);
 
+		super.addComponent(new WeightComponent(1));
 		super.addComponent(new PositionComponent(fromX, fromY, dimenComponent, groundModel));
 		super.addComponent(new BoxViewComponent());
 		super.addComponent(new MovementComponent(groundModel));

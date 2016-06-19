@@ -4,6 +4,7 @@
 var ViewComponent = require('./ViewComponent');
 var MovementComponent = require('./MovementComponent');
 var PositionComponent = require('./PositionComponent');
+var WeightComponent = require('./WeightComponent');
 var DimenComponent = require('./DimenComponent');
 
 class Composite {
@@ -18,6 +19,8 @@ class Composite {
 		this.movementComponent = null;
 		/** @type {DimenComponent} */
 		this.dimenComponent = null;
+		/** @type {WeightComponent} */
+		this.weightComponent = null;
 		/** @type {String} */
 		this.id = id;
 
@@ -44,8 +47,14 @@ class Composite {
 		if (component instanceof PositionComponent) this.positionComponent = component;
 		if (component instanceof MovementComponent) this.movementComponent = component;
 		if (component instanceof DimenComponent) this.dimenComponent = component;
+		if (component instanceof WeightComponent) this.weightComponent = component;
 		component.setComposite(this);
 		this.components.push(component);
+	}
+
+	/** @returns {WeightComponent} */
+	getWeightComponent() {
+		return this.weightComponent;
 	}
 
 	/** @returns {DimenComponent} */
@@ -77,6 +86,9 @@ class Composite {
 		if (this.viewComponent != null) this.viewComponent.updatePosition(this.positionComponent);
 	}
 
+	toString() {
+		return this.id;
+	}
 }
 
 module.exports = Composite;
