@@ -9,10 +9,12 @@ var Composite = require('./Composite');
 class GroundModel extends Composite {
 
 	constructor(matrix = [
-		[0, 0, 0, 0],
-		[0, 0, 0, 0],
-		[0, 0, 0, 0],
-		[0, 0, 0, 0]
+		[0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0]
 	]) {
 		super();
 
@@ -29,7 +31,7 @@ class GroundModel extends Composite {
 
 	findPath(fromX, fromY, toX, toY) {
 		this.validatePathParams(fromX, fromY, toX, toY);
-		var result = new PF.AStarFinder().findPath(fromY, fromX, toY, toX, new PF.Grid(this.staticMap));
+		var result = new PF.AStarFinder({allowDiagonal: true, dontCrossCorners: true}).findPath(fromY, fromX, toY, toX, new PF.Grid(this.staticMap));
 		if (result.length > 0 && result[0][1] == fromY && result[0][0] == fromX)//cut first same point
 			result.splice(0, 1);
 		return result;
@@ -60,7 +62,7 @@ class GroundModel extends Composite {
 			}
 		}
 
-		var result = new PF.AStarFinder().findPath(fromY, fromX, toY, toX, new PF.Grid(map));
+		var result = new PF.AStarFinder({allowDiagonal: true, dontCrossCorners: true}).findPath(fromY, fromX, toY, toX, new PF.Grid(map));
 		if (result.length > 0 && result[0][1] == fromY && result[0][0] == fromX)//cut first same point
 			result.splice(0, 1);
 		return result;
@@ -216,6 +218,19 @@ class GroundModel extends Composite {
 	waitFor(entity, x, y) {
 		this.entitiesMap[entity.getId()] = entity;
 		this.clearListeners[entity.getId()] = [x, y];
+	}
+
+	/** @param entity {Composite} */
+	isWaiting(entity) {
+		return this.clearListeners.hasOwnProperty(entity.getId());
+	}
+
+	/**
+	 * @param entity {Composite}
+	 * @returns {Array}
+	 */
+	getWaitingTarget(entity) {
+		return this.clearListeners[entity.getId()];
 	}
 
 	validatePathParams(fromX, fromY, toX, toY) {
