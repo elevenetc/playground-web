@@ -192,6 +192,9 @@ class MovementComponent extends Component {
 	 * @param obstacle {Composite}
 	 */
 	recalculatePathWithObstacle(obstacle) {
+
+		var obstacleMC = obstacle.getMovementComponent();
+
 		var composite = super.getComposite();
 		var positionComponent = composite.getPositionComponent();
 		var fromX = positionComponent.getX();
@@ -200,8 +203,25 @@ class MovementComponent extends Component {
 		if (this.path.length == 0) {
 			var ref = this;
 			this.animateWait(100, function () {
-				ref.setStop();
-				ref.groundModel.waitFor(composite, ref.targetPoint[0], ref.targetPoint[1]);
+
+				if (obstacleMC.isStopped()) {
+
+					var obstacleTP = obstacleMC.getTargetPoint();
+
+					console.log('Mutual block!!!');
+					console.log(composite.getId() + ' wants to ' + ref.targetPoint[0] + ':' + ref.targetPoint[1]);
+					console.log(obstacle.getId() + ' wants to ' + obstacleTP[0] + ':' + obstacleTP[1]);
+
+					ref.setStop();
+					ref.groundModel.waitFor(composite, ref.targetPoint[0], ref.targetPoint[1]);
+
+					obstacleMC.recalculatePathWithObstacle(composite);
+
+				} else {
+					ref.setStop();
+					ref.groundModel.waitFor(composite, ref.targetPoint[0], ref.targetPoint[1]);
+				}
+
 			});
 		} else {
 			this.moveToPoint();
@@ -265,7 +285,7 @@ class MovementComponent extends Component {
 		if (isWaiting) {
 			target = this.groundModel.getWaitingTarget(entity);
 		}
-		return 'Movement | isStopped:' + this.isStopped() + ' isWaiting:' + isWaiting + (target == null ? '' : ' target:' + target);
+		return 'Movement | isStopped:' + this.isStopped() + ' isWaiting:' + isWaiting + (target == null ? '' : ' waiting target:' + target);
 	}
 }
 
