@@ -5,6 +5,6 @@ class CConfig {
 
 }
 
-CConfig.Unit = 100;
+CConfig.Unit = 50;
 
 module.exports = CConfig;

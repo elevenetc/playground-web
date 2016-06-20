@@ -31,7 +31,8 @@ class GroundModel extends Composite {
 
 	findPath(fromX, fromY, toX, toY) {
 		this.validatePathParams(fromX, fromY, toX, toY);
-		var result = new PF.AStarFinder({allowDiagonal: true, dontCrossCorners: true}).findPath(fromY, fromX, toY, toX, new PF.Grid(this.staticMap));
+		//var result = new PF.AStarFinder({allowDiagonal: true, dontCrossCorners: true}).findPath(fromY, fromX, toY, toX, new PF.Grid(this.staticMap));
+		var result = this.internalFind(fromX, fromY, toX, toY, this.staticMap);
 		if (result.length > 0 && result[0][1] == fromY && result[0][0] == fromX)//cut first same point
 			result.splice(0, 1);
 		return result;
@@ -40,11 +41,11 @@ class GroundModel extends Composite {
 	/**
 	 *
 	 * @param obstacle {Composite}
-	 * @param fromX
-	 * @param fromY
-	 * @param toX
-	 * @param toY
-	 * @returns {*|Array.<Array.<number>>}
+	 * @param fromX {int}
+	 * @param fromY {int}
+	 * @param toX {int}
+	 * @param toY {int}
+	 * @returns {Array}
 	 */
 	findPathWithObstacle(obstacle, fromX, fromY, toX, toY) {
 		this.validatePathParams(fromX, fromY, toX, toY);
@@ -62,10 +63,18 @@ class GroundModel extends Composite {
 			}
 		}
 
-		var result = new PF.AStarFinder({allowDiagonal: true, dontCrossCorners: true}).findPath(fromY, fromX, toY, toX, new PF.Grid(map));
+		//var result = new PF.AStarFinder({allowDiagonal: true, dontCrossCorners: true}).findPath(fromY, fromX, toY, toX, new PF.Grid(map));
+		var result = this.internalFind(fromX, fromY, toX, toY, map);
 		if (result.length > 0 && result[0][1] == fromY && result[0][0] == fromX)//cut first same point
 			result.splice(0, 1);
 		return result;
+	}
+
+	internalFind(fromX, fromY, toX, toY, map) {
+		return new PF.AStarFinder({
+			allowDiagonal: true,
+			dontCrossCorners: true
+		}).findPath(fromY, fromX, toY, toX, new PF.Grid(map));
 	}
 
 

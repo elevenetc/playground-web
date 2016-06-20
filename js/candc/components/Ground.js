@@ -50,7 +50,7 @@ class Ground extends Composite {
 			object.material.wireframe = true;
 			object.material.color.setHex(0x00ff00);
 		} else if (type == GroundModel.UNIT) {
-			object.material.wireframe = false;
+			object.material.wireframe = true;
 			object.material.color.setHex(0x0000ff);
 		} else if (type == GroundModel.OBS) {
 			object.material.wireframe = false;

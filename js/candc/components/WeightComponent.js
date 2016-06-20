@@ -6,7 +6,7 @@ var Component = require('./Component');
 class WeightComponent extends Component {
 
 	constructor(weight = 1) {
-		this();
+		super();
 		if (weight < 0) throw new Error('Invalid weight: ' + weight);
 		this.weight = weight;
 	}

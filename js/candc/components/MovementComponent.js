@@ -285,9 +285,8 @@ class MovementComponent extends Component {
 		if (isWaiting) {
 			target = this.groundModel.getWaitingTarget(entity);
 		}
-		return 'Movement | isStopped:' + this.isStopped() + ' isWaiting:' + isWaiting + (target == null ? '' : ' waiting target:' + target);
+		return 'isStopped:' + this.isStopped() + ' isWaiting:' + isWaiting + (target == null ? '' : ' waiting target:' + target);
 	}
 }
 
-MovementComponent.sss = 0;
 module.exports = MovementComponent;
