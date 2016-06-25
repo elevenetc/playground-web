@@ -31,7 +31,7 @@ class MovementComponent extends Component {
 		this.viewComponent = null;
 		/** @type {function} */
 		this.endPathHandler = null;
-		this.animTime = Math.random() * 1000;
+		this.animTime = 1000;
 		// this.animTime = 300;
 		this.log = true;
 	}
@@ -75,7 +75,6 @@ class MovementComponent extends Component {
 		if (!this.stop) return;
 		this.stop = false;
 		this.recalculatePath();
-
 	}
 
 	/*** @returns {boolean} */
@@ -120,6 +119,7 @@ class MovementComponent extends Component {
 	}
 
 	moveToPoint() {
+
 		var nextX = 0;
 		var nextY = 0;
 		var composite = super.getComposite();
@@ -139,23 +139,22 @@ class MovementComponent extends Component {
 			nextX = point[1];
 			nextY = point[0];
 
-			//var isSame = fromX == nextX && fromY == nextY;
-			var occupant = this.groundModel.isAvailableFor(composite, nextX, nextY);
-			// var occupant = this.groundModel.occupant(nextX, nextY);
+			var obstacle = this.groundModel.isAvailableFor(composite, nextX, nextY);
 
-			if (occupant !== null && occupant !== undefined) {
+			if (obstacle !== null && obstacle !== undefined) {
 
-				var occupant = occupant;//this.groundModel.getOccupant(nextX, nextY);
-				var occupantMC = occupant.getMovementComponent();
-				var occupiedByItself = composite === occupant;
+				var occupantMC = obstacle.getMovementComponent();
+				var occupiedByItself = composite === obstacle;
 
 				if (occupiedByItself) if (this.log) con.log(this.getComposite(), 'occupied buy itself');
 
+				if (this.log) con.log(this.getComposite(), 'moveToPoint: found obstacle');
+
 				if (occupantMC.isStopped()) {
-					this.recalculatePathWithObstacle(occupant);
+					if (this.log) con.log(this.getComposite(), 'moveToPoint: recalcPath');
+					this.recalculatePathWithObstacle(obstacle);
 				} else {
-					//console.log(composite.getId() + ' stopped and waiting for ' + nextX + ':' + nextY + ' occupied by ' + occupant.getId());
-					//if (this.log) console.log(composite.getId() + ' waiting for ' + nextX + ':' + nextY);
+					if (this.log) con.log(this.getComposite(), 'moveToPoint: stop and wait');
 					this.setStop();
 					this.groundModel.waitFor(composite, nextX, nextY);
 				}
@@ -163,6 +162,8 @@ class MovementComponent extends Component {
 				return;
 			}
 		}
+
+		if (this.log) con.log(this.getComposite(), 'moveToPoint: ' + nextX + ':' + nextY);
 
 		this.path.splice(0, 1);
 
@@ -202,21 +203,30 @@ class MovementComponent extends Component {
 		var fromY = positionComponent.getY();
 		this.path = this.groundModel.findPathWithObstacle(obstacle, fromX, fromY, this.targetPoint[0], this.targetPoint[1]);
 		if (this.path.length == 0) {
+			if (this.log) con.log(composite, 'Cant recalc, wait!');
 			var ref = this;
 			this.animateWait(100, function () {
 
 				if (obstacleMC.isStopped()) {
 
-					var obstacleTP = obstacleMC.getTargetPoint();
-
-					con.log(ref.getComposite(), 'Mutual block!!!');
-					con.log(ref.getComposite(), composite.getId() + ' wants to ' + ref.targetPoint[0] + ':' + ref.targetPoint[1]);
-					con.log(ref.getComposite(), obstacle.getId() + ' wants to ' + obstacleTP[0] + ':' + obstacleTP[1]);
-
 					ref.setStop();
 					ref.groundModel.waitFor(composite, ref.targetPoint[0], ref.targetPoint[1]);
 
-					obstacleMC.recalculatePathWithObstacle(composite);
+					obstacleMC.releaseStop();
+
+					//var obstacleTP = obstacleMC.getTargetPoint();
+
+					//con.log(ref.getComposite(), 'Mutual block!!!');
+					//con.log(ref.getComposite(), composite.getId() + ' wants to ' + ref.targetPoint[0] + ':' + ref.targetPoint[1]);
+					//con.log(ref.getComposite(), obstacle.getId() + ' wants to ' + obstacleTP[0] + ':' + obstacleTP[1]);
+
+					//throw new Error('Mutual block');
+
+					//ref.setStop();
+					//ref.groundModel.waitFor(composite, ref.targetPoint[0], ref.targetPoint[1]);
+
+					//obstacleMC.recalculatePathWithObstacle(composite);
+					//ref.recalculatePathWithObstacle(obstacle);
 
 				} else {
 					ref.setStop();
