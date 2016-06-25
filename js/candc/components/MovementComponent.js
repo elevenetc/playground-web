@@ -208,26 +208,9 @@ class MovementComponent extends Component {
 			this.animateWait(100, function () {
 
 				if (obstacleMC.isStopped()) {
-
 					ref.setStop();
 					ref.groundModel.waitFor(composite, ref.targetPoint[0], ref.targetPoint[1]);
-
 					obstacleMC.releaseStop();
-
-					//var obstacleTP = obstacleMC.getTargetPoint();
-
-					//con.log(ref.getComposite(), 'Mutual block!!!');
-					//con.log(ref.getComposite(), composite.getId() + ' wants to ' + ref.targetPoint[0] + ':' + ref.targetPoint[1]);
-					//con.log(ref.getComposite(), obstacle.getId() + ' wants to ' + obstacleTP[0] + ':' + obstacleTP[1]);
-
-					//throw new Error('Mutual block');
-
-					//ref.setStop();
-					//ref.groundModel.waitFor(composite, ref.targetPoint[0], ref.targetPoint[1]);
-
-					//obstacleMC.recalculatePathWithObstacle(composite);
-					//ref.recalculatePathWithObstacle(obstacle);
-
 				} else {
 					ref.setStop();
 					ref.groundModel.waitFor(composite, ref.targetPoint[0], ref.targetPoint[1]);
