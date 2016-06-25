@@ -6,6 +6,7 @@ var Modules = require('../Modules');
 var Component = require('./Component');
 var CConfig = require('../CConfig');
 var Animator = Modules.getAnimator();
+var con = require('../log/Console');
 
 class MovementComponent extends Component {
 
@@ -32,7 +33,7 @@ class MovementComponent extends Component {
 		this.endPathHandler = null;
 		this.animTime = Math.random() * 1000;
 		// this.animTime = 300;
-		this.log = false;
+		this.log = true;
 	}
 
 	/*** @param movementComponent {MovementComponent} */
@@ -90,7 +91,7 @@ class MovementComponent extends Component {
 
 		this.endPathHandler = endPathHandler;
 
-		if (this.log) console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
+		if (this.log) con.log(this.getComposite(), 'move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
 		// console.log('move (' + fromX + ':' + fromY + ')-(' + toX + ':' + toY + ')');
 
 		this.groundModel.clearFromEntity(this.getComposite());
@@ -99,7 +100,7 @@ class MovementComponent extends Component {
 
 		this.groundModel.occupyBy(this.getComposite());
 
-		if (this.log) console.log('path length: ' + this.path.length);
+		if (this.log) con.log(this.getComposite(), 'path length: ' + this.path.length);
 
 		this.startPath(toX, toY);
 	}
@@ -131,7 +132,7 @@ class MovementComponent extends Component {
 			this.path = null;
 			this.targetPoint = [];
 			if (this.endPathHandler != null) this.endPathHandler();
-			if (this.log) console.log('Finish path:' + this.getComposite().getId());
+			if (this.log) con.log(this.getComposite(), 'Finish path:' + this.getComposite().getId());
 			return;
 		} else {
 			var point = this.path[0];
@@ -139,16 +140,16 @@ class MovementComponent extends Component {
 			nextY = point[0];
 
 			//var isSame = fromX == nextX && fromY == nextY;
-			var isAvailable = this.groundModel.isAvailableFor(composite, nextX, nextY);
-			// var isAvailable = this.groundModel.isAvailable(nextX, nextY);
+			var occupant = this.groundModel.isAvailableFor(composite, nextX, nextY);
+			// var occupant = this.groundModel.occupant(nextX, nextY);
 
-			if (isAvailable !== null && isAvailable !== undefined) {
+			if (occupant !== null && occupant !== undefined) {
 
-				var occupant = isAvailable;//this.groundModel.getOccupant(nextX, nextY);
+				var occupant = occupant;//this.groundModel.getOccupant(nextX, nextY);
 				var occupantMC = occupant.getMovementComponent();
 				var occupiedByItself = composite === occupant;
 
-				if (occupiedByItself) if (this.log) console.log('occupied buy itself');
+				if (occupiedByItself) if (this.log) con.log(this.getComposite(), 'occupied buy itself');
 
 				if (occupantMC.isStopped()) {
 					this.recalculatePathWithObstacle(occupant);
@@ -208,9 +209,9 @@ class MovementComponent extends Component {
 
 					var obstacleTP = obstacleMC.getTargetPoint();
 
-					console.log('Mutual block!!!');
-					console.log(composite.getId() + ' wants to ' + ref.targetPoint[0] + ':' + ref.targetPoint[1]);
-					console.log(obstacle.getId() + ' wants to ' + obstacleTP[0] + ':' + obstacleTP[1]);
+					con.log(ref.getComposite(), 'Mutual block!!!');
+					con.log(ref.getComposite(), composite.getId() + ' wants to ' + ref.targetPoint[0] + ':' + ref.targetPoint[1]);
+					con.log(ref.getComposite(), obstacle.getId() + ' wants to ' + obstacleTP[0] + ':' + obstacleTP[1]);
 
 					ref.setStop();
 					ref.groundModel.waitFor(composite, ref.targetPoint[0], ref.targetPoint[1]);
