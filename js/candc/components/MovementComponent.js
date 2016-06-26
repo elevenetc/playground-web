@@ -4,7 +4,7 @@
 
 var Modules = require('../Modules');
 var Component = require('./Component');
-var CConfig = require('../CConfig');
+var CConfig = require('../Config');
 var Animator = Modules.getAnimator();
 var con = require('../log/Console');
 

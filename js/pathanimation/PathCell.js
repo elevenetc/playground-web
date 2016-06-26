@@ -62,7 +62,7 @@ function PathCell(direction, x, y) {
 			mesh.rotation.alpha = 0;
 
 			new TWEEN.Tween(mesh.rotation)
-				.to({y: Utils.toRad(toYRot), x: Utils.toRad(toXRot), alpha: MAX_ALPHA}, Config.ANIM_MID)
+				.to({y: Utils.toRad(toYRot), x: Utils.toRad(toXRot), alpha: MAX_ALPHA}, GlobalConfig.ANIM_MID)
 				.easing(TWEEN.Easing.Cubic.InOut)
 				.onComplete(onCompleteHandler == null ? Utils.emptyFun : onCompleteHandler)
 				.onUpdate(function () {

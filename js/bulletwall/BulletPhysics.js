@@ -14,7 +14,7 @@ function BulletPhysics() {
 		w = 600;
 		h = 600;
 		renderer.setSize(w, h);
-		document.getElementById(Config.DIV_NAME).appendChild(renderer.domElement);
+		document.getElementById(GlobalConfig.DIV_NAME).appendChild(renderer.domElement);
 		scene = new THREE.Scene();
 		camera = new THREE.PerspectiveCamera(60, w / h, 1, 100);
 

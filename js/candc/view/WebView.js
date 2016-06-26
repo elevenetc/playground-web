@@ -5,7 +5,7 @@
 var Modules = require('../Modules');
 var THREE = Modules.getThree();
 var BaseView = require('./BaseView');
-var CConfig = require('../CConfig');
+var CConfig = require('../Config');
 
 class WebView extends BaseView {
 

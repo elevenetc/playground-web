@@ -46,8 +46,8 @@ class PathGround extends Composite {
 			if (path != null) {
 				for (var k = 0; k < path.length; k++) {
 					var pair = path[k];
-					var px = pair[1] * CConfig.Unit;
-					var py = pair[0] * CConfig.Unit;
+					var px = pair[1] * Config.Unit;
+					var py = pair[0] * Config.Unit;
 
 					if (px == x && py == y) {
 						foundOccupied = true;

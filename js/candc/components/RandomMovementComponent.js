@@ -56,8 +56,8 @@ class RandomMovementComponent extends MovementComponent {
 		var fromY = positionComponent.y;
 		var ref = this;
 
-		new TWEEN.Tween({x: fromX * CConfig.Unit, y: fromY * CConfig.Unit})
-			.to({x: x * CConfig.Unit, y: y * CConfig.Unit}, ref.animTime)
+		new TWEEN.Tween({x: fromX * Config.Unit, y: fromY * Config.Unit})
+			.to({x: x * Config.Unit, y: y * Config.Unit}, ref.animTime)
 			.onUpdate(function () {
 				positionComponent.setX(this.x);
 				positionComponent.setY(this.y);

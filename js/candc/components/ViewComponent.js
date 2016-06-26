@@ -2,7 +2,7 @@
  * Created by eleven on 15/05/2016.
  */
 var Component = require('./Component');
-var CConfig = require('../CConfig');
+var CConfig = require('../Config');
 
 class ViewComponent extends Component {
 

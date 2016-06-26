@@ -2,7 +2,7 @@
  * Created by eleven on 15/05/2016.
  */
 var Utils = require('./Utils');
-var CConfig = require('../candc/CConfig');
+var CConfig = require('../candc/Config');
 var Modules = require('../candc/Modules');
 var THREE = Modules.getThree();
 

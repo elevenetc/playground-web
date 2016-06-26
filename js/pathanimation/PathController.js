@@ -12,7 +12,7 @@ function PathController(camera, scene, objectsArray) {
 		console.log("dir:" + Direction.toString(direction) + " x:" + locX + " y:" + locY);
 
 		new TWEEN.Tween(camera.position)
-			.to({x: locX, y: locY}, Config.ANIM_MID)
+			.to({x: locX, y: locY}, GlobalConfig.ANIM_MID)
 			.easing(TWEEN.Easing.Cubic.InOut)
 			.onUpdate(function () {
 				//

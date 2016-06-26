@@ -3,7 +3,7 @@
  */
 var ViewComponent = require('./ViewComponent');
 var Modules = require('../Modules');
-var CConfig = require('../CConfig');
+var CConfig = require('../Config');
 
 class BoxViewComponent extends ViewComponent {
 

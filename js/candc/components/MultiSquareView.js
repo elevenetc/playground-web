@@ -25,6 +25,7 @@ class MultiSquareView extends ViewComponent {
 
 	attachComposite() {
 		var composite = this.getComposite();
+		if(this.view.children == undefined) return;//TODO: temp workaround for node
 		for(var i = 0; i < this.view.children.length; i++){
 			this.view.children[i].composite = composite;
 		}
