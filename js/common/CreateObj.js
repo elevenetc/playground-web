@@ -53,6 +53,7 @@ class CreateObj {
 				var mesh = new THREE.Mesh(geometry, material);
 				mesh.position.x = CConfig.Unit * w;
 				mesh.position.y = CConfig.Unit * h;
+				mesh.position.z = CConfig.Unit * -0.5;
 				group.add(mesh);
 			}
 		}
