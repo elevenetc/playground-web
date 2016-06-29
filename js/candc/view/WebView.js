@@ -33,14 +33,28 @@ class WebView extends BaseView {
 		var h = 600;
 
 		this.scene = new THREE.Scene();
-		this.camera = new THREE.OrthographicCamera(w / -2, w / 2, h / 2, h / -2, 0, 1000000);
-		// this.camera = new THREE.PerspectiveCamera(60, w / h, 1, 1000000);
+
+		//init camera
+		this.initOrthoCamera(w, h);
+		// this.initPerspectiveCamera(w, h);
 
 		this.renderer.setSize(w, h);
 		document.getElementById('WebGLCanvas').appendChild(this.renderer.domElement);
-		this.camera.position.set(CConfig.Unit, CConfig.Unit, 1000);
+
 
 		this.initMouseHandlers();
+	}
+
+	initOrthoCamera(w, h) {
+		this.camera = new THREE.OrthographicCamera(w / -2, w / 2, h / 2, h / -2, 0, 1000000);
+		this.camera.position.set(CConfig.Unit, CConfig.Unit, 1000);
+	}
+
+	initPerspectiveCamera(w, h) {
+		this.camera = new THREE.PerspectiveCamera(30, w / h, 1, 1000000);
+		this.camera.position.set(100, -600, 1000);
+		this.camera.rotation.x = 0.7;
+		// this.camera.position.set(CConfig.Unit, CConfig.Unit, 1000);
 	}
 
 	initMouseHandlers() {
