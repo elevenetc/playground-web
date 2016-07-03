@@ -35,8 +35,8 @@ class WebView extends BaseView {
 		this.scene = new THREE.Scene();
 
 		//init camera
-		this.initOrthoCamera(w, h);
-		// this.initPerspectiveCamera(w, h);
+		// this.initOrthoCamera(w, h);
+		this.initPerspectiveCamera(w, h);
 
 		this.renderer.setSize(w, h);
 		document.getElementById('WebGLCanvas').appendChild(this.renderer.domElement);

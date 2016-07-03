@@ -31,8 +31,7 @@ class MovementComponent extends Component {
 		this.viewComponent = null;
 		/** @type {function} */
 		this.endPathHandler = null;
-		this.animTime = 1000;
-		// this.animTime = 300;
+		this.animTime = 100;
 		this.log = true;
 	}
 
@@ -177,13 +176,16 @@ class MovementComponent extends Component {
 
 		//TODO: optimize - merge clear and occupy traverses
 
-		for (x = minX; x < minX + width + 1; x++)//+1 movement step
-			for (y = minY; y < minY + height + 1; y++)//+1 movement step
-				this.groundModel.clearFromAt(composite, x, y);
+		// for (x = minX; x < minX + width + 1; x++)//+1 movement step
+		// 	for (y = minY; y < minY + height + 1; y++)//+1 movement step
+		// 		this.groundModel.clearFromAt(composite, x, y);
 
-		for (x = nextX; x < nextX + width; x++)
-			for (y = nextY; y < nextY + height; y++)
-				this.groundModel.occupy(composite, x, y);
+		// for (x = nextX; x < nextX + width; x++)
+		// 	for (y = nextY; y < nextY + height; y++)
+		// 		this.groundModel.occupy(composite, x, y);
+
+		this.groundModel.clearFromAt(composite, fromX, fromY);
+		this.groundModel.occupy(composite, nextX, nextY);
 
 		this.animateStep(fromX, fromY, nextX, nextY, this.animTime, function () {
 			ref.moveToPoint();

@@ -14,12 +14,12 @@ class SampleCompositor extends Compositor {
 		var groundModel = new GroundModel();
 		super.addComposite(groundModel);
 		var max = 5;
-		super.addComposite(new LargeTank(groundModel, 0, 0, 4, 4, 'large-a'));
+		// super.addComposite(new LargeTank(groundModel, 0, 0, 4, 4, 'large-a'));
 
 		super.addComposite(new Tank(groundModel, max, max, 0, 0, 'small-a'));
-		// super.addComposite(new Tank(groundModel, 0, 0, max, max, 'small-b'));
-		// super.addComposite(new Tank(groundModel, 0, max, max, 0, 'small-c'));
-		// super.addComposite(new Tank(groundModel, max, 0, 0, max, 'small-d'));
+		super.addComposite(new Tank(groundModel, 0, 0, max, max, 'small-b'));
+		super.addComposite(new Tank(groundModel, 0, max, max, 0, 'small-c'));
+		super.addComposite(new Tank(groundModel, max, 0, 0, max, 'small-d'));
 
 		// super.addComposite(new Tank(groundModel, 1, 2, 3, 0, 'c'));
 		// super.addComposite(new Tank(groundModel, Config.Unit * 2, Config.Unit * 2, 'b'));
