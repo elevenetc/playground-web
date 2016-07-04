@@ -83,6 +83,6 @@ class Modules {
 Modules.DEBUG_NODE = 'debug_node';
 Modules.DEBUG_BROWSER = 'debug_browser';
 Modules.TEST = 'test';
-Modules.BUILD_TYPE = Modules.DEBUG_BROWSER;
+Modules.BUILD_TYPE = Modules.TEST;
 
 module.exports = Modules;

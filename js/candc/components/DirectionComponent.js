@@ -5,7 +5,8 @@ var Component = require('./Component');
 
 class DirectionComponent extends Component {
 
-	constructor(x = 0, y = 0) {
+	constructor(x = 1, y = 1) {
+		super();
 		this.vec = [x, y];
 	}
 
@@ -13,38 +14,71 @@ class DirectionComponent extends Component {
 		if (currentX == nextX && currentY == nextY) return;
 
 		if (nextX > currentX) {
-			this.dir[0] = 1;
+			this.vec[0] = 1;
 		} else if (nextX < currentX) {
-			this.dir[0] = -1;
+			this.vec[0] = -1;
 		} else {
-			this.dir[0] = 0;
+			this.vec[0] = 0;
 		}
 
 		if (nextY > currentY) {
-			this.dir[1] = 1;
+			this.vec[1] = 1;
 		} else if (nextY < currentY) {
-			this.dir[1] = -1;
+			this.vec[1] = -1;
 		} else {
-			this.dir[1] = 0;
+			this.vec[1] = 0;
 		}
 	}
 
+	/**
+	 * @param dir
+	 * @returns {DirectionComponent}
+	 */
+	setDirection(dir) {
+		if (dir == DirectionComponent.TOP) {
+			this.vec[0] = 0;
+			this.vec[1] = 1;
+		} else if (dir == DirectionComponent.RIGHT_TOP) {
+			this.vec[0] = 1;
+			this.vec[1] = 1;
+		} else if (dir == DirectionComponent.RIGHT) {
+			this.vec[0] = 1;
+			this.vec[1] = 0;
+		} else if (dir == DirectionComponent.RIGHT_BOTTOM) {
+			this.vec[0] = 1;
+			this.vec[1] = -1;
+		} else if (dir == DirectionComponent.BOTTOM) {
+			this.vec[0] = 0;
+			this.vec[1] = -1;
+		} else if (dir == DirectionComponent.LEFT_BOTTOM) {
+			this.vec[0] = -1;
+			this.vec[1] = -1;
+		} else if (dir == DirectionComponent.LEFT) {
+			this.vec[0] = -1;
+			this.vec[1] = 0;
+		} else if (dir == DirectionComponent.LEFT_TOP) {
+			this.vec[0] = -1;
+			this.vec[1] = 1;
+		}
+		return this;
+	}
+
 	getDirection() {
-		if (this.dir[0] = 0 && this.dir[1] == 1) {
+		if (this.vec[0] == 0 && this.vec[1] == 1) {
 			return DirectionComponent.TOP;
-		} else if (this.dir[0] = 1 && this.dir[1] == 1) {
+		} else if (this.vec[0] == 1 && this.vec[1] == 1) {
 			return DirectionComponent.RIGHT_TOP;
-		} else if (this.dir[0] = 1 && this.dir[1] == 0) {
+		} else if (this.vec[0] == 1 && this.vec[1] == 0) {
 			return DirectionComponent.RIGHT;
-		} else if (this.dir[0] = 1 && this.dir[1] == -1) {
+		} else if (this.vec[0] == 1 && this.vec[1] == -1) {
 			return DirectionComponent.RIGHT_BOTTOM;
-		} else if (this.dir[0] = 0 && this.dir[1] == -1) {
+		} else if (this.vec[0] == 0 && this.vec[1] == -1) {
 			return DirectionComponent.BOTTOM;
-		} else if (this.dir[0] = -1 && this.dir[1] == -1) {
+		} else if (this.vec[0] == -1 && this.vec[1] == -1) {
 			return DirectionComponent.LEFT_BOTTOM;
-		} else if (this.dir[0] = -1 && this.dir[1] == 0) {
+		} else if (this.vec[0] == -1 && this.vec[1] == 0) {
 			return DirectionComponent.LEFT;
-		} else if (this.dir[0] = -1 && this.dir[1] == 1) {
+		} else if (this.vec[0] == -1 && this.vec[1] == 1) {
 			return DirectionComponent.LEFT_TOP;
 		}
 	}
