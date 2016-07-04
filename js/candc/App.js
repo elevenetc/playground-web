@@ -21,8 +21,8 @@ class App {
 	}
 
 	composeScene() {
-		// this.compositor = new FourPatrolSmallTank();
-		this.compositor = new OnePatrolSmallTank();
+		this.compositor = new FourPatrolSmallTank();
+		// this.compositor = new OnePatrolSmallTank();
 		this.compositor.addToScene(this.view.getScene());
 	}
 
