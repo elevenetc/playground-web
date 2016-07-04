@@ -2,7 +2,8 @@
  * Created by eleven on 15/05/2016.
  */
 var Modules = require('./Modules');
-var SampleCompositor = require('./compositors/SampleCompositor');
+var FourPatrolSmallTank = require('./compositors/FourPatrolSmallTank');
+var OnePatrolSmallTank = require('./compositors/OnePatrolSmallTank');
 
 class App {
 
@@ -20,7 +21,8 @@ class App {
 	}
 
 	composeScene() {
-		this.compositor = new SampleCompositor();
+		// this.compositor = new FourPatrolSmallTank();
+		this.compositor = new OnePatrolSmallTank();
 		this.compositor.addToScene(this.view.getScene());
 	}
 
