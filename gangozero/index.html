@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gangozero</title>
+
+</head>
+<body bgcolor="#000000">
+
+<div class="inner" style="width:500px; margin:0 auto">
+    <canvas id="canvas-container" width="500" height="500"></canvas>
+</div>
+
+<script>
+    console.log('z!');
+    const canvas = document.getElementById('canvas-container');
+    const context = canvas.getContext('2d');
+    const rhombs = [];
+
+    rhombs.push(new SyncRhomb(200, 100, 200, 100, 0.05, 1, 2.25, 3.5));
+    rhombs.push(new SyncRhomb(320, 210, 100, 50, 0.04, 0.5, 2.25, 3.5));
+    rhombs.push(new SyncRhomb(220, 220, 90, 45, 0.045, 0.3, 2.25, 3.5));
+    rhombs.push(new SyncRhomb(120, 250, 90, 40, 0.03, 0.75, 2.25, 3.5));
+    rhombs.push(new SyncRhomb(190, 290, 70, 30, 0.02, 1.0, 2.25, 3.5));
+    rhombs.push(new SyncRhomb(290, 340, 50, 20, 0.015, 0.9, 1.25, 3.5));
+    rhombs.push(new SyncRhomb(150, 370, 55, 27, 0.015, 0.8, 1.25, 3.5));
+    //rhombs.push(new Rhomb(200, 100, 200, 100, 0.05, 1, 1.25, 1.5, 1.25));
+
+    window.requestAnimationFrame(draw);
+
+    function draw() {
+        context.clearRect(0, 0, 500, 500);
+
+        for (var i = 0; i < rhombs.length; i++) {
+            rhombs[i].draw();
+        }
+
+        window.requestAnimationFrame(draw);
+    }
+
+    function SyncRhomb(x, y, w, h, speed, phase, sideMult, bottomMult) {
+        var shiftSide = phase * sideMult;
+        var shiftBottom = phase * bottomMult;
+        var rhomb = new Rhomb(x, y, w, h, speed, phase, shiftSide, shiftBottom, shiftSide);
+
+        this.draw = function () {
+            rhomb.draw();
+        }
+    }
+
+
+    function Rhomb(x, y, w, h, speed, shiftA, shiftB, shiftC, shiftD) {
+
+        var xA = shiftA;
+        var xB = shiftB;
+        var xC = shiftC;
+        var xD = shiftD;
+        var color = '#FFFFFF'
+//        var color = context.createLinearGradient(x, y, x, y + h);
+//        color.addColorStop(0, '#00CCBB');
+//        color.addColorStop(1, '#000000');
+
+        this.draw = function () {
+
+            xA += speed;
+            xB += speed;
+            xC += speed;
+            xD += speed;
+
+            drawRhomb(x, y, w, h,
+                    Math.sin(xA) * 10, Math.sin(xB) * 10, Math.sin(xC) * 10, Math.sin(xD) * 10,
+                    0, 0, 0, 0
+            );
+        };
+
+        function drawRhomb(x, y, w, h,
+                           xShiftA, xShiftB, xShiftC, xShiftD,
+                           yShiftA, yShiftB, yShiftC, yShiftD) {
+            context.fillStyle = color;
+            context.beginPath();
+            context.moveTo(x + xShiftA, y + yShiftA);
+            context.lineTo(x + w / 2 + xShiftB, y + h / 2 + yShiftB);
+            context.lineTo(x + xShiftC, y + h + yShiftC);
+            context.lineTo(x - w / 2 + xShiftD, y + h / 2 + yShiftD);
+            context.closePath();
+            context.fill();
+
+            context.fillStyle = '#FF0000';
+            context.beginPath();
+            context.lineTo(x + w / 2 + xShiftB, y + h / 2 + yShiftB);
+            context.lineTo(x + w / 2 + xShiftB, y + h / 2 + yShiftB + 10);
+            context.lineTo(x + xShiftC, y + h + yShiftC + 10);
+            context.lineTo(x - w / 2 + xShiftD, y + h / 2 + yShiftD + 10);
+            context.lineTo(x + xShiftC, y + h + yShiftC);
+            context.closePath();
+            context.fill();
+        }
+    }
+</script>
+
+</body>
+</html>
